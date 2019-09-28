@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SIFAS Event Calculator</title>
+    <meta name="description"
+          content="Calculate play time and loveca use for tiering SIFAS events, plus other useful tools.">
+
+    <link type="text/css" rel="stylesheet" href="vendor/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="icon" type="image/png" sizes="96x96" href="image/launcher-icon-96.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f48fb1">
+    <meta name="theme-color" content="#f48fb1">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <script>
+        if (document.cookie.indexOf("dark-mode=yes") !== -1) {
+            document.body.className += 'dark-mode';
+        }
+    </script>
+    <div class="font-preload">
+        <span style="font-weight: 100">Thin</span>
+        <span style="font-weight: 300">Light</span>
+        <span style="font-weight: 400">Regular</span>
+        <span style="font-weight: 500">Medium</span>
+        <span style="font-weight: 700">Bold</span>
+    </div>
+    <nav class="nav-extended orange lighten-5">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a class="brand-logo center">SIFAS CALC
+                </a>
+                <a data-target="sidebar" class="sidenav-trigger show-on-large no-select"><i
+                        class="material-icons left">menu</i><span class="hide-on-small-and-down"> MENU</span></a>
+            </div>
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent">
+                    <li class="tab"><a href="#token">Token Event</a></li>
+                    <!--<li class="tab"><a target="_self" class="sidenav-trigger tab-sidebar-button" data-target="toolsbar">
+                        More Tools&nbsp;&nbsp;&nbsp;&#x25B6;</a></li>-->
+                </ul>
+                <a class="btn tab-button-left orange lighten-5"><i class="material-icons">keyboard_arrow_left</i></a>
+                <a class="btn tab-button-right orange lighten-5"><i class="material-icons">keyboard_arrow_right</i></a>
+            </div>
+            <ul class="sidenav" id="sidebar">
+                <li>
+                    <div class="user-view">
+                        <div class="background">
+                            <img src="image/sidenav.jpg">
+                        </div>
+                        <span class="name">SIFAS Event Calculator</span>
+                    </div>
+                </li>
+                <li class="sidebar-small sidebar-text no-link">Original Script by @sifascal<br>EN Translation by
+                    @yefta458<br>Expanded
+                    by
+                    Suyooo
+                </li>
+                <!--<li><a target="_blank" href="https://twitter.com/Suyooo_">Contact Me on Twitter</a></li>-->
+                <li><a id="sideNavDiscord">Contact Me on Discord</a></li>
+                <li id="sideNavDiscordName" class="card purple z-depth-0 side-nav-info-box">
+                    <div class="card-content">
+                        Suyooo#7026
+                    </div>
+                </li>
+                <li><a href="https://github.com/Suyooo/llsif-calc/issues">Issues & Suggestions on GitHub</a></li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <li><a class="dark-mode-switch">Dark Mode
+                    <div class="switch">
+                        <label>
+                            <input id="darkModeSwitch" type="checkbox">
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </a></li>
+                <li><a target="_blank" href="changelog">What's New?</a></li>
+                <li><a class="sidebar-small" id="sideNavClose">Close Drawer</a></li>
+                <li><a class="sidebar-small sneaky" target="_blank" href="https://suyo.be/legal.html">Legal Notice</a></li>
+            </ul>
+            <!--<ul class="sidenav" id="toolsbar">
+                <li>
+                    <div class="user-view">
+                        <div class="background">
+                            <img src="image/sidenav.jpg">
+                        </div>
+                        <span class="name">More Tools</span>
+                    </div>
+                </li>
+                <li><a target="_self" href="proedit.html" class="tooltipped" data-position="right" data-delay="0"
+                       data-tooltip="Helps format your profile text with multiple lines.">Profile Editor</a></li>
+                <li><a target="_self" href="otasuke.html" class="tooltipped" data-position="right" data-delay="0"
+                       data-tooltip="Optimize your team for Friendly / Companion Matches.">Otasuke / Boost Power Sorter</a>
+                </li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <li><a class="sidebar-small" id="toolNavClose">Close Drawer</a></li>
+            </ul>-->
+        </div>
+    </nav>
+    <div class="container">
+        <div id="notification">
+            <div class="card orange lighten-5">
+                <div class="card-content">
+                    <p id="notificationMessage"></p>
+                    <a id="notificationButton" class="btn-floating halfway-fab waves-effect waves-light tooltipped
+                        orange lighten-3" data-position="left" data-delay="0" data-tooltip="Dismiss">
+                        <i class="material-icons">close</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="token" class="col s12">
+            <div class="row">
+                <div class="col s12 xl4">
+                    <ul class="collapsible" data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">date_range</i>Date Settings
+                            </div>
+                            <div class="collapsible-body">
+                                <span class="form-label">Timer Method</span>
+                                <div class="radio-row">
+                                    <input name="tokenTimerMethod" type="radio" id="tokenTimerMethodAuto" value="auto"
+                                           checked/>
+                                    <label for="tokenTimerMethodAuto">Automatic</label>
+                                    <input name="tokenTimerMethod" type="radio" id="tokenTimerMethodManual" value="manual"/>
+                                    <label for="tokenTimerMethodManual">Manual Input</label>
+                                </div>
+                                <div id="tokenTimerMethodAutoSection">
+                                    <div id="tokenTimerEventInfo" class="event-info">
+                                        <span class="form-label" id="tokenTimerLeft"></span>
+                                        <div class="event-progress-bar">
+                                            <div class="event-progress-done" id="tokenTimerProgress"></div>
+                                        </div>
+                                        <div class="event-banner-container">
+                                            <img src="" id="tokenEventBanner" class="event-banner">
+                                        </div>
+                                        <small class="event-info-note">Something wrong? <a data-target="sidebar"
+                                                                                           class="sidenav-trigger">Contact
+                                            me!</a></small>
+                                    </div>
+                                </div>
+                                <div id="tokenTimerMethodManualSection" class="manual-timer-input">
+                                    <div class="input-field">
+                                        <input id="tokenManualRestTime" type="number" min="0" step="any" class="validate"
+                                               placeholder="">
+                                        <label for="tokenManualRestTime">
+                                            Time Left In Hours</label>
+                                        <span class="helper-text" data-error="Must be a positive number!"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col s12 xl4">
+                    <ul class="collapsible" data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">music_note</i>Live Settings
+                            </div>
+                            <div class="collapsible-body">
+                                <span class="form-label">Event Live Difficulty</span>
+                                <div class="radio-row">
+                                    <input name="tokenEventLiveDifficulty" type="radio" id="tokenEventLiveDifficultyEasy"
+                                           value="EASY"/>
+                                    <label for="tokenEventLiveDifficultyEasy">Easy</label>
+                                    <input name="tokenEventLiveDifficulty" type="radio" id="tokenEventLiveDifficultyNorm"
+                                           value="NORMAL"/>
+                                    <label for="tokenEventLiveDifficultyNorm">Normal</label>
+                                    <input name="tokenEventLiveDifficulty" type="radio" id="tokenEventLiveDifficultyHard"
+                                           value="HARD"/>
+                                    <label for="tokenEventLiveDifficultyHard">Hard</label>
+                                </div>
+                                <span class="form-label">Event Live Score Rank</span>
+                                <div class="radio-row">
+                                    <input name="tokenEventLiveScore" type="radio" id="tokenEventLiveScoreN" value="D"/>
+                                    <label for="tokenEventLiveScoreN">D</label>
+                                    <input name="tokenEventLiveScore" type="radio" id="tokenEventLiveScoreC" value="C"/>
+                                    <label for="tokenEventLiveScoreC">C</label>
+                                    <input name="tokenEventLiveScore" type="radio" id="tokenEventLiveScoreB" value="B"/>
+                                    <label for="tokenEventLiveScoreB">B</label>
+                                    <input name="tokenEventLiveScore" type="radio" id="tokenEventLiveScoreA" value="A"/>
+                                    <label for="tokenEventLiveScoreA">A</label>
+                                    <input name="tokenEventLiveScore" type="radio" id="tokenEventLiveScoreS" value="S"/>
+                                    <label for="tokenEventLiveScoreS">S</label>
+                                </div>
+                                <span class="form-label">Normal Live Difficulty</span>
+                                <div class="radio-row">
+                                    <input name="tokenNormalLiveDifficulty" type="radio" id="tokenNormalLiveDifficultyEasy"
+                                           value="EASY"/>
+                                    <label for="tokenNormalLiveDifficultyEasy">Easy</label>
+                                    <input name="tokenNormalLiveDifficulty" type="radio" id="tokenNormalLiveDifficultyNorm"
+                                           value="NORMAL"/>
+                                    <label for="tokenNormalLiveDifficultyNorm">Normal</label>
+                                    <input name="tokenNormalLiveDifficulty" type="radio" id="tokenNormalLiveDifficultyHard"
+                                           value="HARD"/>
+                                    <label for="tokenNormalLiveDifficultyHard">Hard</label>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col s12 xl4">
+                    <ul class="collapsible" data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">flag</i>Stats and
+                                Target
+                            </div>
+                            <div class="collapsible-body">
+                                <div class="input-field">
+                                    <input id="tokenTargetEventPoints" type="number" min="1" class="validate"
+                                           placeholder="">
+                                    <label for="tokenTargetEventPoints">
+                                        Target Event Points</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="tokenCurrentEventPoints" type="number" min="0" class="validate"
+                                           placeholder="">
+                                    <label for="tokenCurrentEventPoints">
+                                        Current Event Points</label>
+                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="tokenCurrentEventToken" type="number" min="0" class="validate"
+                                           placeholder="">
+                                    <label for="tokenCurrentEventToken">
+                                        Current Tokens</label>
+                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="tokenCurrentRank" type="number" min="1" class="validate" placeholder="">
+                                    <label for="tokenCurrentRank">
+                                        Current Rank</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                                </div>
+                                <ul id="tokenCurrentExtra" class="collapsible small-collapsible z-depth-0"
+                                    data-collapsible="expandable">
+                                    <li>
+                                        <div class="collapsible-header">
+                                            Optional Fields
+                                            <div class="explain-button bigger">
+                                                <a class="tooltipped" data-position="top" data-delay="0"
+                                                   data-tooltip="These values usually make no difference, but might be
+                                                   useful for calculations in the last few hours of an event.">
+                                                    <i class="material-icons">help</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-body">
+                                            <div class="input-field">
+                                                <input id="tokenCurrentLP" type="number" min="0" class="validate"
+                                                       placeholder="0">
+                                                <label for="tokenCurrentLP">
+                                                    Current LP</label>
+                                                <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                            </div>
+                                            <div class="input-field">
+                                                <input id="tokenCurrentEXP" type="number" min="0" class="validate"
+                                                       placeholder="0">
+                                                <label for="tokenCurrentEXP">
+                                                    Current EXP in Rank</label>
+                                                <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="buttons col s12 xl4 offset-xl4">
+                    <a id="tokenCalculate" class="waves-effect orange lighten-3 waves-light btn">Calculate</a>
+                    <a id="tokenSaveConfig" class="waves-effect orange lighten-5 waves-light btn">
+                        Save current configuration</a>
+                    <div class="result-box no-link" id="tokenResult">
+                        <div class="row result-row">
+                            <div class="col s4 result-large">
+                                <div class="result-large-number" id="tokenResultLoveca"></div>
+                                <div class="result-large-label">Loveca Stars Needed</div>
+                            </div>
+                            <div class="col s4 result-large">
+                                <div class="result-large-number" id="tokenResultEventLiveCount"></div>
+                                <div class="result-large-label">Event Live Plays</div>
+                            </div>
+                            <div class="col s4 result-large">
+                                <div class="result-large-number" id="tokenResultNormalLiveCount"></div>
+                                <div class="result-large-label">Normal Live Plays</div>
+                            </div>
+                        </div>
+                        <ul class="collapsible small-collapsible z-depth-0" style="opacity: 0;"
+                            data-collapsible="expandable">
+                            <li>
+                                <div class="collapsible-header grey lighten-5">Alternative LP Recovery Items</div>
+                                <div class="collapsible-body grey lighten-5">
+                                    <div class="result-small">
+                                        <div class="result-small-label">Live Candy [100% LP] Needed</div>
+                                        <div class="result-small-number" id="tokenResultLiveCandy100"></div>
+                                    </div>
+                                    <div class="result-small">
+                                        <div class="result-small-label">Live Candy [50% LP] Needed</div>
+                                        <div class="result-small-number" id="tokenResultLiveCandy50"></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="result-small">
+                            <div class="result-small-label">Final Rank</div>
+                            <div class="result-small-number" id="tokenResultFinalRank"></div>
+                        </div>
+                        <div class="result-small">
+                            <div class="result-small-label">Total Play Time
+                                <div class="explain-button">
+                                    <a class="tooltipped" data-position="top" data-delay="0"
+                                       data-tooltip="Assuming 3 minutes for one song, how much play time you need to reach the Point Target.">
+                                        <i class="material-icons">help</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="result-small-number" id="tokenResultPlayTime"></div>
+                        </div>
+                        <div class="result-small">
+                            <div class="result-small-label">Play Time Rate
+                                <div class="explain-button">
+                                    <a class="tooltipped" data-position="top" data-delay="0"
+                                       data-tooltip="Play Time divided by Remaining Time. The higher this value is, the more efficiently you will need to play.">
+                                        <i class="material-icons">help</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="result-small-number" id="tokenResultPlayTimeRate"></div>
+                        </div>
+                    </div>
+                    <span id="tokenError"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-background valign-wrapper" id="popUp">
+        <div class="popup-dialog z-depth-5 card">
+            <div class="card-content">
+                <p id="popUpContent"></p>
+            </div>
+            <div class="card-action right-align">
+                <a class="orange-text" id="popUpButton">Close</a>
+                <a class="orange-text" id="dialogYesButton">Yes</a>
+                <a class="orange-text" id="dialogNoButton">No</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/register-sw.js"></script>
+    <script type="text/javascript" src="vendor/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="vendor/materialize.js"></script>
+    <script type="text/javascript" src="js/ui.js"></script>
+
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/token.js"></script>
+    <script type="text/javascript" src="js/networkinfo.js"></script>
+</body>
+</html>
