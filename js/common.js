@@ -99,7 +99,7 @@ Common.getMaxLp = function (playerRank) {
 /**
  * Calculates the experience points needed to rank up to the next rank, given a player's rank.
  * @param {number} playerRank The player's current rank.
- * @returns {number} EXP needed to rank up at the given rank, or -1 if the rank is the highest rank we can calculate.
+ * @returns {number} EXP needed to rank up at the given rank, or -1 if the rank is the current max rank.
  */
 Common.getNextRankUpExp = function (playerRank) {
     if (playerRank < COMMON_RANK_UP_EXP.length) {
@@ -160,40 +160,43 @@ Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained) 
  * @see calculateTotalRankUpLpRecovery
  * @see calculateAverageLovecaLpRecovery
  */
-Common.calculateLpRecoveryInfo = function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes) {
-    var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp);
-    recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained);
+Common.calculateLpRecoveryInfo =
+    function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes) {
+        var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp);
+        recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained);
 
-    lpRequired -= recoveryInfo.totalRankUpLpRecovery;
-    lpRequired -= playerLp;
-    if (0 >= lpRequired) {
+        lpRequired -= recoveryInfo.totalRankUpLpRecovery;
+        lpRequired -= playerLp;
+        if (0 >= lpRequired) {
+            return recoveryInfo;
+        }
+
+        // Subtract a single live from the time left - after all, it doesn't help if enough LP recover just in time for
+        // the event ending, the live must be completed before the event end or it will not count
+        eventTimeLeftInMinutes -= COMMON_LIVE_TIME_IN_MINUTES;
+
+        // Small correction: partially regenerated LP are lost on refills because of overflow. Assuming you'll lose
+        // "half an LP" per rank up, consider that LP recovery time lost by subtracting it from the time left
+        eventTimeLeftInMinutes -= (recoveryInfo.rankUpCount) * (COMMON_LP_RECOVERY_TIME_IN_MINUTES / 2);
+        if (0 > eventTimeLeftInMinutes) {
+            return null;
+        }
+
+        recoveryInfo.lpToRecover =
+            Math.max(0, (lpRequired - eventTimeLeftInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
+        if (0 >= recoveryInfo.lpToRecover) {
+            return recoveryInfo;
+        }
+
+        // Similar small correction here: on average, lose "half an LP" per refill
+        recoveryInfo.lovecaUses =
+            Math.ceil(recoveryInfo.lpToRecover / (recoveryInfo.lovecaLpRecovery - 0.5)) * COMMON_LOVECA_PER_REFILL;
+        if (recoveryInfo.lovecaUses < 0) {
+            recoveryInfo.lovecaUses = 0;
+        }
+
         return recoveryInfo;
-    }
-
-    // Subtract a single live from the time left - after all, it doesn't help if enough LP recover just in time for the
-    // event ending, the live must be completed before the event end or it will not count
-    eventTimeLeftInMinutes -= COMMON_LIVE_TIME_IN_MINUTES;
-
-    // Small correction: partially regenerated LP are lost on refills because of overflow. Assuming you'll lose "half
-    // an LP" per rank up, consider that LP recovery time lost by subtracting it from the time left
-    eventTimeLeftInMinutes -= ( recoveryInfo.rankUpCount) * (COMMON_LP_RECOVERY_TIME_IN_MINUTES / 2);
-    if (0 > eventTimeLeftInMinutes) {
-        return null;
-    }
-
-    recoveryInfo.lpToRecover = Math.max(0, (lpRequired - eventTimeLeftInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
-    if (0 >= recoveryInfo.lpToRecover) {
-        return recoveryInfo;
-    }
-
-    // Similar small correction here: on average, lose "half an LP" per refill
-    recoveryInfo.lovecaUses = Math.ceil(recoveryInfo.lpToRecover / (recoveryInfo.lovecaLpRecovery - 0.5)) * COMMON_LOVECA_PER_REFILL;
-    if (recoveryInfo.lovecaUses < 0) {
-        recoveryInfo.lovecaUses = 0;
-    }
-
-    return recoveryInfo;
-};
+    };
 
 /**
  * @param {number} g Amount of gold to be converted in a readable string.
@@ -332,10 +335,20 @@ var COMMON_LOVECA_PER_REFILL = 10;
 var COMMON_RANKUP_LIMITATION = 500000;
 
 /**
- * Array of EXP rank up requirements for the first ranks, used by getNextRankUpExp.
+ * Array of EXP rank up requirements for the available ranks, used by getNextRankUpExp.
  * @constant
  * @type {number[]}
  * @default
  * @see getNextRankUpExp
  */
-var COMMON_RANK_UP_EXP = [0, 100, 115, 130, 145, 190, 240, 285, 335, 385, 435, 485, 535, 590, 640];
+var COMMON_RANK_UP_EXP = [0, 100, 115, 130, 145, 190, 240, 285, 335, 385, 435, 485, 535, 590, 640, 690, 745, 800, 850,
+    905, 960, 1015, 1065, 1120, 1175, 1230, 1285, 1345, 1400, 1455, 1510, 1570, 1625, 1680, 1740, 1795, 1850, 1910,
+    1970, 2025, 2085, 2140, 2200, 2260, 2315, 2375, 2435, 2495, 2550, 2610, 2670, 2730, 2790, 2850, 2910, 2970, 3030,
+    3090, 3150, 3210, 3270, 3330, 3390, 3450, 3510, 3575, 3635, 3695, 3755, 3815, 3880, 3940, 4000, 4065, 4125, 4185,
+    4250, 4310, 4370, 4435, 4495, 4560, 4620, 4685, 4745, 4810, 4870, 4935, 4995, 5060, 5125, 5185, 5250, 5310, 5375,
+    5440, 5500, 5565, 5630, 5690, 5755, 5820, 5885, 5945, 6010, 6075, 6140, 6205, 6265, 6330, 6395, 6460, 6525, 6590,
+    6655, 6715, 6780, 6845, 6910, 6975, 7040, 7105, 7170, 7235, 7300, 7365, 7430, 7495, 7560, 7625, 7690, 7755, 7820,
+    7885, 7955, 8020, 8085, 8150, 8215, 8280, 8345, 8415, 8480, 8545, 8610, 8675, 8745, 8810, 8875, 8940, 9005, 9075,
+    9140, 9205, 9275, 9340, 9405, 9470, 9540, 9605, 9670, 9740, 9805, 9875, 9940, 10005, 10075, 10140, 10205, 10275,
+    10340, 10410, 10475, 10545, 10610, 10675, 10745, 10810, 10880, 10945, 11015, 11080, 11150, 11215, 11285, 11350,
+    11420, 11490, 11555, 11625, 11690, 11760, 11825, 11895, 11965, 12030, 12100, 12165, 12235, 12305];
