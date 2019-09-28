@@ -152,17 +152,17 @@ TokenData.setToUi = function (savedData) {
  */
 TokenData.prototype.alert = function () {
     alert("tokenTimerMethodAuto: " + this.tokenTimerMethodAuto + "\n" +
-        "tokenTimerMethodManual: " + this.tokenTimerMethodManual + "\n" +
-        "tokenManualRestTimeInHours: " + this.tokenManualRestTimeInHours + "\n" +
-        "tokenEventLiveDifficulty: " + this.tokenEventLiveDifficulty + "\n" +
-        "tokenEventLiveScore: " + this.tokenEventLiveScore + "\n" +
-        "tokenNormalLiveDifficulty: " + this.tokenNormalLiveDifficulty + "\n" +
-        "tokenTargetEventPoints: " + this.tokenTargetEventPoints + "\n" +
-        "tokenCurrentRank: " + this.tokenCurrentRank + "\n" +
-        "tokenCurrentEventToken: " + this.tokenCurrentEventToken + "\n" +
-        "tokenCurrentEventPoints: " + this.tokenCurrentEventPoints + "\n" +
-        "tokenCurrentLP: " + this.tokenCurrentLP + "\n" +
-        "tokenCurrentEXP: " + this.tokenCurrentEXP);
+          "tokenTimerMethodManual: " + this.tokenTimerMethodManual + "\n" +
+          "tokenManualRestTimeInHours: " + this.tokenManualRestTimeInHours + "\n" +
+          "tokenEventLiveDifficulty: " + this.tokenEventLiveDifficulty + "\n" +
+          "tokenEventLiveScore: " + this.tokenEventLiveScore + "\n" +
+          "tokenNormalLiveDifficulty: " + this.tokenNormalLiveDifficulty + "\n" +
+          "tokenTargetEventPoints: " + this.tokenTargetEventPoints + "\n" +
+          "tokenCurrentRank: " + this.tokenCurrentRank + "\n" +
+          "tokenCurrentEventToken: " + this.tokenCurrentEventToken + "\n" +
+          "tokenCurrentEventPoints: " + this.tokenCurrentEventPoints + "\n" +
+          "tokenCurrentLP: " + this.tokenCurrentLP + "\n" +
+          "tokenCurrentEXP: " + this.tokenCurrentEXP);
 };
 
 /**
@@ -370,7 +370,8 @@ TokenEstimationInfo.prototype.showResult = function () {
 
     if (this.lpRecoveryInfo !== null) {
         Results.setBigResult($("#tokenResultLoveca"), this.lpRecoveryInfo.lovecaUses);
-        $("#tokenResultFinalRank").text(this.lpRecoveryInfo.finalRank);
+        $("#tokenResultFinalRank").text(this.lpRecoveryInfo.finalRank +
+                                        (this.lpRecoveryInfo.finalRank === COMMON_RANK_UP_EXP.length ? " (MAX)" : ""));
         $("#tokenResultLiveCandy50").text(this.lpRecoveryInfo.lovecaUses / 5);
         $("#tokenResultLiveCandy100").text(this.lpRecoveryInfo.lovecaUses / 10);
     } else {
@@ -402,7 +403,7 @@ TokenData.prototype.validate = function () {
         errors.push("Enter event point target");
     } else if (this.getEventPointsLeft() <= 0) {
         errors.push("The given event point target has been reached! " +
-            "Please change the event point target in order to calculate again");
+                    "Please change the event point target in order to calculate again");
     }
 
     if (0 > this.tokenCurrentEventPoints) {
