@@ -388,6 +388,14 @@ ul.collapsible {
     color: var(--error) !important;
 }
 
+.input-field.below-radio {
+    padding-top: 1rem;
+}
+
+.input-field.below-radio label {
+    margin-top: 1rem;
+}
+
 .form-label {
     font-weight: bold;
     font-size: 12px;

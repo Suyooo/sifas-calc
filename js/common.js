@@ -33,8 +33,8 @@ function LpRecoveryInfo(initialRank) {
 }
 
 /**
- * Attempt to automatically generate event time. JP Events begin at 7:00 UTC and end at 6:00 UTC. Assuming they work
- * just like LLSIF, events run each month from the 5th to the 15th, and from the 20th to the last day of the month.
+ * Attempt to automatically generate event time. JP Events begin and end at 6:00 UTC. Assuming events happen monthly,
+ * they run each month from the 3rd to the 15th, and from the 17th to the last day of the month.
  * @returns {Date[]} An array containing start and end date of the current event, index 0 and 1 respectively
  */
 Common.getEventBeginEndTime = function () {
@@ -43,33 +43,10 @@ Common.getEventBeginEndTime = function () {
 
     var currentTime = new Date();
 
-    // Dates when the automatic timer will switch to the next event
-    // Set to one day before start, so it matches with the new announcement
-    var switchDateFirst = new Date(Date.UTC(currentTime.getUTCFullYear(),
-        currentTime.getUTCMonth(), 4, 6));
-    var switchDateSecond = new Date(Date.UTC(currentTime.getUTCFullYear(),
-        currentTime.getUTCMonth(), 19, 6));
-
-    // Fun little hack: Settting a date to the 0th day of a month makes it the last day of the previous month
-    if (currentTime < switchDateFirst) {
-        // 1st to 4th of a month - show last months second event
-        return [new Date(Date.UTC(currentTime.getUTCFullYear(),
-            currentTime.getUTCMonth() - 1, 20, 7)),
-            new Date(Date.UTC(currentTime.getUTCFullYear(),
-                currentTime.getUTCMonth(), 0, 6))];
-    } else if (currentTime < switchDateSecond) {
-        // 4th to 19th of a month - show this months first event
-        return [new Date(Date.UTC(currentTime.getUTCFullYear(),
-            currentTime.getUTCMonth(), 5, 7)),
+    return [new Date(Date.UTC(currentTime.getUTCFullYear(),
+            currentTime.getUTCMonth(), 3, 6)),
             new Date(Date.UTC(currentTime.getUTCFullYear(),
                 currentTime.getUTCMonth(), 15, 6))];
-    } else {
-        // 19th to end of month - show this months second event
-        return [new Date(Date.UTC(currentTime.getUTCFullYear(),
-            currentTime.getUTCMonth(), 20, 7)),
-            new Date(Date.UTC(currentTime.getUTCFullYear(),
-                currentTime.getUTCMonth() + 1, 0, 6))];
-    }
 };
 
 /**

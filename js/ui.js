@@ -199,8 +199,8 @@ function registerPopUpButtons() {
  */
 function registerCalculatorButtons() {
     var newDataObjectFunctions = {
-        "token": function () {
-            return new TokenData();
+        "story": function () {
+            return new StoryData();
         }
     };
 
@@ -286,7 +286,7 @@ function registerCalculatorButtons() {
  */
 function loadCookieData() {
     var loadFunctions = {
-        "token": TokenData.setToUi
+        "story": StoryData.setToUi
     };
     $.each(loadFunctions, function (page, loadFunction) {
         var cookie = Cookie.get(page + "Data");
