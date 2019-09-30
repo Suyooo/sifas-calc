@@ -283,8 +283,12 @@ StoryEstimationInfo.prototype.showResult = function () {
 
     if (this.lpRecoveryInfo !== null) {
         Results.setBigResult($("#storyResultLoveca"), this.lpRecoveryInfo.lovecaUses);
-        $("#storyResultFinalRank").text(this.lpRecoveryInfo.finalRank +
-                                        (this.lpRecoveryInfo.finalRank === COMMON_RANK_UP_EXP.length ? " (MAX)" : ""));
+        $("#storyResultFinalRank").text(this.lpRecoveryInfo.finalRank + " (" +
+                                        (this.lpRecoveryInfo.finalRank === COMMON_RANK_UP_EXP.length
+                                            ? "MAX"
+                                            : this.lpRecoveryInfo.finalRankExp + "/" +
+                                        Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
+                                        + " EXP") + ")");
         $("#storyResultLiveCandy50").text(this.lpRecoveryInfo.lovecaUses / 5);
         $("#storyResultLiveCandy100").text(this.lpRecoveryInfo.lovecaUses / 10);
     } else {
