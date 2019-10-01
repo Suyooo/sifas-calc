@@ -74,12 +74,15 @@ function StoryLiveCount(liveCount, exp, lp) {
  * @property {StoryLiveCount} liveCount - Amount of lives to play and total rewards.
  * @property {LpRecoveryInfo} lpRecoveryInfo - Loveca use and rank ups.
  * @property {number} restTime - Event time left, in minutes.
+ * @property {number} skipTickets - The amount of skip tickets to use.
  * @constructor
  */
-function StoryEstimationInfo(liveCount, lpRecoveryInfo, restTime) {
+function StoryEstimationInfo(liveCount, restTime, skippedLives, skippedLiveTickets) {
     this.liveCount = liveCount;
-    this.lpRecoveryInfo = lpRecoveryInfo;
+    this.lpRecoveryInfo = null;
     this.restTime = restTime;
+    this.skippedLives = skippedLives;
+    this.skippedLiveTickets = skippedLiveTickets;
 }
 
 /**
@@ -249,12 +252,25 @@ StoryData.prototype.estimate = function () {
  */
 StoryEstimator.estimate = function (liveInfo, eventPointsLeft, timeLeft, playerRank, playerExp, playerLp) {
     var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft);
-    if (liveCount.liveCount * COMMON_LIVE_TIME_IN_MINUTES > timeLeft) {
-        return new StoryEstimationInfo(liveCount, null, timeLeft);
+    var estimation = new StoryEstimationInfo(liveCount, timeLeft, 0,
+        Math.floor(Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp) / liveInfo.lp));
+    if (estimation.getPlayTime() > timeLeft) {
+        // check whether we can use skip tickets to meet the target
+
+        var maxSkippedLivesNeeded = Math.ceil(liveCount.liveCount / estimation.skippedLiveTickets);
+        if (maxSkippedLivesNeeded * COMMON_SKIP_LIVE_TIME_IN_MINUTES > timeLeft) {
+            // even with skipped lives, the goal is not possible
+            return estimation;
+        }
+
+        var playTimeOverflow = estimation.getPlayTime() - timeLeft;
+        var timeSavedPerSkippedLive = COMMON_LIVE_TIME_IN_MINUTES * estimation.skippedLiveTickets -
+                                      COMMON_SKIP_LIVE_TIME_IN_MINUTES;
+        estimation.skippedLives = Math.ceil(playTimeOverflow / timeSavedPerSkippedLive);
     }
-    var recoveryInfo = Common.calculateLpRecoveryInfo(playerRank, liveCount.exp, playerExp, liveCount.lp, playerLp,
-        timeLeft);
-    return new StoryEstimationInfo(liveCount, recoveryInfo, timeLeft);
+    estimation.lpRecoveryInfo =
+        Common.calculateLpRecoveryInfo(playerRank, liveCount.exp, playerExp, liveCount.lp, playerLp, timeLeft);
+    return estimation;
 };
 
 /**
@@ -262,7 +278,8 @@ StoryEstimator.estimate = function (liveInfo, eventPointsLeft, timeLeft, playerR
  * @returns {number} The amount of play time, in minutes.
  */
 StoryEstimationInfo.prototype.getPlayTime = function () {
-    return this.liveCount.liveCount * COMMON_LIVE_TIME_IN_MINUTES;
+    return this.liveCount.liveCount * COMMON_LIVE_TIME_IN_MINUTES - this.skippedLives * (this.skippedLiveTickets *
+           COMMON_LIVE_TIME_IN_MINUTES - COMMON_SKIP_LIVE_TIME_IN_MINUTES);
 };
 
 /**
@@ -280,6 +297,7 @@ StoryEstimationInfo.prototype.showResult = function () {
     Results.setBigResult($("#storyResultLiveCount"), this.liveCount.liveCount);
     $("#storyResultPlayTime").text(Common.minutesToString(this.getPlayTime()));
     $("#storyResultPlayTimeRate").text((100 * this.getPlayTimeRate()).toFixed(2) + "%");
+    var highlightSkippedLives = false;
 
     if (this.lpRecoveryInfo !== null) {
         Results.setBigResult($("#storyResultLoveca"), this.lpRecoveryInfo.lovecaUses);
@@ -289,16 +307,24 @@ StoryEstimationInfo.prototype.showResult = function () {
                                             : this.lpRecoveryInfo.finalRankExp + "/" +
                                         Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
                                         + " EXP") + ")");
+        if (this.skippedLives === 0) {
+            $("#storyResultSkippedLivesText").text("0");
+        } else {
+            $("#storyResultSkippedLivesText").text(this.skippedLives + " (" + this.skippedLiveTickets +
+                                                   " tickets per live)");
+            highlightSkippedLives = true;
+        }
         $("#storyResultLiveCandy50").text(this.lpRecoveryInfo.lovecaUses / 5);
         $("#storyResultLiveCandy100").text(this.lpRecoveryInfo.lovecaUses / 10);
     } else {
         Results.setBigResult($("#storyResultLoveca"), "---");
         $("#storyResultFinalRank").text("---");
+        $("#storyResultSkippedLivesText").text("---");
         $("#storyResultLiveCandy50").text("---");
         $("#storyResultLiveCandy100").text("---");
     }
 
-    Results.show($("#storyResult"));
+    Results.show($("#storyResult"), highlightSkippedLives);
 };
 
 /**
@@ -373,21 +399,21 @@ var STORY_RANK = {
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_EASY = [66, 67, 69, 70, 71];
+var STORY_EVENT_POINT_TABLE_EASY = [100, 100, 100, 100, 100];
 
 /**
  * Event point rewards tables for lives on Normal difficulty - index is rank.
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_NORMAL = [137, 140, 143, 145, 148];
+var STORY_EVENT_POINT_TABLE_NORMAL = [100, 100, 100, 100, 100];
 
 /**
  * Event point rewards tables for lives on Hard difficulty - index is rank.
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_HARD = [237, 241, 246, 254, 261];
+var STORY_EVENT_POINT_TABLE_HARD = [100, 100, 100, 100, 100];
 
 /**
  * Array saving references to all point tables, for access using the difficulty ID from COMMON_DIFFICULTY_IDS.

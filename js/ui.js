@@ -89,7 +89,8 @@ function registerTabBarButtonsAndScroll() {
             // noinspection JSValidateTypes
             $(".tab-button-left").css("display", (tabbar.scrollLeft() === 0) ? "none" : "");
             // noinspection JSValidateTypes
-            $(".tab-button-right").css("display", (tabbar.scrollLeft() === tabbar[0].scrollWidth - tabbar[0].clientWidth) ? "none" : "");
+            $(".tab-button-right").css("display",
+                (tabbar.scrollLeft() === tabbar[0].scrollWidth - tabbar[0].clientWidth) ? "none" : "");
         }
     }, 250);
     tabbar.scroll();
@@ -218,14 +219,16 @@ function registerCalculatorButtons() {
                         errorList += "<li>" + errors[i] + "</li>";
                     }
                     showPopUp("There might be something wrong with your input - please check and fix:<br>" +
-                        "<ul>" + errorList + "</ul>");
+                              "<ul>" + errorList + "</ul>");
                 }
                 return;
             }
 
             var lpEstimationInfo = data.estimate();
             if (null === lpEstimationInfo.lpRecoveryInfo && showErrors) {
-                showPopUp("Assuming three minutes per live, the event will end before the target can be reached. Sorry.");
+                showPopUp(
+                    "Assuming three minutes per live and thirty seconds per skip ticket, the event will end before " +
+                    "the target can be reached. Sorry.");
             }
             lpEstimationInfo.showResult();
         };
@@ -424,8 +427,14 @@ Results.hide = function (resultDiv) {
  * Shows calculation results with an animation. The values have been filled by the calculator before this method is
  * called.
  * @param resultDiv jQuery element representing the div containing the results.
+ * @param highlightSkippedLives Whether the line showing the amount of skipped lives should be highlighted
  */
-Results.show = function (resultDiv) {
+Results.show = function (resultDiv, highlightSkippedLives) {
+    if (highlightSkippedLives) {
+        $("#storyResultSkippedLivesLine").addClass("orange").addClass("lighten-3");
+    } else {
+        $("#storyResultSkippedLivesLine").removeClass("orange").removeClass("lighten-3");
+    }
     $(".result-large", resultDiv).delay(100).fadeTo(400, 1);
     $(".collapsible", resultDiv).delay(200).fadeTo(400, 1);
     var delay = 300;
@@ -458,11 +467,11 @@ function Cookie() {
 }
 
 var COOKIE_POLICY = "<h5>Cookie Policy</h5>SIFAS Calc uses cookies to store your preferences and inputs for later " +
-    "use. It will only do so if you agree to this message.<br>The page is still functional without if you do " +
-    "not allow storage, however, you will be unable to:<ul><li>Save configurations for later</li>" +
-    "<li>Dismiss notifications permanently</li><li>Save your setting for dark mode</li></ul>No other data is " +
-    "stored, and this information is not saved on the server or used to identify you.<br>You can revoke your consent at " +
-    "any time by removing all cookies saved on your device by this site.";
+                    "use. It will only do so if you agree to this message.<br>The page is still functional without if you do " +
+                    "not allow storage, however, you will be unable to:<ul><li>Save configurations for later</li>" +
+                    "<li>Dismiss notifications permanently</li><li>Save your setting for dark mode</li></ul>No other data is " +
+                    "stored, and this information is not saved on the server or used to identify you.<br>You can revoke your consent at " +
+                    "any time by removing all cookies saved on your device by this site.";
 
 /**
  * Sets a cookie. If no cookies exists, first ask for consent using a dialog showing the cookie policy.
@@ -474,14 +483,14 @@ var COOKIE_POLICY = "<h5>Cookie Policy</h5>SIFAS Calc uses cookies to store your
 Cookie.set = function (key, value, days) {
     if (document.cookie === "") {
         showDialog(COOKIE_POLICY + "<br><br>Do you agree with the cookie policy and " +
-            "allow this site to store cookies on your device?",
+                   "allow this site to store cookies on your device?",
             function () {
                 var expiryDate = new Date();
                 expiryDate.setTime(expiryDate.getTime() + (5 * 60 * 1000));
                 document.cookie = "cookieConsent=1; expires=" + expiryDate.toUTCString() + "; path=/sifas";
                 if (Cookie.get("cookieConsent") === undefined) {
                     showPopUp("Unable to store cookies. Your browser might be blocking cookie " +
-                            "storage. Please check your browser's privacy and storage settings, then try again.");
+                              "storage. Please check your browser's privacy and storage settings, then try again.");
                     return false;
                 }
                 Cookie.set(key, value, days);

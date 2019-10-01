@@ -571,6 +571,10 @@ input[type="checkbox"] + span {
     flex: 1 1 auto;
 }
 
+.result-small.skiplives {
+    padding: 0.25em 0.5em;
+}
+
 .explain-button {
     height: 1em;
     overflow: hidden;

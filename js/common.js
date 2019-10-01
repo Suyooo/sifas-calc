@@ -46,9 +46,9 @@ Common.getEventBeginEndTime = function () {
     var currentTime = new Date();
 
     return [new Date(Date.UTC(currentTime.getUTCFullYear(),
-            currentTime.getUTCMonth(), 3, 6)),
-            new Date(Date.UTC(currentTime.getUTCFullYear(),
-                currentTime.getUTCMonth(), 15, 6))];
+        currentTime.getUTCMonth(), 3, 6)),
+        new Date(Date.UTC(currentTime.getUTCFullYear(),
+            currentTime.getUTCMonth(), 15, 6))];
 };
 
 /**
@@ -152,8 +152,9 @@ Common.calculateLpRecoveryInfo =
         }
 
         // Subtract a single live from the time left - after all, it doesn't help if enough LP recover just in time for
-        // the event ending, the live must be completed before the event end or it will not count
-        eventTimeLeftInMinutes -= COMMON_LIVE_TIME_IN_MINUTES;
+        // the event ending, the live must be completed before the event end or it will not count. Use the skipped live
+        // duration for this, because you can just sneak it in with a skip ticket in the last second.
+        eventTimeLeftInMinutes -= COMMON_SKIP_LIVE_TIME_IN_MINUTES;
 
         // Small correction: partially regenerated LP are lost on refills because of overflow. Assuming you'll lose
         // "half an LP" per rank up, consider that LP recovery time lost by subtracting it from the time left
@@ -241,17 +242,17 @@ Common.hoursBetween = function (datea, dateb) {
 };
 
 /**
- * A string, representing a live difficulty. Technical and Master are handled as EX.
+ * A string, representing a live difficulty.
  * @typedef {('EASY'|'NORMAL'|'HARD')} difficulty
  */
 
 /**
- * A string, representing a score or combo rank. Not achieving any rank is represented as 'N' ('None').
+ * A string, representing a score or combo rank.
  * @typedef {('D'|'C'|'B'|'A'|'S')} rank
  */
 
 /**
- * Difficulty names used across all events. Technical and Master are handled as EX.
+ * Difficulty names used across all events.
  * @constant
  * @type {Object.<difficulty, number>}
  */
@@ -263,7 +264,7 @@ var COMMON_DIFFICULTY_IDS = {
 };
 
 /**
- * Experience point rewards used across all events. Technical and Master are handled as Expert.
+ * Experience point rewards used across all events.
  * @constant
  * @type {number[]}
  */
@@ -273,7 +274,7 @@ COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.NORMAL] = 27;
 COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.HARD] = 42;
 
 /**
- * LP cost used across all events. Technical and Master are handled as Expert.
+ * LP cost used across all events.
  * @constant
  * @type {number[]}
  */
@@ -289,6 +290,15 @@ COMMON_LP_COST[COMMON_DIFFICULTY_IDS.HARD] = 30;
  * @default
  */
 var COMMON_LIVE_TIME_IN_MINUTES = 3;
+
+/**
+ * Length of one live (including things like team/guest selection) if using a skip ticket, used as a rough estimate for
+ * calculation.
+ * @constant
+ * @type {number}
+ * @default
+ */
+var COMMON_SKIP_LIVE_TIME_IN_MINUTES = 0.5;
 
 /**
  * Time in minutes it takes to regenerate one LP in SIFAS, used for natural LP regen calculation.
