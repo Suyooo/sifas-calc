@@ -21,6 +21,7 @@ function Common() {
  * @property {number} lovecaUses - Total amount of loveca used.
  * @property {number} finalRank - The player's final rank after reaching the target.
  * @property {number} finalRankExp - The player's final EXP in the final rank after reaching the target.
+ * @property {boolean} sleepWarning - Whether to display a warning about having to interrupt sleep.
  * @param {number} initialRank The player's initial rank.
  * @constructor
  */
@@ -32,6 +33,7 @@ function LpRecoveryInfo(initialRank) {
     this.lovecaUses = 0;
     this.finalRank = initialRank;
     this.finalRankExp = 0;
+    this.sleepWarning = false;
 }
 
 /**
@@ -166,15 +168,25 @@ Common.calculateLpRecoveryInfo =
         recoveryInfo.lpToRecover =
             Math.max(0, (lpRequired - eventTimeLeftInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
         if (0 >= recoveryInfo.lpToRecover) {
+            // No loveca necessary, but check whether we should display the sleep warning:
+            // Calculate how much time we lose every night due to full LP tank. Do we still need no loveca?
+            var lpRegenTimeLostPerSleep = COMMON_SLEEP_WARNING_TIME_IN_MINUTES - recoveryInfo.lovecaLpRecovery *
+                                          COMMON_LP_RECOVERY_TIME_IN_MINUTES;
+            if (lpRegenTimeLostPerSleep > 0) {
+                var nightsLeft = Math.floor(eventTimeLeftInMinutes / (24 * 60));
+                var sleepTimeLeft = eventTimeLeftInMinutes - lpRegenTimeLostPerSleep * nightsLeft;
+                var sleepLpToRecover = Math.max(0, (lpRequired - sleepTimeLeft / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
+                if (sleepLpToRecover > 0) {
+                    recoveryInfo.sleepWarning = true;
+                }
+            }
             return recoveryInfo;
         }
 
         // Similar small correction here: on average, lose "half an LP" per refill
         recoveryInfo.lovecaUses =
             Math.ceil(recoveryInfo.lpToRecover / (recoveryInfo.lovecaLpRecovery - 0.5)) * COMMON_LOVECA_PER_REFILL;
-        if (recoveryInfo.lovecaUses < 0) {
-            recoveryInfo.lovecaUses = 0;
-        }
+        recoveryInfo.sleepWarning = true;
 
         return recoveryInfo;
     };
@@ -315,6 +327,14 @@ var COMMON_LP_RECOVERY_TIME_IN_MINUTES = 3;
  * @default
  */
 var COMMON_LOVECA_PER_REFILL = 10;
+
+/**
+ * The amount of hours we consider a good night of sleep for the sleep warning.
+ * @constant
+ * @type {number}
+ * @default
+ */
+var COMMON_SLEEP_WARNING_TIME_IN_MINUTES = 480;
 
 /**
  * Upper limit of simulated rank ups during recovery calculation functions to avoid endless loops.

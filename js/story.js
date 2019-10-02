@@ -252,8 +252,9 @@ StoryData.prototype.estimate = function () {
  */
 StoryEstimator.estimate = function (liveInfo, eventPointsLeft, timeLeft, playerRank, playerExp, playerLp) {
     var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft);
+    var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp);
     var estimation = new StoryEstimationInfo(liveCount, timeLeft, 0,
-        Math.floor(Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp) / liveInfo.lp));
+        Math.floor(avgMaxLp / liveInfo.lp));
     if (estimation.getPlayTime() > timeLeft) {
         // check whether we can use skip tickets to meet the target
 
@@ -298,15 +299,10 @@ StoryEstimationInfo.prototype.showResult = function () {
     $("#storyResultPlayTime").text(Common.minutesToString(this.getPlayTime()));
     $("#storyResultPlayTimeRate").text((100 * this.getPlayTimeRate()).toFixed(2) + "%");
     var highlightSkippedLives = false;
+    var showSleepWarning = false;
 
     if (this.lpRecoveryInfo !== null) {
         Results.setBigResult($("#storyResultLoveca"), this.lpRecoveryInfo.lovecaUses);
-        $("#storyResultFinalRank").text(this.lpRecoveryInfo.finalRank + " (" +
-                                        (this.lpRecoveryInfo.finalRank === COMMON_RANK_UP_EXP.length
-                                            ? "MAX"
-                                            : this.lpRecoveryInfo.finalRankExp + "/" +
-                                        Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
-                                        + " EXP") + ")");
         if (this.skippedLives === 0) {
             $("#storyResultSkippedLivesText").text("0");
         } else {
@@ -314,17 +310,25 @@ StoryEstimationInfo.prototype.showResult = function () {
                                                    " tickets per live)");
             highlightSkippedLives = true;
         }
+        showSleepWarning = this.lpRecoveryInfo.sleepWarning;
+        $("#storyResultFinalRank").text(this.lpRecoveryInfo.finalRank + " (" +
+                                        (this.lpRecoveryInfo.finalRank === COMMON_RANK_UP_EXP.length
+                                            ? "MAX"
+                                            : this.lpRecoveryInfo.finalRankExp + "/" +
+                                        Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
+                                        + " EXP") + ")");
         $("#storyResultLiveCandy50").text(this.lpRecoveryInfo.lovecaUses / 5);
         $("#storyResultLiveCandy100").text(this.lpRecoveryInfo.lovecaUses / 10);
     } else {
         Results.setBigResult($("#storyResultLoveca"), "---");
-        $("#storyResultFinalRank").text("---");
         $("#storyResultSkippedLivesText").text("---");
+        $("#storySleepWarning").hide(0);
+        $("#storyResultFinalRank").text("---");
         $("#storyResultLiveCandy50").text("---");
         $("#storyResultLiveCandy100").text("---");
     }
 
-    Results.show($("#storyResult"), highlightSkippedLives);
+    Results.show($("#storyResult"), highlightSkippedLives, showSleepWarning);
 };
 
 /**

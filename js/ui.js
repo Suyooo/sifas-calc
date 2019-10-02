@@ -428,19 +428,35 @@ Results.hide = function (resultDiv) {
  * called.
  * @param resultDiv jQuery element representing the div containing the results.
  * @param highlightSkippedLives Whether the line showing the amount of skipped lives should be highlighted
+ * @param showSleepWarning Whether the collapsible with the sleep warning should be shown.
  */
-Results.show = function (resultDiv, highlightSkippedLives) {
-    if (highlightSkippedLives) {
-        $("#storyResultSkippedLivesLine").addClass("orange").addClass("lighten-3");
-    } else {
-        $("#storyResultSkippedLivesLine").removeClass("orange").removeClass("lighten-3");
-    }
+Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning) {
     $(".result-large", resultDiv).delay(100).fadeTo(400, 1);
-    $(".collapsible", resultDiv).delay(200).fadeTo(400, 1);
-    var delay = 300;
+
+    if (highlightSkippedLives) {
+        $(".skip-lives", resultDiv).addClass("orange").addClass("lighten-3");
+    } else {
+        $(".skip-lives", resultDiv).removeClass("orange").removeClass("lighten-3");
+    }
+
+    $(".recovery-items", resultDiv).delay(200).fadeTo(400, 1);
+
+    if (showSleepWarning) {
+        $(".sleep-warning", resultDiv).delay(250).fadeTo(400, 1);
+    } else {
+        $(".sleep-warning", resultDiv).hide();
+    }
+
+    var delay = 150;
     $(".result-small", resultDiv).each(function () {
         $(this).delay(delay).fadeTo(400, 1);
-        delay += 100;
+        if (delay === 150) {
+            // skipped lives line should appear earlier
+            delay += 150;
+        }
+        else {
+            delay += 100;
+        }
     });
     $(resultDiv).removeClass("no-link");
 };
