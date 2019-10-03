@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SIFAS SP Power Sorter / Calculator</title>
+    <meta name="description" content="Find the most powerful SP skill available for your units.">
+
+    <link type="text/css" rel="stylesheet" href="vendor/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/sppower.css" media="screen,projection"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="icon" type="image/png" sizes="96x96" href="image/launcher-icon-96.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f48fb1">
+    <meta name="theme-color" content="#f48fb1">
+</head>
+<body>
+<script>
+    if (document.cookie.indexOf("dark-mode=yes") !== -1) {
+        document.body.className += 'dark-mode';
+    }
+</script>
+<div class="font-preload">
+    <span style="font-weight: 100">Thin</span>
+    <span style="font-weight: 300">Light</span>
+    <span style="font-weight: 400">Regular</span>
+    <span style="font-weight: 500">Medium</span>
+    <span style="font-weight: 700">Bold</span>
+</div>
+<nav>
+    <div class="nav-wrapper orange lighten-5">
+        <a class="brand-logo center">SP Power</a>
+        <ul id="nav-mobile" class="left">
+            <li class="orange lighten-3"><a href="index.html"><i
+                    class="material-icons left">keyboard_arrow_left</i>BACK</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <p>Enter the appeal and technique of your units on the left side. You don't have to fill out all the rows. They will
+       be sorted on the right. In order to reach the strongest possible SP skill, the top 3 units should be the units in
+       your center. (They don't need to be on the same subunit.)</p>
+
+    <div class="row">
+        <div class="col s12 xl6">
+            <h5>Input</h5>
+            <table class="striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Appeal</th>
+                    <th>Technique</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input id="unit1name" type="text" placeholder="Name"></td>
+                    <td><input id="unit1appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit1tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit2name" type="text" placeholder="Name"></td>
+                    <td><input id="unit2appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit2tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit3name" type="text" placeholder="Name"></td>
+                    <td><input id="unit3appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit3tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit4name" type="text" placeholder="Name"></td>
+                    <td><input id="unit4appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit4tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit5name" type="text" placeholder="Name"></td>
+                    <td><input id="unit5appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit5tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit6name" type="text" placeholder="Name"></td>
+                    <td><input id="unit6appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit6tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit7name" type="text" placeholder="Name"></td>
+                    <td><input id="unit7appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit7tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit8name" type="text" placeholder="Name"></td>
+                    <td><input id="unit8appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit8tech" type="number" placeholder="Technique"></td>
+                </tr>
+                <tr>
+                    <td><input id="unit9name" type="text" placeholder="Name"></td>
+                    <td><input id="unit9appl" type="number" placeholder="Appeal"></td>
+                    <td><input id="unit9tech" type="number" placeholder="Technique"></td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <div class="buttons">
+                <a id="sort" class="waves-effect orange lighten-3 waves-light btn">Sort</a>
+            </div>
+        </div>
+        <div class="col s12 xl6">
+            <h5>Results</h5>
+            <b>Strongest Possible SP Skill:</b> <span id="strongestsp">0</span> points
+            <br>
+            <table id="resulttable" class="striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>SP Power</th>
+                </tr>
+                </thead>
+                <tbody id="resultbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/register-sw.js"></script>
+<script type="text/javascript" src="vendor/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="vendor/materialize.js"></script>
+<script type="text/javascript" src="js/sppower.js"></script>
+</body>
+</html>

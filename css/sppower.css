@@ -1,0 +1,31 @@
+td, th {
+    padding: 5px 5px;
+}
+
+th, tr td:first-child {
+    font-weight: bold;
+}
+
+#resulttable {
+    display: none;
+}
+
+#resulttable tbody tr:nth-child(-n+3):nth-child(odd) {
+    background-color: var(--key-low) !important;
+}
+
+#resulttable tbody tr:nth-child(-n+3):nth-child(even) {
+    background-color: var(--key-low2) !important;
+}
+
+#resulttable tr td:nth-child(1) {
+    width: 10%;
+}
+
+#resulttable tr td:nth-child(2) {
+    width: 50%;
+}
+
+#resulttable tr td:nth-child(3) {
+    width: 40%;
+}

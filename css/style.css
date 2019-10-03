@@ -1,5 +1,6 @@
 :root {
     --key-low: #FFEED5;
+    --key-low2: #FFF3E2;
     --key-normal: #FFCC80;
     --key-accented: #FFA726;
     --key-important: #FF6D00;
@@ -9,7 +10,7 @@
     --sidenav: #FCFCFC;
     --panel: #FCFCFC;
     --option: #EEEEEE;
-    --sneaky: #CCCCCC;
+    --sneaky: #E1E1E1;
     --text: #010101;
     --link: #000000;
     --border: #DDDDDD;
@@ -19,6 +20,7 @@
 
 .dark-mode {
     --key-low: #7E3A10;
+    --key-low2: #783308;
     --key-normal: #AF5510;
     --key-important: #FFE0B2;
     --error: #F9928B;
@@ -663,4 +665,16 @@ input[type="checkbox"] + span {
 
 .helper-text:after {
     color: var(--error) !important;
+}
+
+::placeholder {
+    color: var(--dark-border) !important;
+}
+
+input, textarea {
+    color: var(--text) !important;
+}
+
+table.striped > tbody > tr:nth-child(2n+1) {
+    background-color: var(--sneaky);
 }
