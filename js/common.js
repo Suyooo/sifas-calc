@@ -186,7 +186,9 @@ Common.calculateLpRecoveryInfo =
         // Similar small correction here: on average, lose "half an LP" per refill
         recoveryInfo.lovecaUses =
             Math.ceil(recoveryInfo.lpToRecover / (recoveryInfo.lovecaLpRecovery - 0.5)) * COMMON_LOVECA_PER_REFILL;
-        recoveryInfo.sleepWarning = true;
+        if (recoveryInfo.lovecaLpRecovery * COMMON_LP_RECOVERY_TIME_IN_MINUTES < COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
+            recoveryInfo.sleepWarning = true;
+        }
 
         return recoveryInfo;
     };

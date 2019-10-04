@@ -338,8 +338,12 @@ StoryEstimationInfo.prototype.showResult = function () {
 StoryData.prototype.validate = function () {
     var errors = [];
 
-    if (null === this.createLiveInfo()) {
+    var liveInfo = this.createLiveInfo();
+    if (null === liveInfo) {
         errors.push("Live parameters have not been set");
+    } else if (liveInfo.lp > Common.getMaxLp(this.storyCurrentRank)) {
+        errors.push("The chosen live parameters result in an LP cost (" + liveInfo.lp +
+                    ") that's higher than your max LP (" + Common.getMaxLp(this.storyCurrentRank) + ")");
     }
 
     if (0 >= this.storyTargetEventPoints) {
