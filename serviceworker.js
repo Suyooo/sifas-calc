@@ -17,13 +17,13 @@ self.addEventListener("fetch", function (evt) {
     if (evt.request.url.startsWith(self.registration.scope)) {
         var filename = evt.request.url.substring(self.registration.scope.length);
         if (filename.length === 0) {
-            //console.log("[Calc SW] Cache URL: " + evt.request.url);
+            console.log("[Calc SW] Cache URL: " + evt.request.url);
             evt.respondWith(fromCache("index.html"));
         } else if (cache_files.has(filename)) {
-            //console.log("[Calc SW] Cache URL: " + evt.request.url);
+            console.log("[Calc SW] Cache URL: " + evt.request.url);
             evt.respondWith(fromCache(evt.request));
         } else {
-            //console.log("[Calc SW] No Cache URL: " + evt.request.url);
+            console.log("[Calc SW] No Cache URL: " + evt.request.url);
             if (filename === "js/networkinfo.js") {
                 evt.respondWith(fromNetwork(evt.request).catch(function () {
                     return fromCache("js/networkinfo_fallback.js");
@@ -33,7 +33,7 @@ self.addEventListener("fetch", function (evt) {
             }
         }
     } else {
-        //console.log("[Calc SW] External URL: " + evt.request.url);
+        console.log("[Calc SW] External URL: " + evt.request.url);
         evt.respondWith(fromNetwork(evt.request));
     }
 });

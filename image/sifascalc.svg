@@ -33,13 +33,13 @@
      showgrid="true"
      inkscape:object-nodes="true"
      inkscape:snap-center="true"
-     inkscape:zoom="5.3548607"
-     inkscape:cx="61.814562"
-     inkscape:cy="61.780816"
+     inkscape:zoom="3.7864583"
+     inkscape:cx="102.07171"
+     inkscape:cy="95.507785"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g7018"
+     inkscape:current-layer="svg51"
      inkscape:snap-smooth-nodes="true"
      showguides="false">
     <inkscape:grid
@@ -391,7 +391,7 @@
      style="font-family:none;mix-blend-mode:normal;fill:none;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0" />
   <g
      id="g6950"
-     style="fill:#ffcc80;fill-opacity:1">
+     style="fill:#fff3e0;fill-opacity:1">
     <rect
        ry="15.2"
        rx="15.2"
@@ -400,15 +400,15 @@
        height="152"
        width="152"
        id="rect4534"
-       style="font-family:none;opacity:1;mix-blend-mode:normal;fill:#ffcc80;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.67423928;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.34847875, 10.04543634000000019;stroke-dashoffset:0;stroke-opacity:1" />
+       style="font-family:none;opacity:1;mix-blend-mode:normal;fill:#fff3e0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.67423928;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.34847875, 10.04543634000000019;stroke-dashoffset:0;stroke-opacity:1" />
   </g>
   <path
      inkscape:connector-curvature="0"
-     style="font-family:none;opacity:1;mix-blend-mode:normal;fill:#fff3e0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.67423928;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.34847875, 10.04543634000000019;stroke-dashoffset:0;stroke-opacity:1"
+     style="font-family:none;opacity:1;mix-blend-mode:normal;fill:#ffcc80;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.67423928;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.34847875, 10.04543634000000019;stroke-dashoffset:0;stroke-opacity:1"
      d="M 156.80078,172 C 165.22158,172 172,165.22158 172,156.80078 V 96 H 96 v 76 z"
      id="rect4534-8-1" />
   <path
-     style="font-family:none;opacity:1;mix-blend-mode:normal;fill:#fff3e0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.67423928;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.34847875, 10.04543634000000019;stroke-dashoffset:0;stroke-opacity:1"
+     style="font-family:none;opacity:1;mix-blend-mode:normal;fill:#ffcc80;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.67423928;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.34847875, 10.04543634000000019;stroke-dashoffset:0;stroke-opacity:1"
      d="M 35.199219 20 C 26.778419 20 20 26.778419 20 35.199219 L 20 96 L 96 96 L 96 20 L 35.199219 20 z "
      id="rect4534-8" />
   <g
