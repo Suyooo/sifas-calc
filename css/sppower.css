@@ -29,3 +29,19 @@ th, tr td:first-child {
 #resulttable tr td:nth-child(3) {
     width: 40%;
 }
+
+#inputtable tr td:nth-child(1) {
+    width: 30%;
+}
+
+#inputtable tr td:nth-child(2) {
+    width: 40%;
+}
+
+#inputtable tr td:nth-child(3) {
+    width: 15%;
+}
+
+#inputtable tr td:nth-child(4) {
+    width: 15%;
+}

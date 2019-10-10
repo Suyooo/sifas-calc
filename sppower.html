@@ -39,14 +39,13 @@
     </div>
 </nav>
 <div class="container">
-    <p>Enter the appeal and technique of your units on the left side. You don't have to fill out all the rows. They will
-       be sorted on the right. In order to reach the strongest possible SP skill, the top 3 units should be the units in
-       your center. (They don't need to be on the same subunit.)</p>
-
+    <p>Enter the appeal and technique of your units on the left side. You don't have to fill out all the rows. The
+       calculator will find the best combination of units to get the strongest possible SP skill. These units should be
+       the units in your three center spots. (They don't need to be on the same subunit.)</p>
     <div class="row">
         <div class="col s12 xl6">
             <h5>Input</h5>
-            <table class="striped">
+            <table class="striped" id="inputtable">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -70,7 +69,7 @@
                         </select>
                     </td>
                     <td><input id="unit1appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit1tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit1tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit2name" type="text" placeholder="Name"></td>
@@ -86,7 +85,7 @@
                         </select>
                     </td>
                     <td><input id="unit2appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit2tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit2tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit3name" type="text" placeholder="Name"></td>
@@ -102,7 +101,7 @@
                         </select>
                     </td>
                     <td><input id="unit3appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit3tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit3tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit4name" type="text" placeholder="Name"></td>
@@ -118,7 +117,7 @@
                         </select>
                     </td>
                     <td><input id="unit4appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit4tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit4tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit5name" type="text" placeholder="Name"></td>
@@ -134,7 +133,7 @@
                         </select>
                     </td>
                     <td><input id="unit5appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit5tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit5tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit6name" type="text" placeholder="Name"></td>
@@ -150,7 +149,7 @@
                         </select>
                     </td>
                     <td><input id="unit6appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit6tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit6tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit7name" type="text" placeholder="Name"></td>
@@ -166,7 +165,7 @@
                         </select>
                     </td>
                     <td><input id="unit7appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit7tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit7tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit8name" type="text" placeholder="Name"></td>
@@ -182,7 +181,7 @@
                         </select>
                     </td>
                     <td><input id="unit8appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit8tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit8tech" type="number" placeholder="Tech"></td>
                 </tr>
                 <tr>
                     <td><input id="unit9name" type="text" placeholder="Name"></td>
@@ -198,7 +197,7 @@
                         </select>
                     </td>
                     <td><input id="unit9appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit9tech" type="number" placeholder="Technique"></td>
+                    <td><input id="unit9tech" type="number" placeholder="Tech"></td>
                 </tr>
                 </tbody>
             </table>

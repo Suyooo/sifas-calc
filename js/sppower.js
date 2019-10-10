@@ -37,7 +37,13 @@ function sortAllUnits() {
     var topunits;
     var topsp = 0;
 
-    if (sortattr === 0) {
+    if (units.length < 3) {
+        topunits = units;
+        var boosts = 0;
+        if (units.length >= 1 && units[0].match) boosts++;
+        if (units.length >= 2 && units[1].match) boosts++;
+        topsp = (units[0].power + units[1].power + units[2].power) * getRateFromNumberOfBoosts(boosts);
+    } else if (sortattr === 0) {
         topunits = [units[0], units[1], units[2]];
         topsp = (units[0].power + units[1].power + units[2].power) * getRateFromNumberOfBoosts(3);
     } else {

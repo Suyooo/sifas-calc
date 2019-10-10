@@ -357,7 +357,7 @@ ul.collapsible {
     margin-bottom: 0;
 }
 
-.input-field input[type=number] {
+input {
     margin-bottom: 16px;
     color: var(--text);
 }
@@ -367,26 +367,26 @@ ul.collapsible {
     transition: color .2s ease-out;
 }
 
-.input-field input[type=number]:focus {
+input:focus {
     border-bottom: 1px solid var(--dark-border) !important;
     box-shadow: 0 1px 0 0 var(--dark-border) !important;
 }
 
-.input-field input[type=number].valid {
+input.valid {
     border-bottom: 1px solid var(--dark-border) !important;
     box-shadow: 0 1px 0 0 var(--dark-border) !important;
 }
 
-.input-field input[type=number].invalid {
+input.invalid {
     border-bottom: 1px solid var(--error) !important;
     box-shadow: 0 1px 0 0 var(--error) !important;
 }
 
-.input-field input[type=number]:not(.invalid) + label {
+label, input:not(.invalid) + label {
     color: var(--text)DE !important;
 }
 
-.input-field input[type=number].invalid + label {
+input.invalid + label {
     color: var(--error) !important;
 }
 
@@ -505,6 +505,26 @@ input[type="checkbox"] + span {
 [type="checkbox"].filled-in:checked+span:not(.lever):after {
     border: 2px solid var(--key-accented);
     background-color: var(--key-accented);
+}
+
+.dropdown-content {
+    background-color: var(--background);
+}
+
+.dropdown-content li.disabled {
+    display: none;
+}
+
+.dropdown-content li.selected {
+    background: none !important;
+}
+
+.dropdown-content li:hover {
+    background-color: var(--sneaky) !important;
+}
+
+.dropdown-content li span {
+    color: var(--text) !important;
 }
 
 .buttons .btn {
@@ -673,6 +693,10 @@ input[type="checkbox"] + span {
 
 input, textarea {
     color: var(--text) !important;
+}
+
+.select-wrapper .caret {
+    fill: var(--text);
 }
 
 table.striped > tbody > tr:nth-child(2n+1) {
