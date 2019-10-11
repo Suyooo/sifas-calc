@@ -353,13 +353,16 @@ ul.collapsible {
     margin-top: -1px;
 }
 
-.input-field {
-    margin-bottom: 0;
+input {
+    color: var(--text);
 }
 
-input {
-    margin-bottom: 16px;
-    color: var(--text);
+.input-field > input {
+    margin-bottom: 12px !important;
+}
+
+.input-field {
+    margin-bottom: 0;
 }
 
 .input-field label:not(.label-icon).active {
@@ -383,7 +386,7 @@ input.invalid {
 }
 
 label, input:not(.invalid) + label {
-    color: var(--text)DE !important;
+    color: var(--text) !important;
 }
 
 input.invalid + label {
@@ -436,7 +439,7 @@ input[type="radio"]:not(.default-radio) + label {
     border-top: var(--radio-border) 1px solid;
     border-right: var(--radio-border) 1px solid;
     border-bottom: var(--radio-border) 1px solid;
-    color: var(--text)DE;
+    color: var(--text);
     flex: 1 0 1px;
     text-align: center;
     white-space: nowrap;
@@ -450,7 +453,7 @@ input[type="radio"]:not(.default-radio):checked + label {
 input[type="checkbox"] + span {
     background-color: var(--option);
     border-bottom: var(--sneaky) 1px solid !important;
-    color: var(--text)DE;
+    color: var(--text);
 }
 
 [type="checkbox"].filled-in + span:before {
