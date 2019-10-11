@@ -47,10 +47,8 @@ Common.getEventBeginEndTime = function () {
 
     var currentTime = new Date();
 
-    return [new Date(Date.UTC(currentTime.getUTCFullYear(),
-        currentTime.getUTCMonth(), 3, 6)),
-        new Date(Date.UTC(currentTime.getUTCFullYear(),
-            currentTime.getUTCMonth(), 15, 6))];
+    return [new Date(Date.UTC(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), 3, 6)),
+        new Date(Date.UTC(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), 15, 6))];
 };
 
 /**
@@ -65,6 +63,24 @@ Common.getAutoRestTimeInMinutes = function () {
         return this.minsBetween(eventDates[1], eventDates[0]);
     } else {
         return this.minsBetween(eventDates[1], currentTime);
+    }
+};
+
+Common.getAutoResetsLeftInEvent = function () {
+    var dates = this.getEventBeginEndTime();
+    var lastReset;
+    if (dates[1].getUTCHours() > 19) {
+        lastReset = new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate(), 19));
+    } else {
+        lastReset =
+            new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate() - 1, 19));
+    }
+
+    var hours = this.hoursBetween(lastReset, new Date());
+    if (hours < 24) {
+        return 0;
+    } else {
+        return Math.floor(hours / 24);
     }
 };
 
@@ -329,6 +345,22 @@ var COMMON_LP_RECOVERY_TIME_IN_MINUTES = 3;
  * @default
  */
 var COMMON_LOVECA_PER_REFILL = 10;
+
+/**
+ * The factor the event point reward is multiplied with when using Ouen Blades.
+ * @constant
+ * @type {number}
+ * @default
+ */
+var COMMON_OUEN_BLADE_BOOST_FACTOR = 1.5;
+
+/**
+ * The number of Ouen Blades gained per day from daily missions.
+ * @constant
+ * @type {number}
+ * @default
+ */
+var COMMON_OUEN_BLADE_DAILY_MISSION_REWARD = 5;
 
 /**
  * The amount of hours we consider a good night of sleep for the sleep warning.

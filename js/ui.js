@@ -447,14 +447,16 @@ Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning) {
         $(".sleep-warning", resultDiv).hide();
     }
 
-    var delay = 150;
+    var delay = 125;
     $(".result-small", resultDiv).each(function () {
         $(this).delay(delay).fadeTo(400, 1);
-        if (delay === 150) {
-            // skipped lives line should appear earlier
+        if (delay === 125) {
+            // skipped lives line
+            delay += 25;
+        } else if (delay === 150) {
+            // boosted lives line
             delay += 150;
-        }
-        else {
+        } else {
             delay += 100;
         }
     });

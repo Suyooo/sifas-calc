@@ -596,8 +596,8 @@ input[type="checkbox"] + span {
     flex: 1 1 auto;
 }
 
-.result-small.skip-lives {
-    padding: 0.25em 0.5em;
+.result-small.top {
+    padding: 0 0.5em;
 }
 
 .explain-button {
