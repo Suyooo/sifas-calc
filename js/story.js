@@ -387,7 +387,7 @@ StoryEstimationInfo.prototype.showResult = function () {
     var showSleepWarning = false;
 
     if (this.lpRecoveryInfo !== null) {
-        Results.setBigResult($("#storyResultLoveca"), this.lpRecoveryInfo.lovecaUses);
+        Results.setBigResult($("#storyResultRefills"), this.lpRecoveryInfo.refills);
         if (this.skippedLives === 0) {
             $("#storyResultSkippedLivesText").text("0");
         } else {
@@ -403,14 +403,16 @@ StoryEstimationInfo.prototype.showResult = function () {
                                             : this.lpRecoveryInfo.finalRankExp + "/" +
                                         Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
                                         + " EXP") + ")");
-        $("#storyResultLiveCandy50").text(this.lpRecoveryInfo.lovecaUses / 5);
-        $("#storyResultLiveCandy100").text(this.lpRecoveryInfo.lovecaUses / 10);
+        $("#storyResultLoveca").text(this.lpRecoveryInfo.refills * COMMON_LOVECA_PER_REFILL);
+        $("#storyResultLiveCandy50").text(this.lpRecoveryInfo.refills * 2);
+        $("#storyResultLiveCandy100").text(this.lpRecoveryInfo.refills);
     } else {
-        Results.setBigResult($("#storyResultLoveca"), "---");
+        Results.setBigResult($("#storyResultRefills"), "---");
         $("#storyResultSkippedLivesText").text("---");
         $("#storyResultBoostedLives").text("---");
         $("#storySleepWarning").hide(0);
         $("#storyResultFinalRank").text("---");
+        $("#storyResultLoveca").text("---");
         $("#storyResultLiveCandy50").text("---");
         $("#storyResultLiveCandy100").text("---");
     }

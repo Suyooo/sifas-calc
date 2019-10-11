@@ -30,7 +30,7 @@ function LpRecoveryInfo(initialRank) {
     this.lpToRecover = 0;
     this.rankUpCount = 0;
     this.lovecaLpRecovery = 0;
-    this.lovecaUses = 0;
+    this.refills = 0;
     this.finalRank = initialRank;
     this.finalRankExp = 0;
     this.sleepWarning = false;
@@ -200,8 +200,8 @@ Common.calculateLpRecoveryInfo =
         }
 
         // Similar small correction here: on average, lose "half an LP" per refill
-        recoveryInfo.lovecaUses =
-            Math.ceil(recoveryInfo.lpToRecover / (recoveryInfo.lovecaLpRecovery - 0.5)) * COMMON_LOVECA_PER_REFILL;
+        recoveryInfo.refills =
+            Math.ceil(recoveryInfo.lpToRecover / (recoveryInfo.lovecaLpRecovery - 0.5));
         if (recoveryInfo.lovecaLpRecovery * COMMON_LP_RECOVERY_TIME_IN_MINUTES < COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
             recoveryInfo.sleepWarning = true;
         }
