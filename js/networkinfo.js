@@ -1,7 +1,7 @@
 var jpDateOverride = null;
 
 var notificationInfo = {
-    message: "Welcome to the SIFAS Calculator! The event point has been completed and all calculations are now correct. Thank you for your help: Reikyu, Luna and Aqudalan!",
-    id: 2,
+    message: "<b>October 18th Update:</b> The new LP recharge times/costs/rewards are now in effect.",
+    id: 3,
     allowDismiss: true
 };

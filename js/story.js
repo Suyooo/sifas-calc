@@ -496,21 +496,21 @@ var STORY_RANK = {
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_EASY = [270, 285, 300, 315, 330];
+var STORY_EVENT_POINT_TABLE_EASY = [135, 142, 150, 157, 165];
 
 /**
  * Event point rewards tables for lives on Normal difficulty - index is rank.
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_NORMAL = [337, 356, 375, 412, 450];
+var STORY_EVENT_POINT_TABLE_NORMAL = [168, 178, 187, 206, 225];
 
 /**
  * Event point rewards tables for lives on Hard difficulty - index is rank.
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_HARD = [405, 427, 450, 517, 585];
+var STORY_EVENT_POINT_TABLE_HARD = [202, 213, 225, 258, 292];
 
 /**
  * Array saving references to all point tables, for access using the difficulty ID from COMMON_DIFFICULTY_IDS.

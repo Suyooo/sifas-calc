@@ -69,11 +69,11 @@ Common.getAutoRestTimeInMinutes = function () {
 Common.getAutoResetsLeftInEvent = function () {
     var dates = this.getEventBeginEndTime();
     var lastReset;
-    if (dates[1].getUTCHours() > 19) {
-        lastReset = new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate(), 19));
+    if (dates[1].getUTCHours() > 15) {
+        lastReset = new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate(), 15));
     } else {
         lastReset =
-            new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate() - 1, 19));
+            new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate() - 1, 15));
     }
 
     var hours = this.hoursBetween(lastReset, new Date());
@@ -299,9 +299,9 @@ var COMMON_DIFFICULTY_IDS = {
  * @type {number[]}
  */
 var COMMON_EXP_REWARD = [];
-COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.EASY] = 16;
-COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.NORMAL] = 27;
-COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.HARD] = 42;
+COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.EASY] = 8;
+COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.NORMAL] = 13;
+COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.HARD] = 21;
 
 /**
  * LP cost used across all events.
@@ -309,9 +309,9 @@ COMMON_EXP_REWARD[COMMON_DIFFICULTY_IDS.HARD] = 42;
  * @type {number[]}
  */
 var COMMON_LP_COST = [];
-COMMON_LP_COST[COMMON_DIFFICULTY_IDS.EASY] = 20;
-COMMON_LP_COST[COMMON_DIFFICULTY_IDS.NORMAL] = 25;
-COMMON_LP_COST[COMMON_DIFFICULTY_IDS.HARD] = 30;
+COMMON_LP_COST[COMMON_DIFFICULTY_IDS.EASY] = 10;
+COMMON_LP_COST[COMMON_DIFFICULTY_IDS.NORMAL] = 12;
+COMMON_LP_COST[COMMON_DIFFICULTY_IDS.HARD] = 15;
 
 /**
  * Length of one live (including things like team/guest selection), used as a rough estimate for calculation.
@@ -336,7 +336,7 @@ var COMMON_SKIP_LIVE_TIME_IN_MINUTES = 0.5;
  * @type {number}
  * @default
  */
-var COMMON_LP_RECOVERY_TIME_IN_MINUTES = 3;
+var COMMON_LP_RECOVERY_TIME_IN_MINUTES = 4;
 
 /**
  * The amount of loveca stars required per LP refill.
