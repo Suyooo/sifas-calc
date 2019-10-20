@@ -37,18 +37,13 @@ function LpRecoveryInfo(initialRank) {
 }
 
 /**
- * Attempt to automatically generate event time. JP Events begin and end at 6:00 UTC. Assuming events happen monthly,
- * they run each month from the 3rd to the 15th, and from the 17th to the last day of the month.
+ * Attempt to automatically generate event time. JP Events begin and end at 6:00 UTC. It's unclear whether there's any
+ * pattern to events yet, so we just return the manual override for now.
  * @returns {Date[]} An array containing start and end date of the current event, index 0 and 1 respectively
  */
 Common.getEventBeginEndTime = function () {
     // Handle overrides define in networkinfo.js
-    if (jpDateOverride !== null) return jpDateOverride;
-
-    var currentTime = new Date();
-
-    return [new Date(Date.UTC(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), 3, 6)),
-        new Date(Date.UTC(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), 15, 6))];
+    return jpDateOverride;
 };
 
 /**

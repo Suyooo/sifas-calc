@@ -339,7 +339,6 @@ ul.collapsible {
 .event-banner-container {
     position: relative;
     padding-top: 30%;
-    min-height: 105px;
 }
 
 .event-banner {
