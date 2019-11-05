@@ -25,7 +25,7 @@ function StoryData() {
     this.storyTimerMethodAuto = false;
     this.storyTimerMethodManual = false;
     this.storyManualRestTimeInHours = 0;
-    this.storyMinimumSleepHours = 0;
+    this.storyMinimumSleepHours = 8;
     this.storyLiveDifficulty = "EASY";
     this.storyLiveScore = "D";
     this.storyUnitBonusPct = 0;
@@ -100,7 +100,7 @@ StoryData.prototype.readFromUi = function () {
     this.storyTimerMethodAuto = $("#storyTimerMethodAuto").prop("checked");
     this.storyTimerMethodManual = $("#storyTimerMethodManual").prop("checked");
     this.storyManualRestTimeInHours = ReadHelpers.toNum($("#storyManualRestTime").val());
-    this.storyMinimumSleepHours = ReadHelpers.toNum($("#storyMinimumSleepHours").val(), 0);
+    this.storyMinimumSleepHours = ReadHelpers.toNum($("#storyMinimumSleepHours").val(), 8);
     this.storyLiveDifficulty = $("input:radio[name=storyLiveDifficulty]:checked").val();
     this.storyLiveScore = $("input:radio[name=storyLiveScore]:checked").val();
     this.storyUnitBonusPct = ReadHelpers.toNum($("#storyUnitBonusPct").val(), 0);
