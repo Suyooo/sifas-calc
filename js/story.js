@@ -346,26 +346,29 @@ StoryEstimator.estimate =
         var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp);
 
         var regenTimeLostToSleep = 0;
+        var playTimeLostToSleep = 0;
         if (minimumSleepHours > 0) {
             var lpRegenTimeLostPerSleep = minimumSleepHours * 60 - avgMaxLp * COMMON_LP_RECOVERY_TIME_IN_MINUTES;
+            var nightsLeft = Math.floor(timeLeft / (24 * 60));
             if (lpRegenTimeLostPerSleep > 0) {
-                var nightsLeft = Math.floor(timeLeft / (24 * 60));
                 regenTimeLostToSleep = lpRegenTimeLostPerSleep * nightsLeft;
             }
+            playTimeLostToSleep = minimumSleepHours * 60 * nightsLeft;
         }
+        console.log(regenTimeLostToSleep, playTimeLostToSleep);
 
         var estimation = new StoryEstimationInfo(liveCount, timeLeft, 0,
             Math.min(5, Math.floor(avgMaxLp / liveInfo.lp)));
-        if (estimation.getPlayTime() > timeLeft) {
+        if (estimation.getPlayTime() > timeLeft - playTimeLostToSleep) {
             // check whether we can use skip tickets to meet the target
 
             var maxSkippedLivesNeeded = Math.ceil(liveCount.liveCount / estimation.skippedLiveTickets);
-            if (maxSkippedLivesNeeded * COMMON_SKIP_LIVE_TIME_IN_MINUTES > timeLeft) {
+            if (maxSkippedLivesNeeded * COMMON_SKIP_LIVE_TIME_IN_MINUTES > timeLeft - playTimeLostToSleep) {
                 // even with skipped lives, the goal is not possible
                 return estimation;
             }
 
-            var playTimeOverflow = estimation.getPlayTime() - timeLeft;
+            var playTimeOverflow = estimation.getPlayTime() - (timeLeft - playTimeLostToSleep);
             var timeSavedPerSkippedLive = COMMON_LIVE_TIME_IN_MINUTES * estimation.skippedLiveTickets -
                                           COMMON_SKIP_LIVE_TIME_IN_MINUTES;
             estimation.skippedLives = Math.ceil(playTimeOverflow / timeSavedPerSkippedLive);
