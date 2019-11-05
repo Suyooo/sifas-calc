@@ -83,14 +83,16 @@ function StoryLiveCount() {
  * @property {LpRecoveryInfo} lpRecoveryInfo - Loveca use and rank ups.
  * @property {number} restTime - Event time left, in minutes.
  * @property {number} skipTickets - The amount of skip tickets to use.
+ * @property {number} regenTimeLostToSleepInMinutes - LP regeneration time lost to sleep
  * @constructor
  */
-function StoryEstimationInfo(liveCount, restTime, skippedLives, skippedLiveTickets) {
+function StoryEstimationInfo(liveCount, restTime, skippedLives, skippedLiveTickets, regenTimeLostToSleepInMinutes) {
     this.liveCount = liveCount;
     this.lpRecoveryInfo = null;
     this.restTime = restTime;
     this.skippedLives = skippedLives;
     this.skippedLiveTickets = skippedLiveTickets;
+    this.regenTimeLostToSleepInMinutes = regenTimeLostToSleepInMinutes;
 }
 
 /**
@@ -357,7 +359,7 @@ StoryEstimator.estimate =
         }
 
         var estimation = new StoryEstimationInfo(liveCount, timeLeft, 0,
-            Math.min(5, Math.floor(avgMaxLp / liveInfo.lp)));
+            Math.min(5, Math.floor(avgMaxLp / liveInfo.lp)), regenTimeLostToSleep);
         if (estimation.getPlayTime() > timeLeft - playTimeLostToSleep) {
             // check whether we can use skip tickets to meet the target
 
@@ -405,6 +407,8 @@ StoryEstimationInfo.prototype.getPlayTimeRate = function () {
  */
 StoryEstimationInfo.prototype.showResult = function () {
     Results.setBigResult($("#storyResultLiveCount"), this.liveCount.liveCount);
+    $("#storyResultRegenTimeLost").text((this.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
+                                        " LP (" + Common.minutesToString(this.regenTimeLostToSleepInMinutes) + ")");
     $("#storyResultPlayTime").text(Common.minutesToString(this.getPlayTime()));
     $("#storyResultPlayTimeRate").text((100 * this.getPlayTimeRate()).toFixed(2) + "%");
     var highlightSkippedLives = false;
