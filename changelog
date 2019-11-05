@@ -1,3 +1,12 @@
+November 5, 2019 - Healthy Edition
+----------------------------
+- Added "Hours of Sleep" input in the timer section
+- The calculator can now deal with LP regeneration lost during sleep
+
+October 21, 2019 - WHY Edition
+----------------------------
+- The event point tables changed. Special thanks for research to: Reikyu, Eifie, Nuen and Shiina
+
 October 20, 2019 - Small Edition
 ----------------------------
 - Fixed empty space below event banner on small screens

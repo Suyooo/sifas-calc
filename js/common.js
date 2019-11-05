@@ -149,12 +149,13 @@ Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained) 
  * @param {number} lpRequired Sum of the LP cost of all lives required to reach the target.
  * @param {number} playerLp The player's initial LP.
  * @param {number} eventTimeLeftInMinutes Minutes left until the event ends.
+ * @param {number} regenTimeLostToSleep Minutes of LP regeneration lost to sleep.
  * @returns {?LpRecoveryInfo} A completed LpRecoveryInfo object, or null if reaching the target is impossible.
  * @see calculateTotalRankUpLpRecovery
  * @see calculateAverageLovecaLpRecovery
  */
 Common.calculateLpRecoveryInfo =
-    function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes) {
+    function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes, regenTimeLostToSleep) {
         var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp);
         recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained);
 
@@ -172,34 +173,38 @@ Common.calculateLpRecoveryInfo =
         // Small correction: partially regenerated LP are lost on refills because of overflow. Assuming you'll lose
         // "half an LP" per rank up, consider that LP recovery time lost by subtracting it from the time left
         eventTimeLeftInMinutes -= (recoveryInfo.rankUpCount) * (COMMON_LP_RECOVERY_TIME_IN_MINUTES / 2);
-        if (0 > eventTimeLeftInMinutes) {
+        if (0 > eventTimeLeftInMinutes - regenTimeLostToSleep) {
             return null;
         }
 
         recoveryInfo.lpToRecover =
-            Math.max(0, (lpRequired - eventTimeLeftInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
-        if (0 >= recoveryInfo.lpToRecover) {
-            // No loveca necessary, but check whether we should display the sleep warning:
-            // Calculate how much time we lose every night due to full LP tank. Do we still need no loveca?
-            var lpRegenTimeLostPerSleep = COMMON_SLEEP_WARNING_TIME_IN_MINUTES - recoveryInfo.lovecaLpRecovery *
-                                          COMMON_LP_RECOVERY_TIME_IN_MINUTES;
-            if (lpRegenTimeLostPerSleep > 0) {
-                var nightsLeft = Math.floor(eventTimeLeftInMinutes / (24 * 60));
-                var sleepTimeLeft = eventTimeLeftInMinutes - lpRegenTimeLostPerSleep * nightsLeft;
-                var sleepLpToRecover = Math.max(0, (lpRequired - sleepTimeLeft / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
-                if (sleepLpToRecover > 0) {
-                    recoveryInfo.sleepWarning = true;
-                }
-            }
-            return recoveryInfo;
-        }
+            Math.max(0,
+                (lpRequired - (eventTimeLeftInMinutes - regenTimeLostToSleep) / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
 
         // Similar small correction here: on average, lose "half an LP" per refill
         recoveryInfo.refills =
             Math.ceil(recoveryInfo.lpToRecover / (recoveryInfo.lovecaLpRecovery - 0.5));
-        if (recoveryInfo.lovecaLpRecovery * COMMON_LP_RECOVERY_TIME_IN_MINUTES < COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
-            recoveryInfo.sleepWarning = true;
+
+        // No loveca necessary, but check whether we should display the sleep warning:
+        // Calculate how much time we lose every night due to full LP tank. Do the lost LP make a difference?
+        // If so, that means the player has to wake up during the night to play
+        var lpRegenTimeLostPerSleep = COMMON_SLEEP_WARNING_TIME_IN_MINUTES - recoveryInfo.lovecaLpRecovery *
+                                      COMMON_LP_RECOVERY_TIME_IN_MINUTES;
+        if (lpRegenTimeLostPerSleep > 0) {
+            var nightsLeft = Math.floor(eventTimeLeftInMinutes / (24 * 60));
+            var timeLeftWithMaxSleep = eventTimeLeftInMinutes - lpRegenTimeLostPerSleep * nightsLeft;
+            var lpToRecoverWithMaxSleep = Math.max(0,
+                (lpRequired - timeLeftWithMaxSleep / COMMON_LP_RECOVERY_TIME_IN_MINUTES));
+            var refillsWithMaxSleep =
+                Math.ceil(lpToRecoverWithMaxSleep / (recoveryInfo.lovecaLpRecovery - 0.5));
+            if (recoveryInfo.refills < refillsWithMaxSleep) {
+                recoveryInfo.sleepWarning = true;
+            }
         }
+
+        /*if (recoveryInfo.lovecaLpRecovery * COMMON_LP_RECOVERY_TIME_IN_MINUTES >= COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
+            recoveryInfo.sleepWarning = false;
+        }*/
 
         return recoveryInfo;
     };

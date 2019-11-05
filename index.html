@@ -156,6 +156,13 @@
                                     <span class="helper-text" data-error="Must be a positive number!"></span>
                                 </div>
                             </div>
+                            <div class="input-field">
+                                <input id="storyMinimumSleepHours" type="number" min="0" step="any" class="validate"
+                                       placeholder="0">
+                                <label for="storyMinimumSleepHours">
+                                    Minimum Hours Of Sleep</label>
+                                <span class="helper-text" data-error="Must be a positive number!"></span>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -292,10 +299,6 @@
                 <a id="storyCalculate" class="waves-effect orange lighten-3 waves-light btn">Calculate</a>
                 <a id="storySaveConfig" class="waves-effect orange lighten-5 waves-light btn">
                     Save current configuration</a>
-                <div class="red lighten-1" style="font-weight: bold;text-align:center;">event point rewards have changed
-                                                                                        - results are incorrect until
-                                                                                        the new values have been found
-                </div>
                 <div class="result-box no-link" id="storyResult">
                     <div class="row result-row">
                         <div class="col s6 result-large">
@@ -351,9 +354,11 @@
                                 I want to explicitly state here that <b>I do not endorse this and I don't want to force
                                                                         you do wake up in the middle of the night to
                                                                         play games</b>.<br>
-                                If you really want to go for the target, remember that you can use Skip Tickets to
-                                reduce the time you spend on your phone at night, and to plan your rank ups so you don't
-                                get hit by one during your night sessions.<br>
+                                You can enter "Hours of Sleep" in the timer section to re-run the calculation while
+                                considering the LP regeneration missed by sleeping.<br>
+                                If you really want to go for the wake-up strategy, remember that you can use Skip
+                                Tickets to reduce the time you spend on your phone at night, and to plan your rank ups
+                                so you don't get hit by one during your night sessions.<br>
                                 And if you notice you're starting to feel tired or unwell in the mornings, don't forget
                                 that your health is more important than games! Please consider using a few more loveca
                                 stars in exchange for some better sleep.<br>

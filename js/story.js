@@ -8,6 +8,7 @@
  * @property {boolean} storyTimerMethodAuto - Whether Automatic Timer is selected on the UI.
  * @property {boolean} storyTimerMethodManual - Whether Manual Input is selected on the UI.
  * @property {number} storyManualRestTimeInHours - The time left in hours, entered for Manual Input.
+ * @property {number} storyMinimumSleepHours - How many hours to sleep, to calculate wasted LP regeneration.
  * @property {difficulty} storyLiveDifficulty - The difficulty lives are played on.
  * @property {rank} storyLiveScore - Which score rank the player clears lives with.
  * @property {number} storyUnitBonusPct - Event point bonus gained through bonus units, in percent
@@ -24,6 +25,7 @@ function StoryData() {
     this.storyTimerMethodAuto = false;
     this.storyTimerMethodManual = false;
     this.storyManualRestTimeInHours = 0;
+    this.storyMinimumSleepHours = 0;
     this.storyLiveDifficulty = "EASY";
     this.storyLiveScore = "D";
     this.storyUnitBonusPct = 0;
@@ -98,6 +100,7 @@ StoryData.prototype.readFromUi = function () {
     this.storyTimerMethodAuto = $("#storyTimerMethodAuto").prop("checked");
     this.storyTimerMethodManual = $("#storyTimerMethodManual").prop("checked");
     this.storyManualRestTimeInHours = ReadHelpers.toNum($("#storyManualRestTime").val());
+    this.storyMinimumSleepHours = ReadHelpers.toNum($("#storyMinimumSleepHours").val(), 0);
     this.storyLiveDifficulty = $("input:radio[name=storyLiveDifficulty]:checked").val();
     this.storyLiveScore = $("input:radio[name=storyLiveScore]:checked").val();
     this.storyUnitBonusPct = ReadHelpers.toNum($("#storyUnitBonusPct").val(), 0);
@@ -122,6 +125,7 @@ StoryData.setToUi = function (savedData) {
         manualButton.click();
     }
     SetHelpers.inputHelper($("#storyManualRestTime"), savedData.storyManualRestTimeInHours);
+    SetHelpers.inputHelper($("#storyMinimumSleepHours"), savedData.storyMinimumSleepHours);
     SetHelpers.radioButtonHelper($("input:radio[name=storyLiveDifficulty]"), savedData.storyLiveDifficulty);
     SetHelpers.radioButtonHelper($("input:radio[name=storyLiveScore]"), savedData.storyLiveScore);
     SetHelpers.inputHelper($("#storyUnitBonusPct"), savedData.storyUnitBonusPct);
@@ -145,6 +149,7 @@ StoryData.prototype.alert = function () {
     alert("storyTimerMethodAuto: " + this.storyTimerMethodAuto + "\n" +
           "storyTimerMethodManual: " + this.storyTimerMethodManual + "\n" +
           "storyManualRestTimeInHours: " + this.storyManualRestTimeInHours + "\n" +
+          "storyMinimumSleepHours: " + this.storyMinimumSleepHours + "\n" +
           "storyLiveDifficulty: " + this.storyLiveDifficulty + "\n" +
           "storyLiveScore: " + this.storyLiveScore + "\n" +
           "storyUnitBonusPct: " + this.storyUnitBonusPct + "\n" +
@@ -313,8 +318,8 @@ StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBl
  */
 StoryData.prototype.estimate = function () {
     return StoryEstimator.estimate(this.createLiveInfo(), this.getEventPointsLeft(), this.getRestTimeInMinutes(),
-        this.storyCurrentRank, this.storyCurrentEXP, this.storyCurrentLP, this.storyBladesStock,
-        this.getDailyMissionBladeCount());
+        this.storyMinimumSleepHours, this.storyCurrentRank, this.storyCurrentEXP, this.storyCurrentLP,
+        this.storyBladesStock, this.getDailyMissionBladeCount());
 };
 
 /**
@@ -326,6 +331,7 @@ StoryData.prototype.estimate = function () {
  * @param {StoryLiveInfo} liveInfo Cost and reward info about one live play.
  * @param {number} eventPointsLeft The amount of event points left to meet the target.
  * @param {number} timeLeft The amount of event time left, in minutes.
+ * @param {number} minimumSleepHours How many hours to sleep, to calculate wasted LP regeneration.
  * @param {number} playerRank The player's initial rank.
  * @param {number} playerExp The player's initial EXP in the initial rank.
  * @param {number} playerLp The player's initial LP.
@@ -335,11 +341,21 @@ StoryData.prototype.estimate = function () {
  *      reaching the target is impossible.
  */
 StoryEstimator.estimate =
-    function (liveInfo, eventPointsLeft, timeLeft, playerRank, playerExp, playerLp, stockBladeCount, dailyBladeCount) {
+    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBladeCount, dailyBladeCount) {
         var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft, stockBladeCount, dailyBladeCount);
         var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp);
+
+        var regenTimeLostToSleep = 0;
+        if (minimumSleepHours > 0) {
+            var lpRegenTimeLostPerSleep = minimumSleepHours * 60 - avgMaxLp * COMMON_LP_RECOVERY_TIME_IN_MINUTES;
+            if (lpRegenTimeLostPerSleep > 0) {
+                var nightsLeft = Math.floor(timeLeft / (24 * 60));
+                regenTimeLostToSleep = lpRegenTimeLostPerSleep * nightsLeft;
+            }
+        }
+
         var estimation = new StoryEstimationInfo(liveCount, timeLeft, 0,
-            Math.floor(avgMaxLp / liveInfo.lp));
+            Math.min(5, Math.floor(avgMaxLp / liveInfo.lp)));
         if (estimation.getPlayTime() > timeLeft) {
             // check whether we can use skip tickets to meet the target
 
@@ -354,8 +370,14 @@ StoryEstimator.estimate =
                                           COMMON_SKIP_LIVE_TIME_IN_MINUTES;
             estimation.skippedLives = Math.ceil(playTimeOverflow / timeSavedPerSkippedLive);
         }
+
         estimation.lpRecoveryInfo =
-            Common.calculateLpRecoveryInfo(playerRank, liveCount.exp, playerExp, liveCount.lp, playerLp, timeLeft);
+            Common.calculateLpRecoveryInfo(playerRank, liveCount.exp, playerExp, liveCount.lp, playerLp,
+                timeLeft, regenTimeLostToSleep);
+        if (minimumSleepHours * 60 >= COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
+            estimation.lpRecoveryInfo.sleepWarning = false;
+        }
+
         return estimation;
     };
 
@@ -474,6 +496,12 @@ StoryData.prototype.validate = function () {
         errors.push("Select Automatic Timer or Manual Input");
     }
 
+    if (0 > this.storyMinimumSleepHours) {
+        errors.push("Enter a valid amount for minimum hours to sleep (cannot be negative)");
+    } else if (this.storyMinimumSleepHours >= 24) {
+        errors.push("Enter a valid amount for minimum hours to sleep (cannot sleep for 24 hours or more)");
+    }
+
     return errors;
 };
 
@@ -496,21 +524,21 @@ var STORY_RANK = {
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_EASY = [135, 142, 150, 157, 165];
+var STORY_EVENT_POINT_TABLE_EASY = [225, 237, 250, 262, 275];
 
 /**
  * Event point rewards tables for lives on Normal difficulty - index is rank.
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_NORMAL = [168, 178, 187, 206, 225];
+var STORY_EVENT_POINT_TABLE_NORMAL = [345, 360, 375, 390, 405];
 
 /**
  * Event point rewards tables for lives on Hard difficulty - index is rank.
  * @constant
  * @type {number[]}
  */
-var STORY_EVENT_POINT_TABLE_HARD = [202, 213, 225, 258, 292];
+var STORY_EVENT_POINT_TABLE_HARD = [525, 543, 562, 581, 600];
 
 /**
  * Array saving references to all point tables, for access using the difficulty ID from COMMON_DIFFICULTY_IDS.

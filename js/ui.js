@@ -228,7 +228,7 @@ function registerCalculatorButtons() {
             if (null === lpEstimationInfo.lpRecoveryInfo && showErrors) {
                 showPopUp(
                     "Assuming three minutes per live and thirty seconds per skip ticket, the event will end before " +
-                    "the target can be reached. Sorry.");
+                    "the target can be reached. If you have set minimum hours to sleep, try reducing them.");
             }
             lpEstimationInfo.showResult();
         };
