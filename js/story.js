@@ -355,7 +355,6 @@ StoryEstimator.estimate =
             }
             playTimeLostToSleep = minimumSleepHours * 60 * nightsLeft;
         }
-        console.log(regenTimeLostToSleep, playTimeLostToSleep);
 
         var estimation = new StoryEstimationInfo(liveCount, timeLeft, 0,
             Math.min(5, Math.floor(avgMaxLp / liveInfo.lp)));
