@@ -350,20 +350,20 @@ var COMMON_LP_RECOVERY_TIME_IN_MINUTES = 4;
 var COMMON_LOVECA_PER_REFILL = 10;
 
 /**
- * The factor the event point reward is multiplied with when using Ouen Blades.
+ * The factor the event point reward is multiplied with when using a Booster Item.
  * @constant
  * @type {number}
  * @default
  */
-var COMMON_OUEN_BLADE_BOOST_FACTOR = 1.5;
+var COMMON_BOOSTER_ITEM_BOOST_FACTOR = 1.5;
 
 /**
- * The number of Ouen Blades gained per day from daily missions.
+ * The number of Booster Items gained per day from daily missions.
  * @constant
  * @type {number}
  * @default
  */
-var COMMON_OUEN_BLADE_DAILY_MISSION_REWARD = 5;
+var COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD = 8;
 
 /**
  * The amount of hours we consider a good night of sleep for the sleep warning.

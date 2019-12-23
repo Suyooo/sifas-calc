@@ -12,8 +12,8 @@
  * @property {difficulty} storyLiveDifficulty - The difficulty lives are played on.
  * @property {rank} storyLiveScore - Which score rank the player clears lives with.
  * @property {number} storyUnitBonusPct - Event point bonus gained through bonus units, in percent
- * @property {number} storyBladesStock - Amount of Ouen Blades available for use before daily missions.
- * @property {boolean} storyBladesDaily - Whether to use Ouen Blades from daily missions.
+ * @property {number} storyBoostersStock - Amount of Booster Items available for use before daily missions.
+ * @property {boolean} storyBoostersDaily - Whether to use Booster Items from daily missions.
  * @property {number} storyTargetEventPoints - The desired final amount of event points.
  * @property {number} storyCurrentEventPoints - The current amount of event points.
  * @property {number} storyCurrentRank - The player's current rank.
@@ -29,8 +29,8 @@ function StoryData() {
     this.storyLiveDifficulty = "EASY";
     this.storyLiveScore = "D";
     this.storyUnitBonusPct = 0;
-    this.storyBladesStock = 0;
-    this.storyBladesDaily = false;
+    this.storyBoostersStock = 0;
+    this.storyBoostersDaily = false;
     this.storyTargetEventPoints = 0;
     this.storyCurrentEventPoints = 0;
     this.storyCurrentRank = 0;
@@ -64,7 +64,7 @@ function StoryEstimator() {
  * An object storing the total amount of live plays, rewards and cost.
  * @class StoryLiveCount
  * @property {number} liveCount - How many lives are played.
- * @property {number} boostedLives - How many lives are played with Ouen Blades.
+ * @property {number} boostedLives - How many lives are played with Booster Items.
  * @property {number} exp - Total EXP reward of lives.
  * @property {number} lp - Total LP cost of normal lives.
  * @constructor
@@ -106,8 +106,8 @@ StoryData.prototype.readFromUi = function () {
     this.storyLiveDifficulty = $("input:radio[name=storyLiveDifficulty]:checked").val();
     this.storyLiveScore = $("input:radio[name=storyLiveScore]:checked").val();
     this.storyUnitBonusPct = ReadHelpers.toNum($("#storyUnitBonusPct").val(), 0);
-    this.storyBladesStock = ReadHelpers.toNum($("#storyBladesStock").val(), 0);
-    this.storyBladesDaily = $("#storyBladesDailyOn").prop("checked");
+    this.storyBoostersStock = ReadHelpers.toNum($("#storyBoostersStock").val(), 0);
+    this.storyBoostersDaily = $("#storyBoostersDailyOn").prop("checked");
     this.storyTargetEventPoints = ReadHelpers.toNum($("#storyTargetEventPoints").val());
     this.storyCurrentEventPoints = ReadHelpers.toNum($("#storyCurrentEventPoints").val());
     this.storyCurrentRank = ReadHelpers.toNum($("#storyCurrentRank").val());
@@ -131,8 +131,8 @@ StoryData.setToUi = function (savedData) {
     SetHelpers.radioButtonHelper($("input:radio[name=storyLiveDifficulty]"), savedData.storyLiveDifficulty);
     SetHelpers.radioButtonHelper($("input:radio[name=storyLiveScore]"), savedData.storyLiveScore);
     SetHelpers.inputHelper($("#storyUnitBonusPct"), savedData.storyUnitBonusPct);
-    SetHelpers.inputHelper($("#storyBladesStock"), savedData.storyBladesStock);
-    SetHelpers.radioButtonHelper($("input:radio[name=storyBladesDaily]"), savedData.storyBladesDaily ? "Y" : "N");
+    SetHelpers.inputHelper($("#storyBoostersStock"), savedData.storyBoostersStock);
+    SetHelpers.radioButtonHelper($("input:radio[name=storyBoostersDaily]"), savedData.storyBoostersDaily ? "Y" : "N");
     SetHelpers.inputHelper($("#storyTargetEventPoints"), savedData.storyTargetEventPoints);
     SetHelpers.inputHelper($("#storyCurrentEventPoints"), savedData.storyCurrentEventPoints);
     SetHelpers.inputHelper($("#storyCurrentRank"), savedData.storyCurrentRank);
@@ -155,8 +155,8 @@ StoryData.prototype.alert = function () {
           "storyLiveDifficulty: " + this.storyLiveDifficulty + "\n" +
           "storyLiveScore: " + this.storyLiveScore + "\n" +
           "storyUnitBonusPct: " + this.storyUnitBonusPct + "\n" +
-          "storyBladesStock: " + this.storyBladesStock + "\n" +
-          "storyBladesDaily: " + this.storyBladesDaily + "\n" +
+          "storyBoostersStock: " + this.storyBoostersStock + "\n" +
+          "storyBoostersDaily: " + this.storyBoostersDaily + "\n" +
           "storyTargetEventPoints: " + this.storyTargetEventPoints + "\n" +
           "storyCurrentRank: " + this.storyCurrentRank + "\n" +
           "storyCurrentEventPoints: " + this.storyCurrentEventPoints + "\n" +
@@ -216,17 +216,17 @@ StoryData.prototype.getLiveBonusFactor = function () {
 };
 
 /**
- * @returns {number} The amount of Ouen Blades gained from daily missions.
+ * @returns {number} The amount of Booster Items gained from daily missions.
  */
-StoryData.prototype.getDailyMissionBladeCount = function () {
-    if (!this.storyBladesDaily) {
+StoryData.prototype.getDailyMissionBoosterCount = function () {
+    if (!this.storyBoostersDaily) {
         return 0;
     }
     if (this.storyTimerMethodAuto) {
-        return Common.getAutoResetsLeftInEvent() * COMMON_OUEN_BLADE_DAILY_MISSION_REWARD;
+        return Common.getAutoResetsLeftInEvent() * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
     }
     if (this.storyTimerMethodManual) {
-        return Math.floor(this.storyManualRestTimeInHours / 24) * COMMON_OUEN_BLADE_DAILY_MISSION_REWARD;
+        return Math.floor(this.storyManualRestTimeInHours / 24) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
     }
     return 0;
 };
@@ -254,54 +254,54 @@ StoryData.prototype.createLiveInfo = function () {
  * Calculates the amount of lives required to meet the point target.
  * @param {StoryLiveInfo} liveInfo Cost and reward info about one live play.
  * @param {number} eventPointsLeft The amount of event points left to meet the target.
- * @param {number} stockBladeCount Amount of Ouen Blades available before daily missions.
- * @param {number} dailyBladeCount Amount of Ouen Blades gained from daily missions to use.
+ * @param {number} stockBoosterCount Amount of Booster Items available before daily missions.
+ * @param {number} dailyBoosterCount Amount of Booster Items gained from daily missions to use.
  * @returns {StoryLiveCount} A new object with properties set.
  */
-StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBladeCount, dailyBladeCount) {
+StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBoosterCount, dailyBoosterCount) {
     var liveCount = new StoryLiveCount();
 
-    if (stockBladeCount > 0) {
-        // Use blades from stock first
-        var totalBoostedEventPoints = stockBladeCount * liveInfo.point * COMMON_OUEN_BLADE_BOOST_FACTOR;
+    if (stockBoosterCount > 0) {
+        // Use boosters from stock first
+        var totalBoostedEventPoints = stockBoosterCount * liveInfo.point * COMMON_BOOSTER_ITEM_BOOST_FACTOR;
         if (eventPointsLeft < totalBoostedEventPoints) {
-            // We have more blades than needed
+            // We have more boosters than needed
             liveCount.liveCount = liveCount.boostedLives = Math.ceil(eventPointsLeft / (liveInfo.point * 1.5));
             eventPointsLeft = 0;
         } else {
-            liveCount.liveCount = liveCount.boostedLives = stockBladeCount;
+            liveCount.liveCount = liveCount.boostedLives = stockBoosterCount;
             eventPointsLeft -= totalBoostedEventPoints;
         }
     }
 
     if (eventPointsLeft > 0) {
-        if (dailyBladeCount > 0) {
-            // If we want to use daily mission blades, we must have at least five lives played before we can
-            // Past those first five, we are guaranteed to have at least five blades to clear the next daily mission
+        if (dailyBoosterCount > 0) {
+            // If we want to use daily mission boosters, we must have at least five lives played before we can
+            // Past those first five, we are guaranteed to have at least five boosters to clear the next daily mission
             if (liveCount.liveCount < 5) {
-                var livesToPlayUntilDailyBlades = 5 - liveCount.liveCount;
+                var livesToPlayUntilDailyBoosters = 5 - liveCount.liveCount;
                 liveCount.liveCount = 5;
-                eventPointsLeft -= liveInfo.point * livesToPlayUntilDailyBlades;
+                eventPointsLeft -= liveInfo.point * livesToPlayUntilDailyBoosters;
             }
 
             if (eventPointsLeft > 0) {
-                totalBoostedEventPoints = dailyBladeCount * liveInfo.point * COMMON_OUEN_BLADE_BOOST_FACTOR;
+                totalBoostedEventPoints = dailyBoosterCount * liveInfo.point * COMMON_BOOSTER_ITEM_BOOST_FACTOR;
                 if (eventPointsLeft < totalBoostedEventPoints) {
-                    // We have more blades than needed
+                    // We have more boosters than needed
                     var boostedLivesPlayed = Math.ceil(eventPointsLeft / (liveInfo.point * 1.5));
                     liveCount.liveCount += boostedLivesPlayed;
                     liveCount.boostedLives += boostedLivesPlayed;
                     eventPointsLeft = 0;
                 } else {
-                    liveCount.liveCount += dailyBladeCount;
-                    liveCount.boostedLives += dailyBladeCount;
+                    liveCount.liveCount += dailyBoosterCount;
+                    liveCount.boostedLives += dailyBoosterCount;
                     eventPointsLeft -= totalBoostedEventPoints;
                 }
             }
         }
 
         if (eventPointsLeft > 0) {
-            // All blades gone, the event points left at this point need to be collected with unboosted lives
+            // All boosters gone, the event points left at this point need to be collected with unboosted lives
             liveCount.liveCount += Math.ceil(eventPointsLeft / liveInfo.point);
         }
     }
@@ -321,7 +321,7 @@ StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBl
 StoryData.prototype.estimate = function () {
     return StoryEstimator.estimate(this.createLiveInfo(), this.getEventPointsLeft(), this.getRestTimeInMinutes(),
         this.storyMinimumSleepHours, this.storyCurrentRank, this.storyCurrentEXP, this.storyCurrentLP,
-        this.storyBladesStock, this.getDailyMissionBladeCount());
+        this.storyBoostersStock, this.getDailyMissionBoosterCount());
 };
 
 /**
@@ -337,14 +337,14 @@ StoryData.prototype.estimate = function () {
  * @param {number} playerRank The player's initial rank.
  * @param {number} playerExp The player's initial EXP in the initial rank.
  * @param {number} playerLp The player's initial LP.
- * @param {number} stockBladeCount Amount of Ouen Blades available before daily missions.
- * @param {number} dailyBladeCount Amount of Ouen Blades gained from daily missions to use.
+ * @param {number} stockBoosterCount Amount of Booster Items available before daily missions.
+ * @param {number} dailyBoosterCount Amount of Booster Items gained from daily missions to use.
  * @returns {StoryEstimationInfo} A new object with all properties set, or the recoveryInfo property set to null if
  *      reaching the target is impossible.
  */
 StoryEstimator.estimate =
-    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBladeCount, dailyBladeCount) {
-        var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft, stockBladeCount, dailyBladeCount);
+    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBoosterCount, dailyBoosterCount) {
+        var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft, stockBoosterCount, dailyBoosterCount);
         var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp);
 
         var regenTimeLostToSleep = 0;
