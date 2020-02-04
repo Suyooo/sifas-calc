@@ -245,7 +245,7 @@ StoryData.prototype.createLiveInfo = function () {
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        pointReward = STORY_EVENT_POINTS[diffId][rankId] * bonusFactor;
+        pointReward = Math.ceil(STORY_EVENT_POINTS[diffId][rankId] * bonusFactor);
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, expReward);
 };
@@ -426,7 +426,7 @@ StoryEstimationInfo.prototype.showResult = function () {
         $("#storyResultBoostedLives").text(this.liveCount.boostedLives);
         showSleepWarning = this.lpRecoveryInfo.sleepWarning;
         $("#storyResultFinalRank").text(this.lpRecoveryInfo.finalRank + " (" +
-                                        (this.lpRecoveryInfo.finalRank === COMMON_RANK_UP_EXP.length
+                                        (this.lpRecoveryInfo.finalRank >= COMMON_RANK_UP_EXP.length
                                             ? "MAX"
                                             : this.lpRecoveryInfo.finalRankExp + "/" +
                                         Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)

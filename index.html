@@ -41,6 +41,7 @@
         <div class="nav-content">
             <ul class="tabs tabs-transparent">
                 <li class="tab"><a href="#story">Story Event</a></li>
+                <li class="tab"><a href="#exchange">Exchange Event</a></li>
                 <li class="tab"><a target="_self" class="sidenav-trigger tab-sidebar-button" data-target="toolsbar">
                     Tools&nbsp;&nbsp;&nbsp;&#x25B6;</a></li>
                 <li class="tab"><a href="/llsif/calc" target="_self">LLSIF Calc&nbsp;&nbsp;&nbsp;&#x25B6;</a></li>
@@ -143,7 +144,7 @@
                                     </div>
                                     <small class="event-info-note">Something wrong? <a data-target="sidebar"
                                                                                        class="sidenav-trigger">Contact
-                                                                                                               me!</a>
+                                        me!</a>
                                     </small>
                                 </div>
                             </div>
@@ -258,7 +259,7 @@
                             <div class="input-field">
                                 <input id="storyCurrentRank" type="number" min="1" class="validate" placeholder="">
                                 <label for="storyCurrentRank">
-                                    Current Rank</label>
+                                    Current Player Rank</label>
                                 <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
                             </div>
                             <ul id="storyCurrentExtra" class="collapsible small-collapsible z-depth-0"
@@ -352,11 +353,11 @@
                                 As you might know, this site assumes that you will play with 100% efficiency in order to
                                 make the calculation. That means the result above is only accurate if you don't waste
                                 any LP. However, the target your have entered would <b>require you to wake up every
-                                                                                       single night</b> to empty your LP
+                                single night</b> to empty your LP
                                 tank.<br>
                                 I want to explicitly state here that <b>I do not endorse this and I don't want to force
-                                                                        you do wake up in the middle of the night to
-                                                                        play games</b>.<br>
+                                you do wake up in the middle of the night to
+                                play games</b>.<br>
                                 You can enter "Hours of Sleep" in the timer section to re-run the calculation while
                                 considering the LP regeneration missed by sleeping.<br>
                                 If you really want to go for the wake-up strategy, remember that you can use Skip
@@ -405,6 +406,280 @@
             </div>
         </div>
     </div>
+    <div id="exchange" class="col s12">
+        <div class="row">
+            <div class="col s12 xl4">
+                <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">date_range</i>Date Settings
+                        </div>
+                        <div class="collapsible-body">
+                            <span class="form-label">Timer Method</span>
+                            <div class="radio-row">
+                                <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodAuto" value="auto"
+                                       checked/>
+                                <label for="exchangeTimerMethodAuto">Automatic</label>
+                                <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodManual" value="manual"/>
+                                <label for="exchangeTimerMethodManual">Manual Input</label>
+                            </div>
+                            <div id="exchangeTimerMethodAutoSection">
+                                <div id="exchangeTimerEventInfo" class="event-info">
+                                    <span class="form-label" id="exchangeTimerLeft"></span>
+                                    <div class="event-progress-bar">
+                                        <div class="event-progress-done" id="exchangeTimerProgress"></div>
+                                    </div>
+                                    <div class="event-banner-container">
+                                        <img src="" id="exchangeEventBanner" class="event-banner">
+                                    </div>
+                                    <small class="event-info-note">Something wrong? <a data-target="sidebar"
+                                                                                       class="sidenav-trigger">Contact
+                                        me!</a>
+                                    </small>
+                                </div>
+                            </div>
+                            <div id="exchangeTimerMethodManualSection" class="manual-timer-input">
+                                <div class="input-field">
+                                    <input id="exchangeManualRestTime" type="number" min="0" step="any" class="validate"
+                                           placeholder="">
+                                    <label for="exchangeManualRestTime">
+                                        Time Left In Hours</label>
+                                    <span class="helper-text" data-error="Must be a positive number!"></span>
+                                </div>
+                            </div>
+                            <div class="input-field">
+                                <input id="exchangeMinimumSleepHours" type="number" min="0" step="any" class="validate"
+                                       placeholder="8">
+                                <label for="exchangeMinimumSleepHours">
+                                    Minimum Hours Of Sleep</label>
+                                <span class="helper-text" data-error="Must be a positive number!"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12 xl4">
+                <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">music_note</i>Live Settings
+                        </div>
+                        <div class="collapsible-body">
+                            <span class="form-label">Live Difficulty</span>
+                            <div class="radio-row">
+                                <input name="exchangeLiveDifficulty" type="radio" id="exchangeLiveDifficultyEasy"
+                                       value="EASY"/>
+                                <label for="exchangeLiveDifficultyEasy">Easy</label>
+                                <input name="exchangeLiveDifficulty" type="radio" id="exchangeLiveDifficultyNorm"
+                                       value="NORMAL"/>
+                                <label for="exchangeLiveDifficultyNorm">Normal</label>
+                                <input name="exchangeLiveDifficulty" type="radio" id="exchangeLiveDifficultyHard"
+                                       value="HARD"/>
+                                <label for="exchangeLiveDifficultyHard">Hard</label>
+                                <input name="exchangeLiveDifficulty" type="radio" id="exchangeLiveDifficultyHardPlus"
+                                       value="HARD_PLUS"/>
+                                <label for="exchangeLiveDifficultyHardPlus">Hard+</label>
+                            </div>
+                            <span class="form-label">Live Score Rank</span>
+                            <div class="radio-row">
+                                <input name="exchangeLiveScore" type="radio" id="exchangeLiveScoreD" value="D"/>
+                                <label for="exchangeLiveScoreD">D</label>
+                                <input name="exchangeLiveScore" type="radio" id="exchangeLiveScoreC" value="C"/>
+                                <label for="exchangeLiveScoreC">C</label>
+                                <input name="exchangeLiveScore" type="radio" id="exchangeLiveScoreB" value="B"/>
+                                <label for="exchangeLiveScoreB">B</label>
+                                <input name="exchangeLiveScore" type="radio" id="exchangeLiveScoreA" value="A"/>
+                                <label for="exchangeLiveScoreA">A</label>
+                                <input name="exchangeLiveScore" type="radio" id="exchangeLiveScoreS" value="S"/>
+                                <label for="exchangeLiveScoreS">S</label>
+                            </div>
+                            <div class="input-field below-radio">
+                                <input id="exchangeUnitBonusPct" type="number" min="0" class="validate"
+                                       placeholder="0">
+                                <label for="exchangeUnitBonusPct">
+                                    Unit Bonus in Percent
+                                    <div class="explain-button bigger">
+                                        <a class="tooltipped" data-position="top" data-delay="0"
+                                           data-tooltip="Using units from the matching event or gacha increases exchange
+                                           item gain. The bonuses are shown on the live prep screen and the event
+                                           result screen at the end of a live.">
+                                            <i class="material-icons">help</i>
+                                        </a>
+                                    </div>
+                                </label>
+                                <span class="helper-text" data-error="Must be a positive integer!"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12 xl4">
+                <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">flag</i>Stats and Target</div>
+                        <div class="collapsible-body">
+                            <div class="input-field">
+                                <input id="exchangeTargetEventPoints" type="number" min="1" class="validate"
+                                       placeholder="">
+                                <label for="exchangeTargetEventPoints">
+                                    Target Event Points</label>
+                                <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                            </div>
+                            <div class="input-field">
+                                <input id="exchangeCurrentEventPoints" type="number" min="0" class="validate"
+                                       placeholder="">
+                                <label for="exchangeCurrentEventPoints">
+                                    Current Event Points</label>
+                                <span class="helper-text" data-error="Must be a positive integer!"></span>
+                            </div>
+                            <div class="input-field">
+                                <input id="exchangeCurrentRank" type="number" min="1" class="validate" placeholder="">
+                                <label for="exchangeCurrentRank">
+                                    Current Player Rank</label>
+                                <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                            </div>
+                            <ul id="exchangeCurrentExtra" class="collapsible small-collapsible z-depth-0"
+                                data-collapsible="expandable">
+                                <li>
+                                    <div class="collapsible-header">
+                                        Optional Fields
+                                        <div class="explain-button bigger">
+                                            <a class="tooltipped" data-position="top" data-delay="0"
+                                               data-tooltip="These values usually make no difference, but might be
+                                                   useful for calculations in the last few hours of an event.">
+                                                <i class="material-icons">help</i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <div class="input-field">
+                                            <input id="exchangeCurrentLP" type="number" min="0" class="validate"
+                                                   placeholder="0">
+                                            <label for="exchangeCurrentLP">
+                                                Current LP</label>
+                                            <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                        </div>
+                                        <div class="input-field">
+                                            <input id="exchangeCurrentEXP" type="number" min="0" class="validate"
+                                                   placeholder="0">
+                                            <label for="exchangeCurrentEXP">
+                                                Current EXP in Rank</label>
+                                            <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="buttons col s12 xl4 offset-xl4">
+                <a id="exchangeCalculate" class="waves-effect orange lighten-3 waves-light btn">Calculate</a>
+                <a id="exchangeSaveConfig" class="waves-effect orange lighten-5 waves-light btn">
+                    Save current configuration</a>
+                <div class="result-box no-link" id="exchangeResult">
+                    <div class="row result-row">
+                        <div class="col s4 result-large">
+                            <div class="result-large-number" id="exchangeResultRefills"></div>
+                            <div class="result-large-label">Refills Needed</div>
+                        </div>
+                        <div class="col s4 result-large">
+                            <div class="result-large-number" id="exchangeResultLiveCount"></div>
+                            <div class="result-large-label">Live Plays</div>
+                        </div>
+                        <div class="col s4 result-large">
+                            <div class="result-large-number" id="exchangeResultItems"></div>
+                            <div class="result-large-label">Items Collected</div>
+                        </div>
+                    </div>
+                    <div class="result-small" id="exchangeResultSkippedLivesLine">
+                        <div class="result-small-label">Lives with Skip Tickets</div>
+                        <div class="result-small-number" id="exchangeResultSkippedLivesText"></div>
+                    </div>
+                    <ul class="collapsible small-collapsible z-depth-0 recovery-items" style="opacity: 0;"
+                        data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header grey lighten-5">LP Recovery Items</div>
+                            <div class="collapsible-body grey lighten-5">
+                                <div class="result-small">
+                                    <div class="result-small-label">Loveca Stars Needed</div>
+                                    <div class="result-small-number" id="exchangeResultLoveca"></div>
+                                </div>
+                                <div class="result-small">
+                                    <div class="result-small-label">Live Candy [100% LP] Needed</div>
+                                    <div class="result-small-number" id="exchangeResultLiveCandy100"></div>
+                                </div>
+                                <div class="result-small">
+                                    <div class="result-small-label">Live Candy [50% LP] Needed</div>
+                                    <div class="result-small-number" id="exchangeResultLiveCandy50"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="collapsible small-collapsible z-depth-0 sleep-warning" style="opacity: 0;"
+                        data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header orange lighten-3">
+                                <i class="material-icons">warning</i>
+                                WARNING: Please Sleep
+                            </div>
+                            <div class="collapsible-body orange lighten-5" style="font-size: 85%; text-align: justify;">
+                                As you might know, this site assumes that you will play with 100% efficiency in order to
+                                make the calculation. That means the result above is only accurate if you don't waste
+                                any LP. However, the target your have entered would <b>require you to wake up every
+                                single night</b> to empty your LP
+                                tank.<br>
+                                I want to explicitly state here that <b>I do not endorse this and I don't want to force
+                                you do wake up in the middle of the night to
+                                play games</b>.<br>
+                                You can enter "Hours of Sleep" in the timer section to re-run the calculation while
+                                considering the LP regeneration missed by sleeping.<br>
+                                If you really want to go for the wake-up strategy, remember that you can use Skip
+                                Tickets to reduce the time you spend on your phone at night, and to plan your rank ups
+                                so you don't get hit by one during your night sessions.<br>
+                                And if you notice you're starting to feel tired or unwell in the mornings, don't forget
+                                that your health is more important than games! Please consider using a few more loveca
+                                stars in exchange for some better sleep.<br>
+                                This has been my small advisory about sleeping. Thanks for reading, have fun playing and
+                                tier responsibly ❤︎
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="result-small">
+                        <div class="result-small-label">Final Rank</div>
+                        <div class="result-small-number" id="exchangeResultFinalRank"></div>
+                    </div>
+                    <div class="result-small">
+                        <div class="result-small-label">Total Play Time
+                            <div class="explain-button">
+                                <a class="tooltipped" data-position="top" data-delay="0"
+                                   data-tooltip="Assuming 3 minutes for one song, how much play time you need to reach the Point Target.">
+                                    <i class="material-icons">help</i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="result-small-number" id="exchangeResultPlayTime"></div>
+                    </div>
+                    <div class="result-small">
+                        <div class="result-small-label">Play Time Rate
+                            <div class="explain-button">
+                                <a class="tooltipped" data-position="top" data-delay="0"
+                                   data-tooltip="Play Time divided by Remaining Time. The higher this value is, the more efficiently you will need to play.">
+                                    <i class="material-icons">help</i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="result-small-number" id="exchangeResultPlayTimeRate"></div>
+                    </div>
+                    <div class="result-small">
+                        <div class="result-small-label">LP Lost To Sleep</div>
+                        <div class="result-small-number" id="exchangeResultRegenTimeLost"></div>
+                    </div>
+                </div>
+                <span id="exchangeError"></span>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="popup-background valign-wrapper" id="popUp">
     <div class="popup-dialog z-depth-5 card">
@@ -426,6 +701,7 @@
 
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/story.js"></script>
+<script type="text/javascript" src="js/exchange.js"></script>
 <script type="text/javascript" src="js/networkinfo.js"></script>
 </body>
 </html>

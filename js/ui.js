@@ -202,6 +202,9 @@ function registerCalculatorButtons() {
     var newDataObjectFunctions = {
         "story": function () {
             return new StoryData();
+        },
+        "exchange": function () {
+            return new ExchangeData();
         }
     };
 
@@ -289,7 +292,8 @@ function registerCalculatorButtons() {
  */
 function loadCookieData() {
     var loadFunctions = {
-        "story": StoryData.setToUi
+        "story": StoryData.setToUi,
+        "exchange": ExchangeData.setToUi
     };
     $.each(loadFunctions, function (page, loadFunction) {
         var cookie = Cookie.get(page + "Data");
