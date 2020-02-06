@@ -59,9 +59,9 @@
                 </div>
             </li>
             <li class="sidebar-small sidebar-text no-link">Original Script by @sifascal<br>EN Translation by
-                                                           @yefta458<br>Expanded
-                                                           by
-                                                           Suyooo
+                @yefta458<br>Expanded
+                by
+                Suyooo
             </li>
             <!--<li><a target="_blank" href="https://twitter.com/Suyooo_">Contact Me on Twitter</a></li>-->
             <li><a id="sideNavDiscord">Contact Me on Discord</a></li>
@@ -97,7 +97,7 @@
             </li>
             <li><a target="_self" href="sppower.html" class="tooltipped" data-position="right" data-delay="0"
                    data-tooltip="Find the most powerful SP skill available for your units.">SP Power Sorter /
-                                                                                            Calculator</a></li>
+                Calculator</a></li>
             <li>
                 <div class="divider"></div>
             </li>
@@ -419,7 +419,8 @@
                                 <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodAuto" value="auto"
                                        checked/>
                                 <label for="exchangeTimerMethodAuto">Automatic</label>
-                                <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodManual" value="manual"/>
+                                <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodManual"
+                                       value="manual"/>
                                 <label for="exchangeTimerMethodManual">Manual Input</label>
                             </div>
                             <div id="exchangeTimerMethodAutoSection">
@@ -516,19 +517,44 @@
                     <li>
                         <div class="collapsible-header"><i class="material-icons">flag</i>Stats and Target</div>
                         <div class="collapsible-body">
-                            <div class="input-field">
-                                <input id="exchangeTargetEventPoints" type="number" min="1" class="validate"
-                                       placeholder="">
-                                <label for="exchangeTargetEventPoints">
-                                    Target Event Points</label>
-                                <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                            <span class="form-label">Target Type</span>
+                            <div class="radio-row">
+                                <input name="exchangeTargetType" type="radio" id="exchangeTargetTypeEP" value="EP"/>
+                                <label for="exchangeTargetTypeEP">Event Points</label>
+                                <input name="exchangeTargetType" type="radio" id="exchangeTargetTypeIA" value="IA"/>
+                                <label for="exchangeTargetTypeIA">Item Amount</label>
                             </div>
-                            <div class="input-field">
-                                <input id="exchangeCurrentEventPoints" type="number" min="0" class="validate"
-                                       placeholder="">
-                                <label for="exchangeCurrentEventPoints">
-                                    Current Event Points</label>
-                                <span class="helper-text" data-error="Must be a positive integer!"></span>
+                            <div id="exchangeEventPointInputs">
+                                <div class="input-field below-radio">
+                                    <input id="exchangeTargetEventPoints" type="number" min="1" class="validate"
+                                           placeholder="">
+                                    <label for="exchangeTargetEventPoints">
+                                        Target Event Points</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="exchangeCurrentEventPoints" type="number" min="0" class="validate"
+                                           placeholder="">
+                                    <label for="exchangeCurrentEventPoints">
+                                        Current Event Points</label>
+                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                </div>
+                            </div>
+                            <div id="exchangeItemAmountInputs">
+                                <div class="input-field below-radio">
+                                    <input id="exchangeTargetItemAmount" type="number" min="1" class="validate"
+                                           placeholder="">
+                                    <label for="exchangeTargetItemAmount">
+                                        Target Item Amount</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="exchangeCurrentItemAmount" type="number" min="0" class="validate"
+                                           placeholder="">
+                                    <label for="exchangeCurrentItemAmount">
+                                        Current Item Amount</label>
+                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                </div>
                             </div>
                             <div class="input-field">
                                 <input id="exchangeCurrentRank" type="number" min="1" class="validate" placeholder="">

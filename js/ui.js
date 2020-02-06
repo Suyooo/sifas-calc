@@ -68,8 +68,7 @@ function registerTabBarButtonsAndScroll() {
             if (left < containerScrollLeft) {
                 // noinspection JSValidateTypes
                 tabbar.animate({scrollLeft: left - paddingPx}, 200);
-            }
-            else if (left + width > containerScrollLeft + containerWidth) {
+            } else if (left + width > containerScrollLeft + containerWidth) {
                 // noinspection JSValidateTypes
                 tabbar.animate({scrollLeft: left + width - containerWidth + paddingPx}, 200);
             }
@@ -222,7 +221,7 @@ function registerCalculatorButtons() {
                         errorList += "<li>" + errors[i] + "</li>";
                     }
                     showPopUp("There might be something wrong with your input - please check and fix:<br>" +
-                              "<ul>" + errorList + "</ul>");
+                        "<ul>" + errorList + "</ul>");
                 }
                 return;
             }
@@ -284,6 +283,15 @@ function registerCalculatorButtons() {
                 }
             }
         });
+    });
+
+    $("#exchangeTargetTypeEP").click(function () {
+        $("#exchangeItemAmountInputs").hide();
+        $("#exchangeEventPointInputs").show();
+    }).click();
+    $("#exchangeTargetTypeIA").click(function () {
+        $("#exchangeEventPointInputs").hide();
+        $("#exchangeItemAmountInputs").show();
     });
 }
 
@@ -435,7 +443,7 @@ Results.hide = function (resultDiv) {
  * @param showSleepWarning Whether the collapsible with the sleep warning should be shown.
  */
 Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning) {
-    $(".result-large", resultDiv).delay(100).fadeTo(400, 1);
+    $(".result-large", resultDiv).delay(50).fadeTo(200, 1);
 
     if (highlightSkippedLives) {
         $(".skip-lives", resultDiv).addClass("orange").addClass("lighten-3");
@@ -443,25 +451,25 @@ Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning) {
         $(".skip-lives", resultDiv).removeClass("orange").removeClass("lighten-3");
     }
 
-    $(".recovery-items", resultDiv).delay(200).fadeTo(400, 1);
+    $(".recovery-items", resultDiv).delay(100).fadeTo(200, 1);
 
     if (showSleepWarning) {
-        $(".sleep-warning", resultDiv).delay(250).fadeTo(400, 1);
+        $(".sleep-warning", resultDiv).delay(125).fadeTo(200, 1);
     } else {
         $(".sleep-warning", resultDiv).hide();
     }
 
-    var delay = 125;
+    var delay = 62.5;
     $(".result-small", resultDiv).each(function () {
-        $(this).delay(delay).fadeTo(400, 1);
-        if (delay === 125) {
+        $(this).delay(delay).fadeTo(200, 1);
+        if (delay === 62.5) {
             // skipped lives line
-            delay += 25;
-        } else if (delay === 150) {
+            delay += 12.5;
+        } else if (delay === 75) {
             // boosted lives line
-            delay += 150;
+            delay += 75;
         } else {
-            delay += 100;
+            delay += 50;
         }
     });
     $(resultDiv).removeClass("no-link");
@@ -475,9 +483,14 @@ Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning) {
 Results.setBigResult = function (element, text) {
     element.removeClass("shrink");
     element.text(text);
-    if (element[0].scrollWidth - 5 > element.width()) {
-        element.addClass("shrink");
-    }
+    var checkSmall = function () {
+        if (element[0].scrollWidth === 0) {
+            setTimeout(checkSmall, 500);
+        } else if (element[0].scrollWidth - 5 > element.width()) {
+            element.addClass("shrink");
+        }
+    };
+    checkSmall();
 };
 
 /**
@@ -489,11 +502,11 @@ function Cookie() {
 }
 
 var COOKIE_POLICY = "<h5>Cookie Policy</h5>SIFAS Calc uses cookies to store your preferences and inputs for later " +
-                    "use. It will only do so if you agree to this message.<br>The page is still functional without if you do " +
-                    "not allow storage, however, you will be unable to:<ul><li>Save configurations for later</li>" +
-                    "<li>Dismiss notifications permanently</li><li>Save your setting for dark mode</li></ul>No other data is " +
-                    "stored, and this information is not saved on the server or used to identify you.<br>You can revoke your consent at " +
-                    "any time by removing all cookies saved on your device by this site.";
+    "use. It will only do so if you agree to this message.<br>The page is still functional without if you do " +
+    "not allow storage, however, you will be unable to:<ul><li>Save configurations for later</li>" +
+    "<li>Dismiss notifications permanently</li><li>Save your setting for dark mode</li></ul>No other data is " +
+    "stored, and this information is not saved on the server or used to identify you.<br>You can revoke your consent at " +
+    "any time by removing all cookies saved on your device by this site.";
 
 /**
  * Sets a cookie. If no cookies exists, first ask for consent using a dialog showing the cookie policy.
@@ -505,14 +518,14 @@ var COOKIE_POLICY = "<h5>Cookie Policy</h5>SIFAS Calc uses cookies to store your
 Cookie.set = function (key, value, days) {
     if (document.cookie === "") {
         showDialog(COOKIE_POLICY + "<br><br>Do you agree with the cookie policy and " +
-                   "allow this site to store cookies on your device?",
+            "allow this site to store cookies on your device?",
             function () {
                 var expiryDate = new Date();
                 expiryDate.setTime(expiryDate.getTime() + (5 * 60 * 1000));
                 document.cookie = "cookieConsent=1; expires=" + expiryDate.toUTCString() + "; path=/sifas";
                 if (Cookie.get("cookieConsent") === undefined) {
                     showPopUp("Unable to store cookies. Your browser might be blocking cookie " +
-                              "storage. Please check your browser's privacy and storage settings, then try again.");
+                        "storage. Please check your browser's privacy and storage settings, then try again.");
                     return false;
                 }
                 Cookie.set(key, value, days);

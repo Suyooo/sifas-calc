@@ -3,13 +3,24 @@
  */
 
 /**
+ * A string, representing the target type - either Event Points or Item Amount
+ * @typedef {('EP','IA')} ExchangeTargetType
+ */
+
+/**
  * An object used to store input values for the Exchange Event calculator.
  * @class ExchangeData
  * @property {StoryData} storyData - Use the StoryData object to store all values.
+ * @property {ExchangeTargetType} exchangeTargetType - The requested target type, either Event Points or Item Amount
+ * @property {number} exchangeTargetItemAmount - The desired final amount of items.
+ * @property {number} exchangeCurrentItemAmount - The current amount of items.
  * @constructor
  */
 function ExchangeData() {
     this.storyData = new StoryData();
+    this.exchangeTargetType = 'EP';
+    this.exchangeTargetItemAmount = 0;
+    this.exchangeCurrentItemAmount = 0;
 }
 
 /**
@@ -36,8 +47,11 @@ ExchangeData.prototype.readFromUi = function () {
     this.storyData.storyLiveDifficulty = $("input:radio[name=exchangeLiveDifficulty]:checked").val();
     this.storyData.storyLiveScore = $("input:radio[name=exchangeLiveScore]:checked").val();
     this.storyData.storyUnitBonusPct = ReadHelpers.toNum($("#exchangeUnitBonusPct").val(), 0);
+    this.exchangeTargetType = $("input:radio[name=exchangeTargetType]:checked").val();
     this.storyData.storyTargetEventPoints = ReadHelpers.toNum($("#exchangeTargetEventPoints").val());
     this.storyData.storyCurrentEventPoints = ReadHelpers.toNum($("#exchangeCurrentEventPoints").val());
+    this.exchangeTargetItemAmount = ReadHelpers.toNum($("#exchangeTargetItemAmount").val());
+    this.exchangeCurrentItemAmount = ReadHelpers.toNum($("#exchangeCurrentItemAmount").val());
     this.storyData.storyCurrentRank = ReadHelpers.toNum($("#exchangeCurrentRank").val());
     this.storyData.storyCurrentLP = ReadHelpers.toNum($("#exchangeCurrentLP").val(), 0);
     this.storyData.storyCurrentEXP = ReadHelpers.toNum($("#exchangeCurrentEXP").val(), 0);
@@ -59,8 +73,11 @@ ExchangeData.setToUi = function (savedData) {
     SetHelpers.radioButtonHelper($("input:radio[name=exchangeLiveDifficulty]"), savedData.storyData.storyLiveDifficulty);
     SetHelpers.radioButtonHelper($("input:radio[name=exchangeLiveScore]"), savedData.storyData.storyLiveScore);
     SetHelpers.inputHelper($("#exchangeUnitBonusPct"), savedData.storyData.storyUnitBonusPct);
+    SetHelpers.radioButtonHelper($("input:radio[name=exchangeTargetType]"), savedData.exchangeTargetType);
     SetHelpers.inputHelper($("#exchangeTargetEventPoints"), savedData.storyData.storyTargetEventPoints);
     SetHelpers.inputHelper($("#exchangeCurrentEventPoints"), savedData.storyData.storyCurrentEventPoints);
+    SetHelpers.inputHelper($("#exchangeTargetItemAmount"), savedData.exchangeTargetItemAmount);
+    SetHelpers.inputHelper($("#exchangeCurrentItemAmount"), savedData.exchangeCurrentItemAmount);
     SetHelpers.inputHelper($("#exchangeCurrentRank"), savedData.storyData.storyCurrentRank);
     SetHelpers.inputHelper($("#exchangeCurrentLP"), savedData.storyData.storyCurrentLP);
     SetHelpers.inputHelper($("#exchangeCurrentEXP"), savedData.storyData.storyCurrentEXP);
@@ -81,9 +98,12 @@ ExchangeData.prototype.alert = function () {
         "exchangeLiveDifficulty: " + this.storyData.storyLiveDifficulty + "\n" +
         "exchangeLiveScore: " + this.storyData.storyLiveScore + "\n" +
         "exchangeUnitBonusPct: " + this.storyData.storyUnitBonusPct + "\n" +
+        "exchangeTargetType: " + this.exchangeTargetType + "\n" +
         "exchangeTargetEventPoints: " + this.storyData.storyTargetEventPoints + "\n" +
-        "exchangeCurrentRank: " + this.storyData.storyCurrentRank + "\n" +
         "exchangeCurrentEventPoints: " + this.storyData.storyCurrentEventPoints + "\n" +
+        "exchangeTargetItemAmount: " + this.exchangeTargetItemAmount + "\n" +
+        "exchangeCurrentItemAmount: " + this.exchangeCurrentItemAmount + "\n" +
+        "exchangeCurrentRank: " + this.storyData.storyCurrentRank + "\n" +
         "exchangeCurrentLP: " + this.storyData.storyCurrentLP + "\n" +
         "exchangeCurrentEXP: " + this.storyData.storyCurrentEXP);
 };
@@ -94,16 +114,25 @@ ExchangeData.prototype.alert = function () {
  */
 ExchangeData.prototype.createLiveInfo = function () {
     var diffId = this.storyData.getLiveDifficulty(),
-        rankId = this.storyData.getLiveScore();
+        rankId = this.storyData.getLiveScore(),
+        bonusFactor = this.storyData.getLiveBonusFactor();
     if (diffId == COMMON_DIFFICULTY_IDS.ERROR || rankId == STORY_RANK.ERROR) {
         return null;
     }
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        pointReward = STORY_EVENT_POINTS[diffId][rankId];
+        pointReward = this.exchangeTargetType == 'EP' ? STORY_EVENT_POINTS[diffId][rankId] : EXCHANGE_EVENT_ITEMS[diffId][rankId] * bonusFactor;
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, expReward);
+};
+
+/**
+ * Returns the amount of event points or items left to meet the target.
+ * @returns {number} Difference between the current event points or items and the given target.
+ */
+ExchangeData.prototype.getEventPointsLeft = function () {
+    return this.exchangeTargetType == 'EP' ? this.storyData.storyTargetEventPoints - this.storyData.storyCurrentEventPoints : this.exchangeTargetItemAmount - this.exchangeCurrentItemAmount;
 };
 
 /**
@@ -128,7 +157,7 @@ ExchangeData.prototype.getItemCount = function (liveCount) {
  */
 ExchangeData.prototype.estimate = function () {
     var eei = new ExchangeEstimationInfo(StoryEstimator.estimate(this.createLiveInfo(),
-        this.storyData.getEventPointsLeft(), this.storyData.getRestTimeInMinutes(),
+        this.getEventPointsLeft(), this.storyData.getRestTimeInMinutes(),
         this.storyData.storyMinimumSleepHours, this.storyData.storyCurrentRank, this.storyData.storyCurrentEXP,
         this.storyData.storyCurrentLP, 0, 0));
     eei.exchangeItems = this.getItemCount(eei.storyEstimationInfo.liveCount);
@@ -140,7 +169,77 @@ ExchangeData.prototype.estimate = function () {
  * @returns {string[]} Array of errors as human readable strings, empty if the input is valid.
  */
 ExchangeData.prototype.validate = function () {
-    return this.storyData.validate();
+    var errors = [];
+
+    var liveInfo = this.createLiveInfo();
+    if (null === liveInfo) {
+        errors.push("Live parameters have not been set");
+    } else if (liveInfo.lp > Common.getMaxLp(this.storyData.storyCurrentRank)) {
+        errors.push("The chosen live parameters result in an LP cost (" + liveInfo.lp +
+            ") that's higher than your max LP (" + Common.getMaxLp(this.storyData.storyCurrentRank) + ")");
+    }
+
+    if (this.exchangeTargetType == 'EP') {
+        if (0 >= this.storyData.storyTargetEventPoints) {
+            errors.push("Enter event point target");
+        } else if (this.getEventPointsLeft() <= 0) {
+            errors.push("The given event point target has been reached! " +
+                "Please change the event point target in order to calculate again");
+        }
+
+        if (0 > this.storyData.storyCurrentEventPoints) {
+            errors.push("Enter current amount of event points");
+        }
+    } else if (this.exchangeTargetType == 'IA') {
+        if (0 >= this.exchangeTargetItemAmount) {
+            errors.push("Enter item amount target");
+        } else if (this.getEventPointsLeft() <= 0) {
+            errors.push("The given item amount target has been reached! " +
+                "Please change the item amount target in order to calculate again");
+        }
+
+        if (0 > this.exchangeCurrentItemAmount) {
+            errors.push("Enter current amount of items");
+        }
+    } else {
+        errors.push("Select a target type");
+    }
+
+    if (0 >= this.storyData.storyCurrentRank) {
+        errors.push("Enter current rank");
+    }
+
+    if (0 > this.storyData.storyCurrentLP) {
+        errors.push("Enter a valid amount for current LP in the Optional Fields dropdown (or leave it empty)");
+    }
+
+    if (0 > this.storyData.storyCurrentEXP) {
+        errors.push("Enter a valid amount for current EXP in the Optional Fields dropdown (or leave it empty)");
+    }
+
+    if (this.storyData.storyTimerMethodAuto && this.storyData.storyTimerMethodManual) {
+        errors.push("Both Automatic Timer and Manual Input method are selected. Please unselect one of them");
+    } else if (this.storyData.storyTimerMethodAuto) {
+        if (this.storyData.getRestTimeInMinutes() <= 0) {
+            errors.push("Event is already finished. Select Manual Input in order to calculate");
+        }
+    } else if (this.storyData.storyTimerMethodManual) {
+        if (isNaN(this.storyData.getRestTimeInMinutes())) {
+            errors.push("Manual Input only accepts integers")
+        } else if (this.storyData.getRestTimeInMinutes() <= 0) {
+            errors.push("Enter a valid remaining time");
+        }
+    } else {
+        errors.push("Select Automatic Timer or Manual Input");
+    }
+
+    if (0 > this.storyData.storyMinimumSleepHours) {
+        errors.push("Enter a valid amount for minimum hours to sleep (cannot be negative)");
+    } else if (this.storyData.storyMinimumSleepHours >= 24) {
+        errors.push("Enter a valid amount for minimum hours to sleep (cannot sleep for 24 hours or more)");
+    }
+
+    return errors;
 };
 
 /**
@@ -149,7 +248,7 @@ ExchangeData.prototype.validate = function () {
 ExchangeEstimationInfo.prototype.showResult = function () {
     Results.setBigResult($("#exchangeResultLiveCount"), this.storyEstimationInfo.liveCount.liveCount);
     $("#exchangeResultRegenTimeLost").text((this.storyEstimationInfo.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
-        " LP (" + Common.minutesToString(this.storyEstimationInfo.regenTimeLostToSleepInMinutes) + ")");
+        " LP" + (this.storyEstimationInfo.regenTimeLostToSleepInMinutes === 0 ? "" : " (" + Common.minutesToString(this.storyEstimationInfo.regenTimeLostToSleepInMinutes) + ")"));
     $("#exchangeResultPlayTime").text(Common.minutesToString(this.storyEstimationInfo.getPlayTime()));
     $("#exchangeResultPlayTimeRate").text((100 * this.storyEstimationInfo.getPlayTimeRate()).toFixed(2) + "%");
     var highlightSkippedLives = false;

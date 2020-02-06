@@ -2,7 +2,7 @@ var jpDateOverride = [new Date(Date.UTC(2020, 1, 6, 6)),
     new Date(Date.UTC(2020, 1, 14, 6))];
 
 var notificationInfo = {
-    message: "<b>December 23 Update:</b> Hard+ has been added to the difficulty selection (D/C/B/A/S Rank EP rewards are 815/830/845/860/875, which makes the EP per LP of a D Rank Hard+ better than a S Rank Hard). Happy Holidays!",
-    id: 6,
+    message: "<b>February 6 Update:</b> The Exchange Event calculator has been added, and you can also target a certain amount of Items instead of Event Points!",
+    id: 7,
     allowDismiss: true
 };

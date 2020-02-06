@@ -149,19 +149,19 @@ StoryData.setToUi = function (savedData) {
  */
 StoryData.prototype.alert = function () {
     alert("storyTimerMethodAuto: " + this.storyTimerMethodAuto + "\n" +
-          "storyTimerMethodManual: " + this.storyTimerMethodManual + "\n" +
-          "storyManualRestTimeInHours: " + this.storyManualRestTimeInHours + "\n" +
-          "storyMinimumSleepHours: " + this.storyMinimumSleepHours + "\n" +
-          "storyLiveDifficulty: " + this.storyLiveDifficulty + "\n" +
-          "storyLiveScore: " + this.storyLiveScore + "\n" +
-          "storyUnitBonusPct: " + this.storyUnitBonusPct + "\n" +
-          "storyBoostersStock: " + this.storyBoostersStock + "\n" +
-          "storyBoostersDaily: " + this.storyBoostersDaily + "\n" +
-          "storyTargetEventPoints: " + this.storyTargetEventPoints + "\n" +
-          "storyCurrentRank: " + this.storyCurrentRank + "\n" +
-          "storyCurrentEventPoints: " + this.storyCurrentEventPoints + "\n" +
-          "storyCurrentLP: " + this.storyCurrentLP + "\n" +
-          "storyCurrentEXP: " + this.storyCurrentEXP);
+        "storyTimerMethodManual: " + this.storyTimerMethodManual + "\n" +
+        "storyManualRestTimeInHours: " + this.storyManualRestTimeInHours + "\n" +
+        "storyMinimumSleepHours: " + this.storyMinimumSleepHours + "\n" +
+        "storyLiveDifficulty: " + this.storyLiveDifficulty + "\n" +
+        "storyLiveScore: " + this.storyLiveScore + "\n" +
+        "storyUnitBonusPct: " + this.storyUnitBonusPct + "\n" +
+        "storyBoostersStock: " + this.storyBoostersStock + "\n" +
+        "storyBoostersDaily: " + this.storyBoostersDaily + "\n" +
+        "storyTargetEventPoints: " + this.storyTargetEventPoints + "\n" +
+        "storyCurrentRank: " + this.storyCurrentRank + "\n" +
+        "storyCurrentEventPoints: " + this.storyCurrentEventPoints + "\n" +
+        "storyCurrentLP: " + this.storyCurrentLP + "\n" +
+        "storyCurrentEXP: " + this.storyCurrentEXP);
 };
 
 /**
@@ -371,7 +371,7 @@ StoryEstimator.estimate =
 
             var playTimeOverflow = estimation.getPlayTime() - (timeLeft - playTimeLostToSleep);
             var timeSavedPerSkippedLive = COMMON_LIVE_TIME_IN_MINUTES * estimation.skippedLiveTickets -
-                                          COMMON_SKIP_LIVE_TIME_IN_MINUTES;
+                COMMON_SKIP_LIVE_TIME_IN_MINUTES;
             estimation.skippedLives = Math.ceil(playTimeOverflow / timeSavedPerSkippedLive);
         }
 
@@ -391,7 +391,7 @@ StoryEstimator.estimate =
  */
 StoryEstimationInfo.prototype.getPlayTime = function () {
     return this.liveCount.liveCount * COMMON_LIVE_TIME_IN_MINUTES - this.skippedLives * (this.skippedLiveTickets *
-           COMMON_LIVE_TIME_IN_MINUTES - COMMON_SKIP_LIVE_TIME_IN_MINUTES);
+        COMMON_LIVE_TIME_IN_MINUTES - COMMON_SKIP_LIVE_TIME_IN_MINUTES);
 };
 
 /**
@@ -408,7 +408,7 @@ StoryEstimationInfo.prototype.getPlayTimeRate = function () {
 StoryEstimationInfo.prototype.showResult = function () {
     Results.setBigResult($("#storyResultLiveCount"), this.liveCount.liveCount);
     $("#storyResultRegenTimeLost").text((this.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
-                                        " LP (" + Common.minutesToString(this.regenTimeLostToSleepInMinutes) + ")");
+        " LP" + (this.regenTimeLostToSleepInMinutes === 0 ? "" : " (" + Common.minutesToString(this.regenTimeLostToSleepInMinutes) + ")"));
     $("#storyResultPlayTime").text(Common.minutesToString(this.getPlayTime()));
     $("#storyResultPlayTimeRate").text((100 * this.getPlayTimeRate()).toFixed(2) + "%");
     var highlightSkippedLives = false;
@@ -420,17 +420,17 @@ StoryEstimationInfo.prototype.showResult = function () {
             $("#storyResultSkippedLivesText").text("0");
         } else {
             $("#storyResultSkippedLivesText").text(this.skippedLives + " (" + this.skippedLiveTickets +
-                                                   " tickets per live)");
+                " tickets per live)");
             highlightSkippedLives = true;
         }
         $("#storyResultBoostedLives").text(this.liveCount.boostedLives);
         showSleepWarning = this.lpRecoveryInfo.sleepWarning;
         $("#storyResultFinalRank").text(this.lpRecoveryInfo.finalRank + " (" +
-                                        (this.lpRecoveryInfo.finalRank >= COMMON_RANK_UP_EXP.length
-                                            ? "MAX"
-                                            : this.lpRecoveryInfo.finalRankExp + "/" +
-                                        Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
-                                        + " EXP") + ")");
+            (this.lpRecoveryInfo.finalRank >= COMMON_RANK_UP_EXP.length
+                ? "MAX"
+                : this.lpRecoveryInfo.finalRankExp + "/" +
+                Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
+                + " EXP") + ")");
         $("#storyResultLoveca").text(this.lpRecoveryInfo.refills * COMMON_LOVECA_PER_REFILL);
         $("#storyResultLiveCandy50").text(this.lpRecoveryInfo.refills * 2);
         $("#storyResultLiveCandy100").text(this.lpRecoveryInfo.refills);
@@ -460,14 +460,14 @@ StoryData.prototype.validate = function () {
         errors.push("Live parameters have not been set");
     } else if (liveInfo.lp > Common.getMaxLp(this.storyCurrentRank)) {
         errors.push("The chosen live parameters result in an LP cost (" + liveInfo.lp +
-                    ") that's higher than your max LP (" + Common.getMaxLp(this.storyCurrentRank) + ")");
+            ") that's higher than your max LP (" + Common.getMaxLp(this.storyCurrentRank) + ")");
     }
 
     if (0 >= this.storyTargetEventPoints) {
         errors.push("Enter event point target");
     } else if (this.getEventPointsLeft() <= 0) {
         errors.push("The given event point target has been reached! " +
-                    "Please change the event point target in order to calculate again");
+            "Please change the event point target in order to calculate again");
     }
 
     if (0 > this.storyCurrentEventPoints) {
