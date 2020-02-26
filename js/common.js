@@ -39,21 +39,25 @@ function LpRecoveryInfo(initialRank) {
 /**
  * Attempt to automatically generate event time. JP Events begin and end at 6:00 UTC. It's unclear whether there's any
  * pattern to events yet, so we just return the manual override for now.
+ * @param {region} timerRegion The event region, either "en" or "jp".
  * @returns {Date[]} An array containing start and end date of the current event, index 0 and 1 respectively
  */
-Common.getEventBeginEndTime = function () {
+Common.getEventBeginEndTime = function (timerRegion) {
     // Handle overrides define in networkinfo.js
-    return jpDateOverride;
+    if (timerRegion == "en" && enDateOverride !== null) return enDateOverride;
+    if (timerRegion == "jp" && jpDateOverride !== null) return jpDateOverride;
 };
 
 /**
  * Calculate the amount of minutes left in an event.
+ * @param {region} timerRegion The event region, either "en" or "jp".
  * @returns {number} The amount of minutes left in the event, using the dates from getEventBeginEndTime
  * @see getEventBeginEndTime
  */
-Common.getAutoRestTimeInMinutes = function () {
-    var eventDates = this.getEventBeginEndTime();
+Common.getAutoRestTimeInMinutes = function (timerRegion) {
+    var eventDates = this.getEventBeginEndTime(timerRegion);
     var currentTime = new Date();
+
     if (currentTime < eventDates[0]) {
         return this.minsBetween(eventDates[1], eventDates[0]);
     } else {
@@ -61,8 +65,16 @@ Common.getAutoRestTimeInMinutes = function () {
     }
 };
 
-Common.getAutoResetsLeftInEvent = function () {
-    var dates = this.getEventBeginEndTime();
+
+/**
+ * Calculate the amount of mission resets left in an event. Resets happen at 15:00 UTC. The missions on the last day of
+ * the event do not include the Event missions for Booster Items, so the last reset is excluded here.
+ * @param {region} timerRegion The event region, either "en" or "jp".
+ * @returns {number} The amount of missions resets left in the event, using the dates from getEventBeginEndTime
+ * @see getEventBeginEndTime
+ */
+Common.getAutoResetsLeftInEvent = function (timerRegion) {
+    var dates = this.getEventBeginEndTime(timerRegion);
     var lastReset;
     if (dates[1].getUTCHours() > 15) {
         lastReset = new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate(), 15));
@@ -272,8 +284,14 @@ Common.hoursBetween = function (datea, dateb) {
 };
 
 /**
+ * A string, representing which server a method should assume.
+ * Allowed values are 'en' for the Worldwide server, and 'jp' for the Japanese server.
+ * @typedef {('en'|'jp')} region
+ */
+
+/**
  * A string, representing a live difficulty.
- * @typedef {('EASY'|'NORMAL'|'HARD')} difficulty
+ * @typedef {('EASY'|'NORMAL'|'HARD'|'HARD_PLUS')} difficulty
  */
 
 /**

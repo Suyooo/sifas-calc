@@ -6,6 +6,7 @@
  * An object used to store input values for the Story Event calculator.
  * @class StoryData
  * @property {boolean} storyTimerMethodAuto - Whether Automatic Timer is selected on the UI.
+ * @property {region} storyTimerRegion - Which server to use for the Automatic Timer.
  * @property {boolean} storyTimerMethodManual - Whether Manual Input is selected on the UI.
  * @property {number} storyManualRestTimeInHours - The time left in hours, entered for Manual Input.
  * @property {number} storyMinimumSleepHours - How many hours to sleep, to calculate wasted LP regeneration.
@@ -23,6 +24,7 @@
  */
 function StoryData() {
     this.storyTimerMethodAuto = false;
+    this.storyTimerRegion = "en";
     this.storyTimerMethodManual = false;
     this.storyManualRestTimeInHours = 0;
     this.storyMinimumSleepHours = 8;
@@ -100,6 +102,7 @@ function StoryEstimationInfo(liveCount, restTime, skippedLives, skippedLiveTicke
  */
 StoryData.prototype.readFromUi = function () {
     this.storyTimerMethodAuto = $("#storyTimerMethodAuto").prop("checked");
+    this.storyTimerRegion = $("input:radio[name=storyTimerRegion]:checked").val();
     this.storyTimerMethodManual = $("#storyTimerMethodManual").prop("checked");
     this.storyManualRestTimeInHours = ReadHelpers.toNum($("#storyManualRestTime").val());
     this.storyMinimumSleepHours = ReadHelpers.toNum($("#storyMinimumSleepHours").val(), 8);
@@ -121,6 +124,10 @@ StoryData.prototype.readFromUi = function () {
  */
 StoryData.setToUi = function (savedData) {
     SetHelpers.checkBoxHelper($("#storyTimerMethodAuto"), savedData.storyTimerMethodAuto);
+    SetHelpers.radioButtonHelper($("input:radio[name=storyTimerRegion]"), savedData.storyTimerRegion);
+    if (savedData.storyTimerRegion !== undefined) {
+        updateAutoTimerSection("story");
+    }
     var manualButton = $("#storyTimerMethodManual");
     SetHelpers.checkBoxHelper(manualButton, savedData.storyTimerMethodManual);
     if (savedData.storyTimerMethodManual) {
@@ -149,6 +156,7 @@ StoryData.setToUi = function (savedData) {
  */
 StoryData.prototype.alert = function () {
     alert("storyTimerMethodAuto: " + this.storyTimerMethodAuto + "\n" +
+        "storyTimerRegion: " + this.storyTimerRegion + "\n" +
         "storyTimerMethodManual: " + this.storyTimerMethodManual + "\n" +
         "storyManualRestTimeInHours: " + this.storyManualRestTimeInHours + "\n" +
         "storyMinimumSleepHours: " + this.storyMinimumSleepHours + "\n" +
@@ -170,7 +178,7 @@ StoryData.prototype.alert = function () {
  */
 StoryData.prototype.getRestTimeInMinutes = function () {
     if (this.storyTimerMethodAuto) {
-        return Common.getAutoRestTimeInMinutes();
+        return Common.getAutoRestTimeInMinutes(this.storyTimerRegion);
     }
     if (this.storyTimerMethodManual) {
         return 60 * this.storyManualRestTimeInHours;
@@ -223,7 +231,7 @@ StoryData.prototype.getDailyMissionBoosterCount = function () {
         return 0;
     }
     if (this.storyTimerMethodAuto) {
-        return Common.getAutoResetsLeftInEvent() * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
+        return Common.getAutoResetsLeftInEvent(this.storyTimerRegion) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
     }
     if (this.storyTimerMethodManual) {
         return Math.floor(this.storyManualRestTimeInHours / 24) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
@@ -489,7 +497,9 @@ StoryData.prototype.validate = function () {
     if (this.storyTimerMethodAuto && this.storyTimerMethodManual) {
         errors.push("Both Automatic Timer and Manual Input method are selected. Please unselect one of them");
     } else if (this.storyTimerMethodAuto) {
-        if (this.getRestTimeInMinutes() <= 0) {
+        if (this.storyTimerRegion != "en" && this.storyTimerRegion != "jp") {
+            errors.push("Choose a region for the Automatic Timer");
+        } else if (this.getRestTimeInMinutes() <= 0) {
             errors.push("Event is already finished. Select Manual Input in order to calculate");
         }
     } else if (this.storyTimerMethodManual) {

@@ -244,6 +244,12 @@ function registerCalculatorButtons() {
             $("#" + page + "TimerMethodAutoSection").slideUp(200);
             $("#" + page + "TimerMethodManualSection").slideDown(200);
         });
+        $("#" + page + "TimerRegionEn").click(function () {
+            updateAutoTimerSection(page);
+        });
+        $("#" + page + "TimerRegionJp").click(function () {
+            updateAutoTimerSection(page);
+        });
         $("#" + page + "Calculate").click(function () {
             doCalc(true);
         });
@@ -368,10 +374,16 @@ function showDialog(content, yesFunc) {
  */
 function updateAutoTimerSection(page) {
     $("#" + page + "TimerMethodAutoSection").slideDown(200);
+    var region = $("input:radio[name=" + page + "TimerRegion]:checked").val();
     var eventInfo = $("#" + page + "TimerEventInfo");
+
+    if (region != "en" && region != "jp") {
+        eventInfo.slideUp(300);
+        return;
+    }
     eventInfo.slideDown(300);
 
-    var eventDates = Common.getEventBeginEndTime();
+    var eventDates = Common.getEventBeginEndTime(region);
     var start = eventDates[0];
     var now = new Date();
     var end = eventDates[1];
@@ -379,7 +391,7 @@ function updateAutoTimerSection(page) {
     var progressBar = $("#" + page + "TimerProgress");
     var leftLabel = $("#" + page + "TimerLeft");
     var eventBanner = $("#" + page + "EventBanner");
-    var newBanner = "image/event_jp.png";
+    var newBanner = "image/event_" + region + ".png";
     eventBanner.attr("src", newBanner);
 
     // Reset progress bar animation by creating a new one and removing the old one (this skips the transition)

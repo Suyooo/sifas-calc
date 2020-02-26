@@ -41,6 +41,7 @@ function ExchangeEstimationInfo(sei) {
  */
 ExchangeData.prototype.readFromUi = function () {
     this.storyData.storyTimerMethodAuto = $("#exchangeTimerMethodAuto").prop("checked");
+    this.storyData.storyTimerRegion = $("input:radio[name=exchangeTimerRegion]:checked").val();
     this.storyData.storyTimerMethodManual = $("#exchangeTimerMethodManual").prop("checked");
     this.storyData.storyManualRestTimeInHours = ReadHelpers.toNum($("#exchangeManualRestTime").val());
     this.storyData.storyMinimumSleepHours = ReadHelpers.toNum($("#exchangeMinimumSleepHours").val(), 8);
@@ -63,6 +64,10 @@ ExchangeData.prototype.readFromUi = function () {
  */
 ExchangeData.setToUi = function (savedData) {
     SetHelpers.checkBoxHelper($("#exchangeTimerMethodAuto"), savedData.storyData.storyTimerMethodAuto);
+    SetHelpers.radioButtonHelper($("input:radio[name=exchangeTimerRegion]"), savedData.storyData.storyTimerRegion);
+    if (savedData.storyData.storyTimerRegion !== undefined) {
+        updateAutoTimerSection("exchange");
+    }
     var manualButton = $("#exchangeTimerMethodManual");
     SetHelpers.checkBoxHelper(manualButton, savedData.storyData.storyTimerMethodManual);
     if (savedData.storyData.storyTimerMethodManual) {
@@ -92,6 +97,7 @@ ExchangeData.setToUi = function (savedData) {
  */
 ExchangeData.prototype.alert = function () {
     alert("exchangeTimerMethodAuto: " + this.storyData.storyTimerMethodAuto + "\n" +
+        "exchangeTimerRegion: " + this.storyData.storyTimerRegion + "\n" +
         "exchangeTimerMethodManual: " + this.storyData.storyTimerMethodManual + "\n" +
         "exchangeManualRestTimeInHours: " + this.storyData.storyManualRestTimeInHours + "\n" +
         "exchangeMinimumSleepHours: " + this.storyData.storyMinimumSleepHours + "\n" +
@@ -220,7 +226,9 @@ ExchangeData.prototype.validate = function () {
     if (this.storyData.storyTimerMethodAuto && this.storyData.storyTimerMethodManual) {
         errors.push("Both Automatic Timer and Manual Input method are selected. Please unselect one of them");
     } else if (this.storyData.storyTimerMethodAuto) {
-        if (this.storyData.getRestTimeInMinutes() <= 0) {
+        if (this.storyData.storyTimerRegion != "en" && this.storyData.storyTimerRegion != "jp") {
+            errors.push("Choose a region for the Automatic Timer");
+        } else if (this.storyData.getRestTimeInMinutes() <= 0) {
             errors.push("Event is already finished. Select Manual Input in order to calculate");
         }
     } else if (this.storyData.storyTimerMethodManual) {
