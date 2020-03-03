@@ -44,12 +44,14 @@ function StoryData() {
  * An object used to store information about the cost and rewards of a single live.
  * @class StoryLiveInfo
  * @property {number} lp - LP cost for one live.
- * @property {number} point - Event point reward for one live.
+ * @property {number} base - Base event point reward for one live.
+ * @property {number} point - Event point reward (unit bonus added) for one live.
  * @property {number} exp - EXP reward for one live.
  * @constructor
  */
-function StoryLiveInfo(lp, point, exp) {
+function StoryLiveInfo(lp, base, point, exp) {
     this.lp = lp;
+    this.base = base;
     this.point = point;
     this.exp = exp;
 }
@@ -253,9 +255,10 @@ StoryData.prototype.createLiveInfo = function () {
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        pointReward = Math.ceil((this.storyTimerMethodAuto && this.storyTimerRegion == "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId]) * bonusFactor);
+        baseEP = (this.storyTimerMethodAuto && this.storyTimerRegion == "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId]),
+        pointReward = Math.ceil(baseEP * bonusFactor);
     if (undefined === pointReward) return null;
-    return new StoryLiveInfo(lpCost, pointReward, expReward);
+    return new StoryLiveInfo(lpCost, baseEP, pointReward, expReward);
 };
 
 /**
@@ -271,10 +274,10 @@ StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBo
 
     if (stockBoosterCount > 0) {
         // Use boosters from stock first
-        var totalBoostedEventPoints = stockBoosterCount * liveInfo.point * COMMON_BOOSTER_ITEM_BOOST_FACTOR;
+        var totalBoostedEventPoints = stockBoosterCount * (liveInfo.point + liveInfo.base * COMMON_BOOSTER_ITEM_BOOST_FACTOR);
         if (eventPointsLeft < totalBoostedEventPoints) {
             // We have more boosters than needed
-            liveCount.liveCount = liveCount.boostedLives = Math.ceil(eventPointsLeft / (liveInfo.point * 1.5));
+            liveCount.liveCount = liveCount.boostedLives = Math.ceil(eventPointsLeft / (liveInfo.point + liveInfo.base * COMMON_BOOSTER_ITEM_BOOST_FACTOR));
             eventPointsLeft = 0;
         } else {
             liveCount.liveCount = liveCount.boostedLives = stockBoosterCount;
@@ -293,10 +296,10 @@ StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBo
             }
 
             if (eventPointsLeft > 0) {
-                totalBoostedEventPoints = dailyBoosterCount * liveInfo.point * COMMON_BOOSTER_ITEM_BOOST_FACTOR;
+                totalBoostedEventPoints = dailyBoosterCount * (liveInfo.point + liveInfo.base * COMMON_BOOSTER_ITEM_BOOST_FACTOR);
                 if (eventPointsLeft < totalBoostedEventPoints) {
                     // We have more boosters than needed
-                    var boostedLivesPlayed = Math.ceil(eventPointsLeft / (liveInfo.point * 1.5));
+                    var boostedLivesPlayed = Math.ceil(eventPointsLeft / (liveInfo.point + liveInfo.base * COMMON_BOOSTER_ITEM_BOOST_FACTOR));
                     liveCount.liveCount += boostedLivesPlayed;
                     liveCount.boostedLives += boostedLivesPlayed;
                     eventPointsLeft = 0;

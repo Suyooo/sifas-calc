@@ -368,12 +368,12 @@ var COMMON_LP_RECOVERY_TIME_IN_MINUTES = 4;
 var COMMON_LOVECA_PER_REFILL = 10;
 
 /**
- * The factor the event point reward is multiplied with when using a Booster Item.
+ * The factor the event point reward is multiplied with to get the amount of bonus points when using a Booster Item.
  * @constant
  * @type {number}
  * @default
  */
-var COMMON_BOOSTER_ITEM_BOOST_FACTOR = 1.5;
+var COMMON_BOOSTER_ITEM_BOOST_FACTOR = 0.5;
 
 /**
  * The number of Booster Items gained per day from daily missions.
