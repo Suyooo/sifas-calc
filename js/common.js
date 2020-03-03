@@ -381,7 +381,9 @@ var COMMON_BOOSTER_ITEM_BOOST_FACTOR = 1.5;
  * @type {number}
  * @default
  */
-var COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD = 8;
+// Temporarily set to 0 because I don't know what WW will have for daily missions
+// var COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD = 8;
+var COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD = 0;
 
 /**
  * The amount of hours we consider a good night of sleep for the sleep warning.

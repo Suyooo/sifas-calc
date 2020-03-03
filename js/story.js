@@ -253,7 +253,7 @@ StoryData.prototype.createLiveInfo = function () {
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        pointReward = Math.ceil(STORY_EVENT_POINTS[diffId][rankId] * bonusFactor);
+        pointReward = Math.ceil((this.storyTimerMethodAuto && this.storyTimerRegion == "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId]) * bonusFactor);
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, expReward);
 };
@@ -573,3 +573,15 @@ STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.EASY] = STORY_EVENT_POINT_TABLE_EASY;
 STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.NORMAL] = STORY_EVENT_POINT_TABLE_NORMAL;
 STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.HARD] = STORY_EVENT_POINT_TABLE_HARD;
 STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.HARD_PLUS] = STORY_EVENT_POINT_TABLE_HARD_PLUS;
+
+/**
+ * Array with Klab WW Team's messed up point table, for the first event only... hopefully?
+ * Almost everything but the Normal Values are estimates but I can't be bothered to install the game to check
+ * @constant
+ * @type {number[][]}
+ */
+var STORY_EVENT_POINTS_WW = [];
+STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.EASY] = [135, 142, 150, 157, 165];
+STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.NORMAL] = [162, 171, 180, 189, 198];
+STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.HARD] = [202, 213, 225, 236, 247];
+STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.HARD_PLUS] = [0, 0, 0, 0, 0];
