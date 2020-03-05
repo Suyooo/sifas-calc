@@ -1,5 +1,5 @@
-var jpDateOverride = [new Date(Date.UTC(2020, 1, 20, 6)),
-    new Date(Date.UTC(2020, 1, 28, 6))];
+var jpDateOverride = [new Date(Date.UTC(2020, 2, 6, 6)),
+    new Date(Date.UTC(2020, 2, 16, 6))];
 var enDateOverride = [new Date(Date.UTC(2020, 2, 3, 6)),
     new Date(Date.UTC(2020, 2, 13, 7))];
 
