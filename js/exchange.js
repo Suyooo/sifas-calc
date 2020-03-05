@@ -130,7 +130,7 @@ ExchangeData.prototype.createLiveInfo = function () {
         expReward = COMMON_EXP_REWARD[diffId],
         pointReward = this.exchangeTargetType == 'EP' ? STORY_EVENT_POINTS[diffId][rankId] : EXCHANGE_EVENT_ITEMS[diffId][rankId] * bonusFactor;
     if (undefined === pointReward) return null;
-    return new StoryLiveInfo(lpCost, pointReward, expReward);
+    return new StoryLiveInfo(lpCost, pointReward, pointReward, expReward);
 };
 
 /**
