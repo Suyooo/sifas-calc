@@ -235,20 +235,21 @@ function registerCalculatorButtons() {
             lpEstimationInfo.showResult();
         };
 
-        updateAutoTimerSection(page);
+        updateTimerSection(page);
         $("#" + page + "TimerMethodAuto").click(function () {
             $("#" + page + "TimerMethodManualSection").slideUp(200);
-            updateAutoTimerSection(page);
-        }).click();
+            updateTimerSection(page);
+        });
         $("#" + page + "TimerMethodManual").click(function () {
             $("#" + page + "TimerMethodAutoSection").slideUp(200);
             $("#" + page + "TimerMethodManualSection").slideDown(200);
+            updateTimerSection(page);
         });
-        $("#" + page + "TimerRegionEn").click(function () {
-            updateAutoTimerSection(page);
+        $("#" + page + "RegionEn").click(function () {
+            updateTimerSection(page);
         });
-        $("#" + page + "TimerRegionJp").click(function () {
-            updateAutoTimerSection(page);
+        $("#" + page + "RegionJp").click(function () {
+            updateTimerSection(page);
         });
         $("#" + page + "Calculate").click(function () {
             doCalc(true);
@@ -372,9 +373,26 @@ function showDialog(content, yesFunc) {
  * and the text display of the time left in/until the event.
  * @param page The short name of the calculator to update.
  */
-function updateAutoTimerSection(page) {
-    $("#" + page + "TimerMethodAutoSection").slideDown(200);
-    var region = $("input:radio[name=" + page + "TimerRegion]:checked").val();
+function updateTimerSection(page) {
+    var method = $("input:radio[name=" + page + "TimerMethod]:checked").val();
+    var autosec = $("#" + page + "TimerMethodAutoSection");
+    var manualsec = $("#" + page + "TimerMethodManualSection");
+
+    if (method != "auto" && method != "manual") {
+        autosec.hide(0);
+        manualsec.hide(0);
+        return;
+    }
+
+    if (method == "manual") {
+        autosec.slideUp(200);
+        manualsec.slideDown(200);
+        return;
+    }
+
+    autosec.slideDown(200);
+    manualsec.slideUp(200);
+    var region = $("input:radio[name=" + page + "Region]:checked").val();
     var eventInfo = $("#" + page + "TimerEventInfo");
 
     if (region != "en" && region != "jp") {

@@ -6,7 +6,7 @@
  * An object used to store input values for the Story Event calculator.
  * @class StoryData
  * @property {boolean} storyTimerMethodAuto - Whether Automatic Timer is selected on the UI.
- * @property {region} storyTimerRegion - Which server to use for the Automatic Timer.
+ * @property {region} storyRegion - Which server to use for the Automatic Timer, LP maximum and event point tables.
  * @property {boolean} storyTimerMethodManual - Whether Manual Input is selected on the UI.
  * @property {number} storyManualRestTimeInHours - The time left in hours, entered for Manual Input.
  * @property {number} storyMinimumSleepHours - How many hours to sleep, to calculate wasted LP regeneration.
@@ -24,7 +24,7 @@
  */
 function StoryData() {
     this.storyTimerMethodAuto = false;
-    this.storyTimerRegion = "en";
+    this.storyRegion = "en";
     this.storyTimerMethodManual = false;
     this.storyManualRestTimeInHours = 0;
     this.storyMinimumSleepHours = 8;
@@ -104,7 +104,7 @@ function StoryEstimationInfo(liveCount, restTime, skippedLives, skippedLiveTicke
  */
 StoryData.prototype.readFromUi = function () {
     this.storyTimerMethodAuto = $("#storyTimerMethodAuto").prop("checked");
-    this.storyTimerRegion = $("input:radio[name=storyTimerRegion]:checked").val();
+    this.storyRegion = $("input:radio[name=storyRegion]:checked").val();
     this.storyTimerMethodManual = $("#storyTimerMethodManual").prop("checked");
     this.storyManualRestTimeInHours = ReadHelpers.toNum($("#storyManualRestTime").val());
     this.storyMinimumSleepHours = ReadHelpers.toNum($("#storyMinimumSleepHours").val(), 8);
@@ -126,9 +126,9 @@ StoryData.prototype.readFromUi = function () {
  */
 StoryData.setToUi = function (savedData) {
     SetHelpers.checkBoxHelper($("#storyTimerMethodAuto"), savedData.storyTimerMethodAuto);
-    SetHelpers.radioButtonHelper($("input:radio[name=storyTimerRegion]"), savedData.storyTimerRegion);
-    if (savedData.storyTimerRegion !== undefined) {
-        updateAutoTimerSection("story");
+    SetHelpers.radioButtonHelper($("input:radio[name=storyRegion]"), savedData.storyRegion);
+    if (savedData.storyRegion !== undefined) {
+        updateTimerSection("story");
     }
     var manualButton = $("#storyTimerMethodManual");
     SetHelpers.checkBoxHelper(manualButton, savedData.storyTimerMethodManual);
@@ -158,7 +158,7 @@ StoryData.setToUi = function (savedData) {
  */
 StoryData.prototype.alert = function () {
     alert("storyTimerMethodAuto: " + this.storyTimerMethodAuto + "\n" +
-        "storyTimerRegion: " + this.storyTimerRegion + "\n" +
+        "storyRegion: " + this.storyRegion + "\n" +
         "storyTimerMethodManual: " + this.storyTimerMethodManual + "\n" +
         "storyManualRestTimeInHours: " + this.storyManualRestTimeInHours + "\n" +
         "storyMinimumSleepHours: " + this.storyMinimumSleepHours + "\n" +
@@ -180,7 +180,7 @@ StoryData.prototype.alert = function () {
  */
 StoryData.prototype.getRestTimeInMinutes = function () {
     if (this.storyTimerMethodAuto) {
-        return Common.getAutoRestTimeInMinutes(this.storyTimerRegion);
+        return Common.getAutoRestTimeInMinutes(this.storyRegion);
     }
     if (this.storyTimerMethodManual) {
         return 60 * this.storyManualRestTimeInHours;
@@ -233,7 +233,7 @@ StoryData.prototype.getDailyMissionBoosterCount = function () {
         return 0;
     }
     if (this.storyTimerMethodAuto) {
-        return Common.getAutoResetsLeftInEvent(this.storyTimerRegion) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
+        return Common.getAutoResetsLeftInEvent(this.storyRegion) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
     }
     if (this.storyTimerMethodManual) {
         return Math.floor(this.storyManualRestTimeInHours / 24) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
@@ -255,7 +255,7 @@ StoryData.prototype.createLiveInfo = function () {
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        baseEP = (this.storyTimerMethodAuto && this.storyTimerRegion == "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId]),
+        baseEP = STORY_EVENT_POINTS[diffId][rankId],
         pointReward = Math.ceil(baseEP * bonusFactor);
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, baseEP, pointReward, expReward);
@@ -332,7 +332,7 @@ StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBo
 StoryData.prototype.estimate = function () {
     return StoryEstimator.estimate(this.createLiveInfo(), this.getEventPointsLeft(), this.getRestTimeInMinutes(),
         this.storyMinimumSleepHours, this.storyCurrentRank, this.storyCurrentEXP, this.storyCurrentLP,
-        this.storyBoostersStock, this.getDailyMissionBoosterCount());
+        this.storyBoostersStock, this.getDailyMissionBoosterCount(), this.storyRegion);
 };
 
 /**
@@ -350,13 +350,14 @@ StoryData.prototype.estimate = function () {
  * @param {number} playerLp The player's initial LP.
  * @param {number} stockBoosterCount Amount of Booster Items available before daily missions.
  * @param {number} dailyBoosterCount Amount of Booster Items gained from daily missions to use.
+ * @param {region} region The region to use for the max LP calculation.
  * @returns {StoryEstimationInfo} A new object with all properties set, or the recoveryInfo property set to null if
  *      reaching the target is impossible.
  */
 StoryEstimator.estimate =
-    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBoosterCount, dailyBoosterCount) {
+    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBoosterCount, dailyBoosterCount, region) {
         var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft, stockBoosterCount, dailyBoosterCount);
-        var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp);
+        var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp, region);
 
         var regenTimeLostToSleep = 0;
         var playTimeLostToSleep = 0;
@@ -388,7 +389,7 @@ StoryEstimator.estimate =
 
         estimation.lpRecoveryInfo =
             Common.calculateLpRecoveryInfo(playerRank, liveCount.exp, playerExp, liveCount.lp, playerLp,
-                timeLeft, regenTimeLostToSleep);
+                timeLeft, regenTimeLostToSleep, region);
         if (minimumSleepHours * 60 >= COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
             estimation.lpRecoveryInfo.sleepWarning = false;
         }
@@ -443,8 +444,8 @@ StoryEstimationInfo.prototype.showResult = function () {
                 Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
                 + " EXP") + ")");
         $("#storyResultLoveca").text(this.lpRecoveryInfo.refills * COMMON_LOVECA_PER_REFILL);
-        $("#storyResultLiveCandy50").text(this.lpRecoveryInfo.refills * 2);
-        $("#storyResultLiveCandy100").text(this.lpRecoveryInfo.refills);
+        $("#storyResultLiveCandy50").text(Math.ceil(this.lpRecoveryInfo.lpToRecover / 50));
+        $("#storyResultLiveCandy100").text(Math.ceil(this.lpRecoveryInfo.lpToRecover / 100));
     } else {
         Results.setBigResult($("#storyResultRefills"), "---");
         $("#storyResultSkippedLivesText").text("---");
@@ -466,12 +467,17 @@ StoryEstimationInfo.prototype.showResult = function () {
 StoryData.prototype.validate = function () {
     var errors = [];
 
+    if (this.storyRegion != "en" && this.storyRegion != "jp") {
+        errors.push("Choose a region");
+        return errors;
+    }
+
     var liveInfo = this.createLiveInfo();
     if (null === liveInfo) {
         errors.push("Live parameters have not been set");
-    } else if (liveInfo.lp > Common.getMaxLp(this.storyCurrentRank)) {
+    } else if (liveInfo.lp > Common.getMaxLp(this.storyCurrentRank, this.storyRegion)) {
         errors.push("The chosen live parameters result in an LP cost (" + liveInfo.lp +
-            ") that's higher than your max LP (" + Common.getMaxLp(this.storyCurrentRank) + ")");
+            ") that's higher than your max LP (" + Common.getMaxLp(this.storyCurrentRank, this.storyRegion) + ")");
     }
 
     if (0 >= this.storyTargetEventPoints) {
@@ -500,9 +506,7 @@ StoryData.prototype.validate = function () {
     if (this.storyTimerMethodAuto && this.storyTimerMethodManual) {
         errors.push("Both Automatic Timer and Manual Input method are selected. Please unselect one of them");
     } else if (this.storyTimerMethodAuto) {
-        if (this.storyTimerRegion != "en" && this.storyTimerRegion != "jp") {
-            errors.push("Choose a region for the Automatic Timer");
-        } else if (this.getRestTimeInMinutes() <= 0) {
+        if (this.getRestTimeInMinutes() <= 0) {
             errors.push("Event is already finished. Select Manual Input in order to calculate");
         }
     } else if (this.storyTimerMethodManual) {
@@ -576,15 +580,3 @@ STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.EASY] = STORY_EVENT_POINT_TABLE_EASY;
 STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.NORMAL] = STORY_EVENT_POINT_TABLE_NORMAL;
 STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.HARD] = STORY_EVENT_POINT_TABLE_HARD;
 STORY_EVENT_POINTS[COMMON_DIFFICULTY_IDS.HARD_PLUS] = STORY_EVENT_POINT_TABLE_HARD_PLUS;
-
-/**
- * Array with Klab WW Team's messed up point table, for the first event only... hopefully?
- * Almost everything but the Normal Values are estimates but I can't be bothered to install the game to check
- * @constant
- * @type {number[][]}
- */
-var STORY_EVENT_POINTS_WW = [];
-STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.EASY] = [135, 142, 150, 157, 165];
-STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.NORMAL] = [162, 171, 180, 189, 198];
-STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.HARD] = [202, 213, 225, 236, 247];
-STORY_EVENT_POINTS_WW[COMMON_DIFFICULTY_IDS.HARD_PLUS] = [0, 0, 0, 0, 0];

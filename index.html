@@ -122,25 +122,24 @@
             <div class="col s12 xl4">
                 <ul class="collapsible" data-collapsible="expandable">
                     <li>
-                        <div class="collapsible-header"><i class="material-icons">date_range</i>Date Settings
+                        <div class="collapsible-header"><i class="material-icons">public</i>Region Settings
                         </div>
                         <div class="collapsible-body">
+                            <span class="form-label">Region</span>
+                            <div class="radio-row">
+                                <input name="storyRegion" type="radio" id="storyRegionEn" value="en"/>
+                                <label for="storyRegionEn">Worldwide</label>
+                                <input name="storyRegion" type="radio" id="storyRegionJp" value="jp"/>
+                                <label for="storyRegionJp">Japan</label>
+                            </div>
                             <span class="form-label">Timer Method</span>
                             <div class="radio-row">
-                                <input name="storyTimerMethod" type="radio" id="storyTimerMethodAuto" value="auto"
-                                       checked/>
+                                <input name="storyTimerMethod" type="radio" id="storyTimerMethodAuto" value="auto"/>
                                 <label for="storyTimerMethodAuto">Automatic</label>
                                 <input name="storyTimerMethod" type="radio" id="storyTimerMethodManual" value="manual"/>
                                 <label for="storyTimerMethodManual">Manual Input</label>
                             </div>
                             <div id="storyTimerMethodAutoSection">
-                                <span class="form-label">Region</span>
-                                <div class="radio-row">
-                                    <input name="storyTimerRegion" type="radio" id="storyTimerRegionEn" value="en"/>
-                                    <label for="storyTimerRegionEn">Worldwide</label>
-                                    <input name="storyTimerRegion" type="radio" id="storyTimerRegionJp" value="jp"/>
-                                    <label for="storyTimerRegionJp">Japan</label>
-                                </div>
                                 <div id="storyTimerEventInfo" class="event-info">
                                     <span class="form-label" id="storyTimerLeft"></span>
                                     <div class="event-progress-bar">
@@ -162,10 +161,9 @@
                                     <label for="storyManualRestTime">
                                         Time Left In Hours</label>
                                     <span class="helper-text" data-error="Must be a positive number!"></span>
-                                    <small>The Manual Timer uses the JP Event Point Table. Please use Automatic Timer if calculating for the WW Event.</small>
                                 </div>
                             </div>
-                            <div class="input-field">
+                            <div class="input-field below-radio">
                                 <input id="storyMinimumSleepHours" type="number" min="0" step="any" class="validate"
                                        placeholder="8">
                                 <label for="storyMinimumSleepHours">
@@ -340,11 +338,11 @@
                                     <div class="result-small-number" id="storyResultLoveca"></div>
                                 </div>
                                 <div class="result-small">
-                                    <div class="result-small-label">Live Candy [100% LP] Needed</div>
+                                    <div class="result-small-label">Live Candy [100 LP] Needed</div>
                                     <div class="result-small-number" id="storyResultLiveCandy100"></div>
                                 </div>
                                 <div class="result-small">
-                                    <div class="result-small-label">Live Candy [50% LP] Needed</div>
+                                    <div class="result-small-label">Live Candy [50 LP] Needed</div>
                                     <div class="result-small-number" id="storyResultLiveCandy50"></div>
                                 </div>
                             </div>
@@ -419,26 +417,26 @@
             <div class="col s12 xl4">
                 <ul class="collapsible" data-collapsible="expandable">
                     <li>
-                        <div class="collapsible-header"><i class="material-icons">date_range</i>Date Settings
+                        <div class="collapsible-header"><i class="material-icons">public</i>Region Settings
                         </div>
                         <div class="collapsible-body">
+                            <span class="form-label">Region</span>
+                            <div class="radio-row">
+                                <input name="exchangeRegion" type="radio" id="exchangeRegionEn" value="en"/>
+                                <label for="exchangeRegionEn">Worldwide</label>
+                                <input name="exchangeRegion" type="radio" id="exchangeRegionJp" value="jp"/>
+                                <label for="exchangeRegionJp">Japan</label>
+                            </div>
                             <span class="form-label">Timer Method</span>
                             <div class="radio-row">
-                                <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodAuto" value="auto"
-                                       checked/>
+                                <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodAuto"
+                                       value="auto"/>
                                 <label for="exchangeTimerMethodAuto">Automatic</label>
                                 <input name="exchangeTimerMethod" type="radio" id="exchangeTimerMethodManual"
                                        value="manual"/>
                                 <label for="exchangeTimerMethodManual">Manual Input</label>
                             </div>
                             <div id="exchangeTimerMethodAutoSection">
-                                <span class="form-label">Region</span>
-                                <div class="radio-row">
-                                    <input name="exchangeTimerRegion" type="radio" id="exchangeTimerRegionEn" value="en"/>
-                                    <label for="exchangeTimerRegionEn">Worldwide</label>
-                                    <input name="exchangeTimerRegion" type="radio" id="exchangeTimerRegionJp" value="jp"/>
-                                    <label for="exchangeTimerRegionJp">Japan</label>
-                                </div>
                                 <div id="exchangeTimerEventInfo" class="event-info">
                                     <span class="form-label" id="exchangeTimerLeft"></span>
                                     <div class="event-progress-bar">
@@ -460,10 +458,9 @@
                                     <label for="exchangeManualRestTime">
                                         Time Left In Hours</label>
                                     <span class="helper-text" data-error="Must be a positive number!"></span>
-                                    <small>The Manual Timer uses the JP Event Point Table. Please use Automatic Timer if calculating for the WW Event.</small>
                                 </div>
                             </div>
-                            <div class="input-field">
+                            <div class="input-field below-radio">
                                 <input id="exchangeMinimumSleepHours" type="number" min="0" step="any" class="validate"
                                        placeholder="8">
                                 <label for="exchangeMinimumSleepHours">
@@ -648,11 +645,11 @@
                                     <div class="result-small-number" id="exchangeResultLoveca"></div>
                                 </div>
                                 <div class="result-small">
-                                    <div class="result-small-label">Live Candy [100% LP] Needed</div>
+                                    <div class="result-small-label">Live Candy [100 LP] Needed</div>
                                     <div class="result-small-number" id="exchangeResultLiveCandy100"></div>
                                 </div>
                                 <div class="result-small">
-                                    <div class="result-small-label">Live Candy [50% LP] Needed</div>
+                                    <div class="result-small-label">Live Candy [50 LP] Needed</div>
                                     <div class="result-small-number" id="exchangeResultLiveCandy50"></div>
                                 </div>
                             </div>

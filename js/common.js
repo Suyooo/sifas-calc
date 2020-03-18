@@ -92,12 +92,15 @@ Common.getAutoResetsLeftInEvent = function (timerRegion) {
 };
 
 /**
- * It seems like the max LP in SIFAS is fixed at 100 but I'll keep this here just in case...
+ * Calculates the player's current maximum LP given their rank and the server they play on.
  * @param {number} playerRank The player's current rank.
+ * @param {region} region The region to use for the max LP calculation.
  * @returns {number} Maximum LP at the given rank.
  */
-Common.getMaxLp = function (playerRank) {
-    return 100;
+Common.getMaxLp = function (playerRank, region) {
+    if (region == "en") return 100;
+    if (playerRank >= 50) return 150;
+    return 100 + Math.floor(playerRank / 10) * 10;
 };
 
 /**
@@ -118,10 +121,11 @@ Common.getNextRankUpExp = function (playerRank) {
  * @param {number} playerRank The player's initial rank.
  * @param {number} totalExpGained Total amount of EXP gained during the event.
  * @param {number} playerExp The player's initial EXP in the initial rank.
+ * @param {region} region The region to use for the max LP calculation.
  * @returns {?LpRecoveryInfo} A new LpRecoveryInfo object containing only rank up information, or null if reaching the
  *      target would require more than COMMON_RANKUP_LIMITATION rankups.
  */
-Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, playerExp) {
+Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, playerExp, region) {
     var recoveryInfo = new LpRecoveryInfo(playerRank);
     totalExpGained += playerExp;
     while (COMMON_RANKUP_LIMITATION > recoveryInfo.rankUpCount) {
@@ -131,7 +135,7 @@ Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, pl
             return recoveryInfo;
         }
         totalExpGained -= expForNextRank;
-        recoveryInfo.totalRankUpLpRecovery += this.getMaxLp(recoveryInfo.finalRank);
+        recoveryInfo.totalRankUpLpRecovery += this.getMaxLp(recoveryInfo.finalRank, region);
         recoveryInfo.finalRank++;
         recoveryInfo.rankUpCount++;
     }
@@ -139,14 +143,37 @@ Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, pl
 };
 
 /**
- * It seems like the max LP in SIFAS is fixed at 100 but I'll keep this here just in case...
+ * Calculates average max LP throughout the event, taking into account rankups and the resulting higher rate.
+ * This is weighted - later ranks will be weighted more as you stay in them longer.
+ * Used for loveca calculation, as this is the average amout of LP recovered with one loveca.
  * @param {number} playerRank The player's initial rank.
  * @param {number} totalExpGained Total amount of EXP gained during the event.
+ * @param {region} region The region to use for the max LP calculation.
  * @returns {number} Weighted average max LP of the player, given their initial rank and EXP they will collect, or -1
  *      if reaching the target would require more than COMMON_RANKUP_LIMITATION rankups.
  */
-Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained) {
-    return this.getMaxLp(playerRank);
+Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained, region) {
+    if (0 === totalExpGained) {
+        return this.getMaxLp(playerRank);
+    }
+    var weightedExpSum = 0;
+    var expSum = 0;
+    var rankUps = 0;
+    while (COMMON_RANKUP_LIMITATION > rankUps) {
+        var lpAtRank = this.getMaxLp(playerRank, region);
+        var expForNextRank = this.getNextRankUpExp(playerRank);
+        if (expForNextRank >= totalExpGained) {
+            weightedExpSum += totalExpGained * lpAtRank;
+            expSum += totalExpGained;
+            return weightedExpSum / expSum;
+        }
+        weightedExpSum += expForNextRank * lpAtRank;
+        expSum += expForNextRank;
+        totalExpGained -= expForNextRank;
+        playerRank++;
+        rankUps++;
+    }
+    return -1;
 };
 
 /**
@@ -162,14 +189,15 @@ Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained) 
  * @param {number} playerLp The player's initial LP.
  * @param {number} eventTimeLeftInMinutes Minutes left until the event ends.
  * @param {number} regenTimeLostToSleep Minutes of LP regeneration lost to sleep.
+ * @param {region} region The region to use for the max LP calculation.
  * @returns {?LpRecoveryInfo} A completed LpRecoveryInfo object, or null if reaching the target is impossible.
  * @see calculateTotalRankUpLpRecovery
  * @see calculateAverageLovecaLpRecovery
  */
 Common.calculateLpRecoveryInfo =
-    function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes, regenTimeLostToSleep) {
-        var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp);
-        recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained);
+    function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes, regenTimeLostToSleep, region) {
+        var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp, region);
+        recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained, region);
 
         lpRequired -= recoveryInfo.totalRankUpLpRecovery;
         lpRequired -= playerLp;
@@ -201,7 +229,7 @@ Common.calculateLpRecoveryInfo =
         // Calculate how much time we lose every night due to full LP tank. Do the lost LP make a difference?
         // If so, that means the player has to wake up during the night to play
         var lpRegenTimeLostPerSleep = COMMON_SLEEP_WARNING_TIME_IN_MINUTES - recoveryInfo.lovecaLpRecovery *
-                                      COMMON_LP_RECOVERY_TIME_IN_MINUTES;
+            COMMON_LP_RECOVERY_TIME_IN_MINUTES;
         if (lpRegenTimeLostPerSleep > 0) {
             var nightsLeft = Math.floor(eventTimeLeftInMinutes / (24 * 60));
             var timeLeftWithMaxSleep = eventTimeLeftInMinutes - lpRegenTimeLostPerSleep * nightsLeft;

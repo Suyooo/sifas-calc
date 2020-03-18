@@ -41,7 +41,7 @@ function ExchangeEstimationInfo(sei) {
  */
 ExchangeData.prototype.readFromUi = function () {
     this.storyData.storyTimerMethodAuto = $("#exchangeTimerMethodAuto").prop("checked");
-    this.storyData.storyTimerRegion = $("input:radio[name=exchangeTimerRegion]:checked").val();
+    this.storyData.storyRegion = $("input:radio[name=exchangeRegion]:checked").val();
     this.storyData.storyTimerMethodManual = $("#exchangeTimerMethodManual").prop("checked");
     this.storyData.storyManualRestTimeInHours = ReadHelpers.toNum($("#exchangeManualRestTime").val());
     this.storyData.storyMinimumSleepHours = ReadHelpers.toNum($("#exchangeMinimumSleepHours").val(), 8);
@@ -64,9 +64,9 @@ ExchangeData.prototype.readFromUi = function () {
  */
 ExchangeData.setToUi = function (savedData) {
     SetHelpers.checkBoxHelper($("#exchangeTimerMethodAuto"), savedData.storyData.storyTimerMethodAuto);
-    SetHelpers.radioButtonHelper($("input:radio[name=exchangeTimerRegion]"), savedData.storyData.storyTimerRegion);
-    if (savedData.storyData.storyTimerRegion !== undefined) {
-        updateAutoTimerSection("exchange");
+    SetHelpers.radioButtonHelper($("input:radio[name=exchangeRegion]"), savedData.storyData.storyRegion);
+    if (savedData.storyData.storyRegion !== undefined) {
+        updateTimerSection("exchange");
     }
     var manualButton = $("#exchangeTimerMethodManual");
     SetHelpers.checkBoxHelper(manualButton, savedData.storyData.storyTimerMethodManual);
@@ -97,7 +97,7 @@ ExchangeData.setToUi = function (savedData) {
  */
 ExchangeData.prototype.alert = function () {
     alert("exchangeTimerMethodAuto: " + this.storyData.storyTimerMethodAuto + "\n" +
-        "exchangeTimerRegion: " + this.storyData.storyTimerRegion + "\n" +
+        "exchangeRegion: " + this.storyData.storyRegion + "\n" +
         "exchangeTimerMethodManual: " + this.storyData.storyTimerMethodManual + "\n" +
         "exchangeManualRestTimeInHours: " + this.storyData.storyManualRestTimeInHours + "\n" +
         "exchangeMinimumSleepHours: " + this.storyData.storyMinimumSleepHours + "\n" +
@@ -165,9 +165,55 @@ ExchangeData.prototype.estimate = function () {
     var eei = new ExchangeEstimationInfo(StoryEstimator.estimate(this.createLiveInfo(),
         this.getEventPointsLeft(), this.storyData.getRestTimeInMinutes(),
         this.storyData.storyMinimumSleepHours, this.storyData.storyCurrentRank, this.storyData.storyCurrentEXP,
-        this.storyData.storyCurrentLP, 0, 0));
+        this.storyData.storyCurrentLP, 0, 0, this.storyData.storyRegion));
     eei.exchangeItems = this.getItemCount(eei.storyEstimationInfo.liveCount);
     return eei;
+};
+
+/**
+ * Displays the calculation results on the UI.
+ */
+ExchangeEstimationInfo.prototype.showResult = function () {
+    Results.setBigResult($("#exchangeResultLiveCount"), this.storyEstimationInfo.liveCount.liveCount);
+    $("#exchangeResultRegenTimeLost").text((this.storyEstimationInfo.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
+        " LP" + (this.storyEstimationInfo.regenTimeLostToSleepInMinutes === 0 ? "" : " (" + Common.minutesToString(this.storyEstimationInfo.regenTimeLostToSleepInMinutes) + ")"));
+    $("#exchangeResultPlayTime").text(Common.minutesToString(this.storyEstimationInfo.getPlayTime()));
+    $("#exchangeResultPlayTimeRate").text((100 * this.storyEstimationInfo.getPlayTimeRate()).toFixed(2) + "%");
+    var highlightSkippedLives = false;
+    var showSleepWarning = false;
+
+    if (this.storyEstimationInfo.lpRecoveryInfo !== null) {
+        Results.setBigResult($("#exchangeResultRefills"), this.storyEstimationInfo.lpRecoveryInfo.refills);
+        Results.setBigResult($("#exchangeResultItems"), this.exchangeItems);
+        if (this.storyEstimationInfo.skippedLives === 0) {
+            $("#exchangeResultSkippedLivesText").text("0");
+        } else {
+            $("#exchangeResultSkippedLivesText").text(this.storyEstimationInfo.skippedLives + " (" + this.storyEstimationInfo.skippedLiveTickets +
+                " tickets per live)");
+            highlightSkippedLives = true;
+        }
+        showSleepWarning = this.storyEstimationInfo.lpRecoveryInfo.sleepWarning;
+        $("#exchangeResultFinalRank").text(this.storyEstimationInfo.lpRecoveryInfo.finalRank + " (" +
+            (this.storyEstimationInfo.lpRecoveryInfo.finalRank >= COMMON_RANK_UP_EXP.length
+                ? "MAX"
+                : this.storyEstimationInfo.lpRecoveryInfo.finalRankExp + "/" +
+                Common.getNextRankUpExp(this.storyEstimationInfo.lpRecoveryInfo.finalRank)
+                + " EXP") + ")");
+        $("#exchangeResultLoveca").text(this.storyEstimationInfo.lpRecoveryInfo.refills * COMMON_LOVECA_PER_REFILL);
+        $("#exchangeResultLiveCandy50").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 50));
+        $("#exchangeResultLiveCandy100").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 100));
+    } else {
+        Results.setBigResult($("#exchangeResultRefills"), "---");
+        Results.setBigResult($("#exchangeResultItems"), "---");
+        $("#exchangeResultSkippedLivesText").text("---");
+        $("#exchangeSleepWarning").hide(0);
+        $("#exchangeResultFinalRank").text("---");
+        $("#exchangeResultLoveca").text("---");
+        $("#exchangeResultLiveCandy50").text("---");
+        $("#exchangeResultLiveCandy100").text("---");
+    }
+
+    Results.show($("#exchangeResult"), highlightSkippedLives, showSleepWarning);
 };
 
 /**
@@ -177,12 +223,17 @@ ExchangeData.prototype.estimate = function () {
 ExchangeData.prototype.validate = function () {
     var errors = [];
 
+    if (this.storyData.storyRegion != "en" && this.storyData.storyRegion != "jp") {
+        errors.push("Choose a region");
+        return errors;
+    }
+
     var liveInfo = this.createLiveInfo();
     if (null === liveInfo) {
         errors.push("Live parameters have not been set");
-    } else if (liveInfo.lp > Common.getMaxLp(this.storyData.storyCurrentRank)) {
+    } else if (liveInfo.lp > Common.getMaxLp(this.storyData.storyCurrentRank, this.storyData.storyRegion)) {
         errors.push("The chosen live parameters result in an LP cost (" + liveInfo.lp +
-            ") that's higher than your max LP (" + Common.getMaxLp(this.storyData.storyCurrentRank) + ")");
+            ") that's higher than your max LP (" + Common.getMaxLp(this.storyData.storyCurrentRank, this.storyData.storyRegion) + ")");
     }
 
     if (this.exchangeTargetType == 'EP') {
@@ -226,9 +277,7 @@ ExchangeData.prototype.validate = function () {
     if (this.storyData.storyTimerMethodAuto && this.storyData.storyTimerMethodManual) {
         errors.push("Both Automatic Timer and Manual Input method are selected. Please unselect one of them");
     } else if (this.storyData.storyTimerMethodAuto) {
-        if (this.storyData.storyTimerRegion != "en" && this.storyData.storyTimerRegion != "jp") {
-            errors.push("Choose a region for the Automatic Timer");
-        } else if (this.storyData.getRestTimeInMinutes() <= 0) {
+        if (this.storyData.getRestTimeInMinutes() <= 0) {
             errors.push("Event is already finished. Select Manual Input in order to calculate");
         }
     } else if (this.storyData.storyTimerMethodManual) {
@@ -248,52 +297,6 @@ ExchangeData.prototype.validate = function () {
     }
 
     return errors;
-};
-
-/**
- * Displays the calculation results on the UI.
- */
-ExchangeEstimationInfo.prototype.showResult = function () {
-    Results.setBigResult($("#exchangeResultLiveCount"), this.storyEstimationInfo.liveCount.liveCount);
-    $("#exchangeResultRegenTimeLost").text((this.storyEstimationInfo.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
-        " LP" + (this.storyEstimationInfo.regenTimeLostToSleepInMinutes === 0 ? "" : " (" + Common.minutesToString(this.storyEstimationInfo.regenTimeLostToSleepInMinutes) + ")"));
-    $("#exchangeResultPlayTime").text(Common.minutesToString(this.storyEstimationInfo.getPlayTime()));
-    $("#exchangeResultPlayTimeRate").text((100 * this.storyEstimationInfo.getPlayTimeRate()).toFixed(2) + "%");
-    var highlightSkippedLives = false;
-    var showSleepWarning = false;
-
-    if (this.storyEstimationInfo.lpRecoveryInfo !== null) {
-        Results.setBigResult($("#exchangeResultRefills"), this.storyEstimationInfo.lpRecoveryInfo.refills);
-        Results.setBigResult($("#exchangeResultItems"), this.exchangeItems);
-        if (this.storyEstimationInfo.skippedLives === 0) {
-            $("#exchangeResultSkippedLivesText").text("0");
-        } else {
-            $("#exchangeResultSkippedLivesText").text(this.storyEstimationInfo.skippedLives + " (" + this.storyEstimationInfo.skippedLiveTickets +
-                " tickets per live)");
-            highlightSkippedLives = true;
-        }
-        showSleepWarning = this.storyEstimationInfo.lpRecoveryInfo.sleepWarning;
-        $("#exchangeResultFinalRank").text(this.storyEstimationInfo.lpRecoveryInfo.finalRank + " (" +
-            (this.storyEstimationInfo.lpRecoveryInfo.finalRank >= COMMON_RANK_UP_EXP.length
-                ? "MAX"
-                : this.storyEstimationInfo.lpRecoveryInfo.finalRankExp + "/" +
-                Common.getNextRankUpExp(this.storyEstimationInfo.lpRecoveryInfo.finalRank)
-                + " EXP") + ")");
-        $("#exchangeResultLoveca").text(this.storyEstimationInfo.lpRecoveryInfo.refills * COMMON_LOVECA_PER_REFILL);
-        $("#exchangeResultLiveCandy50").text(this.storyEstimationInfo.lpRecoveryInfo.refills * 2);
-        $("#exchangeResultLiveCandy100").text(this.storyEstimationInfo.lpRecoveryInfo.refills);
-    } else {
-        Results.setBigResult($("#exchangeResultRefills"), "---");
-        Results.setBigResult($("#exchangeResultItems"), "---");
-        $("#exchangeResultSkippedLivesText").text("---");
-        $("#exchangeSleepWarning").hide(0);
-        $("#exchangeResultFinalRank").text("---");
-        $("#exchangeResultLoveca").text("---");
-        $("#exchangeResultLiveCandy50").text("---");
-        $("#exchangeResultLiveCandy100").text("---");
-    }
-
-    Results.show($("#exchangeResult"), highlightSkippedLives, showSleepWarning);
 };
 
 /**
