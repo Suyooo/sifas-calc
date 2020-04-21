@@ -369,8 +369,8 @@ function showDialog(content, yesFunc) {
 }
 
 /**
- * Tthis method is responsible for setting up the automatic timer, including the event progress bar, the event images
- * and the text display of the time left in/until the event.
+ * Listener for clicks on the region radios. Handles showing the correct elements, the event progress bar, the event
+ * images and the text display of the time left in/until the event.
  * @param page The short name of the calculator to update.
  */
 function updateTimerSection(page) {

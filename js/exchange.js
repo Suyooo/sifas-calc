@@ -199,7 +199,7 @@ ExchangeEstimationInfo.prototype.showResult = function () {
                 : this.storyEstimationInfo.lpRecoveryInfo.finalRankExp + "/" +
                 Common.getNextRankUpExp(this.storyEstimationInfo.lpRecoveryInfo.finalRank)
                 + " EXP") + ")");
-        $("#exchangeResultLoveca").text(this.storyEstimationInfo.lpRecoveryInfo.refills * COMMON_LOVECA_PER_REFILL);
+        $("#exchangeResultLoveca").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 100));
         $("#exchangeResultLiveCandy50").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 50));
         $("#exchangeResultLiveCandy100").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 100));
     } else {
