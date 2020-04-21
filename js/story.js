@@ -443,7 +443,7 @@ StoryEstimationInfo.prototype.showResult = function () {
                 : this.lpRecoveryInfo.finalRankExp + "/" +
                 Common.getNextRankUpExp(this.lpRecoveryInfo.finalRank)
                 + " EXP") + ")");
-        $("#storyResultLoveca").text(Math.ceil(this.lpRecoveryInfo.lpToRecover / 100));
+        $("#storyResultLoveca").text(Math.ceil(this.lpRecoveryInfo.lpToRecover / 100) * 10);
         $("#storyResultLiveCandy50").text(Math.ceil(this.lpRecoveryInfo.lpToRecover / 50));
         $("#storyResultLiveCandy100").text(Math.ceil(this.lpRecoveryInfo.lpToRecover / 100));
     } else {
