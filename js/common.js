@@ -162,7 +162,7 @@ Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained, 
     while (COMMON_RANKUP_LIMITATION > rankUps) {
         var lpAtRank = this.getMaxLp(playerRank, region);
         var expForNextRank = this.getNextRankUpExp(playerRank);
-        if (expForNextRank >= totalExpGained) {
+        if (expForNextRank === -1 || expForNextRank >= totalExpGained) {
             weightedExpSum += totalExpGained * lpAtRank;
             expSum += totalExpGained;
             return weightedExpSum / expSum;
@@ -173,7 +173,7 @@ Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained, 
         playerRank++;
         rankUps++;
     }
-    return -1;
+    return 0;
 };
 
 /**
