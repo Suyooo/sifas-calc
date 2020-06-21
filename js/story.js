@@ -419,7 +419,7 @@ StoryEstimationInfo.prototype.getPlayTimeRate = function () {
  */
 StoryEstimationInfo.prototype.showResult = function () {
     Results.setBigResult($("#storyResultLiveCount"), this.liveCount.liveCount);
-    $("#storyResultRegenTimeLost").text((this.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
+    $("#storyResultRegenTimeLost").text(Math.floor(this.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
         " LP" + (this.regenTimeLostToSleepInMinutes === 0 ? "" : " (" + Common.minutesToString(this.regenTimeLostToSleepInMinutes) + ")"));
     $("#storyResultPlayTime").text(Common.minutesToString(this.getPlayTime()));
     $("#storyResultPlayTimeRate").text((100 * this.getPlayTimeRate()).toFixed(2) + "%");

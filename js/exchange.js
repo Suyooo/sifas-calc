@@ -175,7 +175,7 @@ ExchangeData.prototype.estimate = function () {
  */
 ExchangeEstimationInfo.prototype.showResult = function () {
     Results.setBigResult($("#exchangeResultLiveCount"), this.storyEstimationInfo.liveCount.liveCount);
-    $("#exchangeResultRegenTimeLost").text((this.storyEstimationInfo.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
+    $("#exchangeResultRegenTimeLost").text(Math.floor(this.storyEstimationInfo.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
         " LP" + (this.storyEstimationInfo.regenTimeLostToSleepInMinutes === 0 ? "" : " (" + Common.minutesToString(this.storyEstimationInfo.regenTimeLostToSleepInMinutes) + ")"));
     $("#exchangeResultPlayTime").text(Common.minutesToString(this.storyEstimationInfo.getPlayTime()));
     $("#exchangeResultPlayTimeRate").text((100 * this.storyEstimationInfo.getPlayTimeRate()).toFixed(2) + "%");
