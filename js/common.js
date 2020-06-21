@@ -22,6 +22,7 @@ function Common() {
  * @property {number} finalRank - The player's final rank after reaching the target.
  * @property {number} finalRankExp - The player's final EXP in the final rank after reaching the target.
  * @property {boolean} sleepWarning - Whether to display a warning about having to interrupt sleep.
+ * @property {object} inputData - Data used for the calculation.
  * @param {number} initialRank The player's initial rank.
  * @constructor
  */
@@ -34,6 +35,7 @@ function LpRecoveryInfo(initialRank) {
     this.finalRank = initialRank;
     this.finalRankExp = 0;
     this.sleepWarning = false;
+    this.region = "en";
 }
 
 /**
@@ -197,6 +199,7 @@ Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained, 
 Common.calculateLpRecoveryInfo =
     function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes, regenTimeLostToSleep, region) {
         var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp, region);
+        recoveryInfo.region = region;
         recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained, region);
 
         lpRequired -= recoveryInfo.totalRankUpLpRecovery;
