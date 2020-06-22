@@ -14,6 +14,10 @@ function getRateFromNumberOfBoosts(boostnum) {
 function sortAllUnits() {
     var units = [];
     var sortattr = Number($("#sortattr").val());
+    var gimmickval = Number($("#gimmickval").val());
+    var gimmickdir = $("#gimmickdir").val();
+    var gimmickfac = 1 + gimmickval / ((gimmickdir == "plus") ? 100 : -100);
+    var gimmickcond = $("#gimmickcond").val();
 
     for (var i = 1; i <= 9; i++) {
         var appl = Number($("#unit" + i + "appl").val());
@@ -22,10 +26,19 @@ function sortAllUnits() {
         if (appl === 0 && tech === 0) continue;
 
         var attrmatch = (sortattr === 0 || (attr !== 0 && sortattr === attr));
+        var gimmicked = false;
+        if (gimmickcond == "off-attribute") {
+            gimmicked = !attrmatch;
+        } else if (gimmickcond == "on-attribute") {
+            gimmicked = attrmatch;
+        } else {
+            gimmicked = $("#unit" + i + "gim").is(':checked');
+        }
+
         units.push({
             name: $("#unit" + i + "name").val(),
             match: attrmatch,
-            power: appl + tech * (attrmatch ? 1.44 : 1.2),
+            power: appl * (gimmicked ? gimmickfac : 1) + tech * (attrmatch ? 1.44 : 1.2),
             disppower: appl + tech * 1.2
         });
     }
@@ -113,7 +126,9 @@ $(function () {
         sortAllUnits();
     });
 
-    /*$("input").bind('keyup change', function () {
-        sortAllUnits();
-    });*/
+    var gc = $("#gimmickcond");
+    $("#inputtable").toggleClass("gimmickselect", gc.find(':selected').val() == "selected");
+    gc.on("change", function() {
+        $("#inputtable").toggleClass("gimmickselect", $(this).find(':selected').val() == "selected");
+    });
 });

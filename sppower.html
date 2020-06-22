@@ -39,9 +39,9 @@
     </div>
 </nav>
 <div class="container">
-    <p>Enter the appeal and technique of your units on the left side. You don't have to fill out all the rows. The
-       calculator will find the best combination of units to get the strongest possible SP skill. These units should be
-       the units in your three center spots. (They don't need to be on the same subunit.)</p>
+    <p>Enter the appeal and technique of your units in the input table. You don't have to fill out all the rows. The
+        calculator will find the best combination of units to get the strongest possible SP skill. These units should be
+        the units in your three middle spots. (They don't need to be on the same subunit.)</p>
     <div class="row">
         <div class="col s12 xl6">
             <h5>Input</h5>
@@ -51,7 +51,8 @@
                     <th>Name</th>
                     <th>Attribute</th>
                     <th>Appeal</th>
-                    <th>Technique</th>
+                    <th>Tech</th>
+                    <th>Gimmick</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,8 +69,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit1appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit1tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit1appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit1tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit1gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit2name" type="text" placeholder="Name"></td>
@@ -84,8 +86,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit2appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit2tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit2appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit2tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit2gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit3name" type="text" placeholder="Name"></td>
@@ -100,8 +103,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit3appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit3tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit3appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit3tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit3gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit4name" type="text" placeholder="Name"></td>
@@ -116,8 +120,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit4appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit4tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit4appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit4tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit4gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit5name" type="text" placeholder="Name"></td>
@@ -132,8 +137,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit5appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit5tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit5appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit5tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit5gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit6name" type="text" placeholder="Name"></td>
@@ -148,8 +154,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit6appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit6tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit6appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit6tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit6gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit7name" type="text" placeholder="Name"></td>
@@ -164,8 +171,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit7appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit7tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit7appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit7tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit7gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit8name" type="text" placeholder="Name"></td>
@@ -180,8 +188,9 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit8appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit8tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit8appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit8tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit8gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
                     <td><input id="unit9name" type="text" placeholder="Name"></td>
@@ -196,13 +205,14 @@
                             <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
                         </select>
                     </td>
-                    <td><input id="unit9appl" type="number" placeholder="Appeal"></td>
-                    <td><input id="unit9tech" type="number" placeholder="Tech"></td>
+                    <td><input id="unit9appl" type="number" min="0" placeholder="App"></td>
+                    <td><input id="unit9tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><label><input id="unit9gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 </tbody>
             </table>
             <br>
-            <label>Target Attribute</label>
+            <label>Song Attribute</label>
             <select id="sortattr" class="icons">
                 <option value="0" data-icon="image/icon_none.png" selected>None</option>
                 <option value="1" data-icon="image/icon_smile.png">Smile</option>
@@ -212,6 +222,25 @@
                 <option value="5" data-icon="image/icon_natural.png">Natural</option>
                 <option value="6" data-icon="image/icon_elegant.png">Elegant</option>
             </select>
+            <label style="position: initial;">Song Gimmick</label>
+            <div class="row">
+                <div class="col s2">
+                    <input id="gimmickval" type="number" min="0" placeholder="0">
+                </div>
+                <div class="col s5">
+                    <select id="gimmickdir">
+                        <option value="minus" selected>% Appeal Penalty</option>
+                        <option value="plus">% Appeal Bonus</option>
+                    </select>
+                </div>
+                <div class="col s5">
+                    <select id="gimmickcond">
+                        <option value="off-attribute" selected>to Off-Attribute Units</option>
+                        <option value="on-attribute">to On-Attribute Units</option>
+                        <option value="selected">to Selected Units</option>
+                    </select>
+                </div>
+            </div>
             <div class="buttons">
                 <a id="sort" class="waves-effect orange lighten-3 waves-light btn">Sort</a>
             </div>
@@ -230,6 +259,25 @@
                 </thead>
                 <tbody id="resultbody"></tbody>
             </table>
+            <br><br>
+            <ul class="collapsible" data-collapsible="expandable">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">help</i>How is SP
+                        Power calculated?
+                    </div>
+                    <div class="collapsible-body">
+                        The total SP Power is the sum of the SP Power of the three units in your SP subunit, the
+                        three positions in the middle of your formation, along with a bonus for matching attributes:<br>
+                        <img class="fullwidth" src="image/sppower_formula1.png"><br><br>
+                        The SP Power of a unit is calculated from their appeal and technique, with a bonus on the
+                        latter stat:<br>
+                        <img class="fullwidth" src="image/sppower_formula2.png"><br><br>
+                        Note that the real SP power calculated by this tool might not be what you actually score on
+                        use in-game because various buffs and debuffs can affect the SP skill power (such as an
+                        extra 10% to the score if used during an Appeal Chance).
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

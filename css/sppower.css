@@ -30,18 +30,56 @@ th, tr td:first-child {
     width: 40%;
 }
 
-#inputtable tr td:nth-child(1) {
+#inputtable:not(.gimmickselect) tr td:nth-child(1) {
     width: 30%;
 }
 
-#inputtable tr td:nth-child(2) {
+#inputtable:not(.gimmickselect) tr td:nth-child(2) {
     width: 40%;
 }
 
-#inputtable tr td:nth-child(3) {
+#inputtable:not(.gimmickselect) tr td:nth-child(3) {
     width: 15%;
 }
 
-#inputtable tr td:nth-child(4) {
+#inputtable:not(.gimmickselect) tr td:nth-child(4) {
     width: 15%;
+}
+
+#inputtable:not(.gimmickselect) tr td:nth-child(5), #inputtable:not(.gimmickselect) tr th:nth-child(5) {
+    width: 0%;
+    text-align: center;
+    display: none;
+}
+
+#inputtable.gimmickselect tr td:nth-child(1) {
+    width: 25%;
+}
+
+#inputtable.gimmickselect tr td:nth-child(2) {
+    width: 45%;
+}
+
+#inputtable.gimmickselect tr td:nth-child(3) {
+    width: 10%;
+}
+
+#inputtable.gimmickselect tr td:nth-child(4) {
+    width: 10%;
+}
+
+#inputtable.gimmickselect tr td:nth-child(5), #inputtable.gimmickselect tr th:nth-child(5) {
+    width: 10%;
+    text-align: center;
+}
+
+#inputtable tr td:nth-child(5) input[type="checkbox"] + span {
+    border: none !important;
+    background: none !important;
+    width: 0 !important;
+    display: initial !important;
+}
+
+.fullwidth {
+    width: 100%;
 }
