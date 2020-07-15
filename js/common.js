@@ -100,7 +100,6 @@ Common.getAutoResetsLeftInEvent = function (timerRegion) {
  * @returns {number} Maximum LP at the given rank.
  */
 Common.getMaxLp = function (playerRank, region) {
-    if (region == "en") return 100;
     if (playerRank >= 50) return 150;
     return 100 + Math.floor(playerRank / 10) * 10;
 };
@@ -156,7 +155,7 @@ Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, pl
  */
 Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained, region) {
     if (0 === totalExpGained) {
-        return this.getMaxLp(playerRank);
+        return this.getMaxLp(playerRank, region);
     }
     var weightedExpSum = 0;
     var expSum = 0;
