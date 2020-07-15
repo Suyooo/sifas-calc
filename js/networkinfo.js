@@ -1,6 +1,6 @@
 var jpDateOverride = [new Date(Date.UTC(2020, 6, 6, 6)),
     new Date(Date.UTC(2020, 6, 15, 6))];
-var enDateOverride = [new Date(Date.UTC(2020, 5, 5, 6)),
+var enDateOverride = [new Date(Date.UTC(2020, 6, 5, 6)),
     new Date(Date.UTC(2020, 6, 15, 6))];
 
 var notificationInfo = {

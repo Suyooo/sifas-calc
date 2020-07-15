@@ -457,7 +457,7 @@ StoryEstimationInfo.prototype.showResult = function () {
         $("#storyResultLiveCandy100").text("---");
     }
 
-    Results.show($("#storyResult"), highlightSkippedLives, showSleepWarning, this.lpRecoveryInfo.region == "en");
+    Results.show($("#storyResult"), highlightSkippedLives, showSleepWarning);
 };
 
 /**
