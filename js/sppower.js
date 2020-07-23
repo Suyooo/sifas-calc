@@ -23,9 +23,11 @@ function sortAllUnits() {
         var appl = Number($("#unit" + i + "appl").val());
         var tech = Number($("#unit" + i + "tech").val());
         var attr = Number($("#unit" + i + "attr").val());
+        var bbat = Number($("#unit" + i + "bbat").val()) / 100;
+        var bbsp = Number($("#unit" + i + "bbsp").val()) / 100;
         if (appl === 0 && tech === 0) continue;
 
-        var attrmatch = (sortattr === 0 || (attr !== 0 && sortattr === attr));
+        var attrmatch = (attr !== 0 && sortattr === attr);
         var gimmicked = false;
         if (gimmickcond == "off-attribute") {
             gimmicked = !attrmatch;
@@ -38,7 +40,8 @@ function sortAllUnits() {
         units.push({
             name: $("#unit" + i + "name").val(),
             match: attrmatch,
-            power: appl * (gimmicked ? gimmickfac : 1) + tech * (attrmatch ? 1.44 : 1.2),
+            power: appl * (gimmicked ? gimmickfac : 1) + Math.floor(tech * (attrmatch ? 1.2 + bbat : 1)) * 1.2,
+            bbsp: bbsp,
             disppower: appl + tech * 1.2
         });
     }
@@ -65,7 +68,8 @@ function sortAllUnits() {
         topsp = sum * getRateFromNumberOfBoosts(boosts);
     } else if (sortattr === 0) {
         topunits = [units[0], units[1], units[2]];
-        topsp = (units[0].power + units[1].power + units[2].power) * getRateFromNumberOfBoosts(3);
+        topsp = Math.floor(units[0].power + units[1].power + units[2].power)
+            * (1 + units[0].bbsp + units[1].bbsp + units[2].bbsp);
     } else {
         // this could probably be optimized.
         // once it is, I can add more rows and auto-calculate on value changes
@@ -82,8 +86,10 @@ function sortAllUnits() {
                     currentunits[2] = units[c];
                     if (currentunits[2].match) currentboosts++;
 
-                    var currentsp = (currentunits[0].power + currentunits[1].power + currentunits[2].power) *
-                                    getRateFromNumberOfBoosts(currentboosts);
+                    var currentsp = Math.floor(Math.floor(
+                        currentunits[0].power + currentunits[1].power + currentunits[2].power)
+                        * (1 + currentunits[0].bbsp + currentunits[1].bbsp + currentunits[2].bbsp))
+                        * getRateFromNumberOfBoosts(currentboosts);
                     if (currentsp > topsp) {
                         topunits = currentunits.slice(0); // array clone
                         topsp = currentsp;
@@ -102,9 +108,11 @@ function sortAllUnits() {
     var result = "";
     var rank = 1;
     var displaysum = 0;
+    var totalbbsp = 1;
     topunits.forEach(function (unit) {
         if (rank <= 3) {
             displaysum += unit.disppower;
+            totalbbsp += unit.bbsp;
         }
         result += "<tr>";
         result += "<td>" + (rank++) + "</td>";
@@ -115,7 +123,7 @@ function sortAllUnits() {
 
     $("#resulttable").show();
     $("#resultbody").html(result);
-    $("#displaysp").text(Math.floor(displaysum));
+    $("#displaysp").text(Math.floor(Math.floor(displaysum) * totalbbsp));
     $("#realsp").text(Math.floor(topsp));
 }
 
@@ -128,7 +136,17 @@ $(function () {
 
     var gc = $("#gimmickcond");
     $("#inputtable").toggleClass("gimmickselect", gc.find(':selected').val() == "selected");
-    gc.on("change", function() {
+    gc.on("change", function () {
         $("#inputtable").toggleClass("gimmickselect", $(this).find(':selected').val() == "selected");
     });
+
+    for (var i = 1; i <= 9; i++) {
+        var attr = $('#unit' + i + 'attr');
+        attr.on("change", function () {
+            var icon = $(this).find(':selected').data("icon");
+            if (icon !== undefined) $(this).parent().css("background-image", "url(" + icon + ")");
+        });
+        var icon = attr.find(':selected').data("icon");
+        if (icon !== undefined) attr.parent().css("background-image", "url(" + icon + ")");
+    }
 });

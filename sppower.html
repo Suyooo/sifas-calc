@@ -41,7 +41,10 @@
 <div class="container">
     <p>Enter the appeal and technique of your units in the input table. You don't have to fill out all the rows. The
         calculator will find the best combination of units to get the strongest possible SP skill. These units should be
-        the units in your three middle spots. (They don't need to be on the same subunit.)</p>
+        the units in the three middle spots of your Live Formation. They don't need to be on the same subunit.</p>
+    <p>"Match Bonus" and "SP Vo Bonus" refer to the Attribute Match bonus and the SP Voltage bonus from the character's
+        Bond Board, in percent. If you are playing on the Global server, which doesn't have this feature yet, you can just leave it
+        empty. (You can also leave it empty if you're too lazy to look them all up.)</p>
     <div class="row">
         <div class="col s12 xl6">
             <h5>Input</h5>
@@ -52,6 +55,8 @@
                     <th>Attribute</th>
                     <th>Appeal</th>
                     <th>Tech</th>
+                    <th>Match Bonus</th>
+                    <th>SP Vo Bonus</th>
                     <th>Gimmick</th>
                 </tr>
                 </thead>
@@ -71,6 +76,8 @@
                     </td>
                     <td><input id="unit1appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit1tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit1bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit1bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit1gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -88,6 +95,8 @@
                     </td>
                     <td><input id="unit2appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit2tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit2bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit2bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit2gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -105,6 +114,8 @@
                     </td>
                     <td><input id="unit3appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit3tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit3bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit3bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit3gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -122,6 +133,8 @@
                     </td>
                     <td><input id="unit4appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit4tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit4bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit4bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit4gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -139,6 +152,8 @@
                     </td>
                     <td><input id="unit5appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit5tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit5bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit5bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit5gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -156,6 +171,8 @@
                     </td>
                     <td><input id="unit6appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit6tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit6bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit6bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit6gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -173,6 +190,8 @@
                     </td>
                     <td><input id="unit7appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit7tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit7bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit7bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit7gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -190,6 +209,8 @@
                     </td>
                     <td><input id="unit8appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit8tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit8bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit8bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit8gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 <tr>
@@ -207,6 +228,8 @@
                     </td>
                     <td><input id="unit9appl" type="number" min="0" placeholder="App"></td>
                     <td><input id="unit9tech" type="number" min="0" placeholder="Tech"></td>
+                    <td><input id="unit9bbat" type="number" min="0" step="0.1" placeholder="Match Bonus"></td>
+                    <td><input id="unit9bbsp" type="number" min="0" step="0.1" placeholder="SP Bonus"></td>
                     <td><label><input id="unit9gim" class="filled-in" type="checkbox"><span></span></label></td>
                 </tr>
                 </tbody>

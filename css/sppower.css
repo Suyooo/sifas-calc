@@ -31,49 +31,65 @@ th, tr td:first-child {
 }
 
 #inputtable:not(.gimmickselect) tr td:nth-child(1) {
-    width: 30%;
+    width: 20%;
 }
 
 #inputtable:not(.gimmickselect) tr td:nth-child(2) {
-    width: 40%;
+    width: 10%;
 }
 
 #inputtable:not(.gimmickselect) tr td:nth-child(3) {
-    width: 15%;
+    width: 17.5%;
 }
 
 #inputtable:not(.gimmickselect) tr td:nth-child(4) {
-    width: 15%;
+    width: 17.5%;
 }
 
-#inputtable:not(.gimmickselect) tr td:nth-child(5), #inputtable:not(.gimmickselect) tr th:nth-child(5) {
+#inputtable:not(.gimmickselect) tr td:nth-child(5) {
+    width: 17.5%;
+}
+
+#inputtable:not(.gimmickselect) tr td:nth-child(6) {
+    width: 17.5%;
+}
+
+#inputtable:not(.gimmickselect) tr td:nth-child(7), #inputtable:not(.gimmickselect) tr th:nth-child(7) {
     width: 0%;
     text-align: center;
     display: none;
 }
 
 #inputtable.gimmickselect tr td:nth-child(1) {
-    width: 25%;
+    width: 20%;
 }
 
 #inputtable.gimmickselect tr td:nth-child(2) {
-    width: 45%;
+    width: 10%;
 }
 
 #inputtable.gimmickselect tr td:nth-child(3) {
-    width: 10%;
+    width: 15%;
 }
 
 #inputtable.gimmickselect tr td:nth-child(4) {
-    width: 10%;
+    width: 15%;
 }
 
-#inputtable.gimmickselect tr td:nth-child(5), #inputtable.gimmickselect tr th:nth-child(5) {
+#inputtable.gimmickselect tr td:nth-child(5) {
+    width: 15%;
+}
+
+#inputtable.gimmickselect tr td:nth-child(6) {
+    width: 15%;
+}
+
+#inputtable.gimmickselect tr td:nth-child(7), #inputtable.gimmickselect tr th:nth-child(7) {
     width: 10%;
     text-align: center;
 }
 
-#inputtable tr td:nth-child(5) input[type="checkbox"] + span {
+#inputtable tr td:nth-child(7) input[type="checkbox"] + span {
     border: none !important;
     background: none !important;
     width: 0 !important;
@@ -82,4 +98,22 @@ th, tr td:first-child {
 
 .fullwidth {
     width: 100%;
+}
+
+#inputtable .select-wrapper {
+    background-size: 40px 40px;
+    background-repeat: no-repeat;
+    background-position-y: 3px;
+}
+
+#inputtable .select-wrapper[style^="background-image: url"] input {
+    color: rgba(0,0,0,0) !important;
+}
+
+#inputtable .select-wrapper li span {
+    display: none;
+}
+
+#inputtable .select-dropdown li img {
+    margin: 5px 30% 0 0;
 }
