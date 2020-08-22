@@ -6,13 +6,13 @@
     <meta name="description"
           content="A list of songs in SIFAS, including a complete note map reader, gimmick note timings and AC rewards.">
 
-    <link type="text/css" rel="stylesheet" href="../vendor/materialize.css" media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="../css/style.css" media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="../css/songdb.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="vendor/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/songdb.css" media="screen,projection"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="icon" type="image/png" sizes="96x96" href="../image/launcher-icon-96.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="image/launcher-icon-96.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#f48fb1">
     <meta name="theme-color" content="#f48fb1">
@@ -34,17 +34,31 @@
     <div class="nav-wrapper orange lighten-5">
         <a class="brand-logo center">Notemap Database</a>
         <ul id="nav-mobile" class="left">
-            <li class="orange lighten-3"><a href="../index.html"><i
+            <li class="orange lighten-3"><a href="index.html"><i
                     class="material-icons left">keyboard_arrow_left</i>BACK</a></li>
         </ul>
     </div>
 </nav>
+<center><a href="tower.html" style="font-size: 200%">View DLP Stage List &gt;&gt;&gt;</a></center>
 <div class="container">$SONGDB</div>
-<script type="text/javascript" src="../js/register-sw.js"></script>
-<script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="../vendor/materialize.js"></script>
+<script type="text/javascript" src="js/register-sw.js"></script>
+<script type="text/javascript" src="vendor/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="vendor/materialize.js"></script>
 <script>$(function () {
     M.AutoInit();
+
+    // materialize doesn't set indicator positions inside hidden elements, so we'll do it ourselves on open
+    $(".collapsible").each(function () {
+        M.Collapsible.getInstance(this).options.onOpenStart = function () {
+            let tabs = $(".tabs", this.el);
+            let activetab = $(".active", tabs).parent();
+            let alltabs = activetab.parent().children();
+            let tabindex = alltabs.index(activetab);
+            let tabwidth = 100 / (alltabs.length - 1);
+            $(".indicator", tabs).css("left", (tabwidth * tabindex) + "%")
+                .css("right", (tabwidth * (-tabindex + alltabs.length - 2)) + "%");
+        }
+    });
 });</script>
 </body>
 </html>

@@ -20,6 +20,22 @@
     margin-right: 1em;
 }
 
+.tabs.tabs-transparent {
+    margin-bottom: 1em;
+}
+
+.tabs.tabs-transparent .tab a {
+    color: var(--text);
+}
+
+.tabs.tabs-transparent .tab a.active, .tabs.tabs-transparent .tab a:hover {
+    color: var(--text);
+}
+
+.tabs.tabs-transparent .tab a:focus, .tabs.tabs-transparent .tab a:focus.active {
+    background-color: var(--key-low);
+}
+
 .notebar {
     width: 100%;
     background: var(--text);

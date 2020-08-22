@@ -172,7 +172,7 @@ nav a {
     /*background-color: var(--key-normal);*/
 }
 
-li .active {
+li.tab > a.active {
     font-weight: bold;
 }
 
