@@ -22,13 +22,13 @@ The live difficulty ID can be read as `ABCCCDDE`:
 - 2: Nijigaku
 
 ## Attributes
-- 0: None
 - 1: Smile
 - 2: Pure
 - 3: Cool
 - 4: Active
 - 5: Natural
 - 6: Elegant
+- 9: None
 
 ## Difficulty
 - 10: Beginner

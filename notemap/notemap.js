@@ -11,13 +11,13 @@ function difficulty(diff_id) {
 }
 
 function attribute(attr_id) {
-    if (attr_id === 0) return "none";
     if (attr_id === 1) return "smile";
     if (attr_id === 2) return "pure";
     if (attr_id === 3) return "cool";
     if (attr_id === 4) return "active";
     if (attr_id === 5) return "natural";
     if (attr_id === 6) return "elegant";
+    if (attr_id === 9) return "none";
     throw new Error('Unknown Attribute ' + attr_id);
 }
 
@@ -27,10 +27,10 @@ let s = "<h5>µ's</h5>"
 
 let live_ids = Object.keys(songdata)
     .map(function (x) {
-        return Number(x)
+        return Number(x);
     })
     .filter(function (x) {
-        return x < 20000000
+        return x < 20000000 || x === 20010301;
     })
     .sort(function (a, b) {
         let do_comp = songdata[a].display_order - songdata[b].display_order;
@@ -53,8 +53,10 @@ for (let li = 0; li < live_ids.length; li++) {
         }
         current_tabs = "";
 
-        if (live_difficulty_id >= 11000000 && last_live_id < 11000000) s += "<h5>Aqours</h5>";
-        if (live_difficulty_id >= 12000000 && last_live_id < 12000000) s += "<h5>Nijigaku</h5>";
+        if (live_difficulty_id !== 20010301) {
+            if (live_difficulty_id >= 11000000 && last_live_id < 11000000) s += "<h5>Aqours</h5>";
+            if (live_difficulty_id >= 12000000 && last_live_id < 12000000) s += "<h5>Nijigaku</h5>";
+        }
 
         s += '<ul class="collapsible" data-collapsible="expandable"><li>' +
             '<div class="collapsible-header' + (live.floor_type === 5 ? ' light-blue lighten-5' : '') + '">' +
@@ -62,7 +64,7 @@ for (let li = 0; li < live_ids.length; li++) {
             '<b>' + live.song_name + '</b></div>' +
             '<div class="collapsible-body"><ul class="tabs tabs-transparent tabs-fixed-width">';
     }
-    last_live_id = live_difficulty_id;
+    if (live_difficulty_id !== 20010301) last_live_id = live_difficulty_id;
 
     s += '<li class="tab"><a href="#' + live_difficulty_id + '"' + (diff_id === 30 ? ' class="active"' : '') + '>' +
         difficulty(diff_id) + '</a></li>';
