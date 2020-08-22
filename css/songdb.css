@@ -1,0 +1,123 @@
+.row, .col {
+    width: 100%;
+}
+
+.floorno {
+    width: 3em;
+}
+
+.tower .collapsible {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.collapsible-header .row, .row.nomargin {
+    margin: 0;
+}
+
+.collapsible-header img {
+    height: 1.5rem;
+    margin-right: 1em;
+}
+
+.notebar {
+    width: 100%;
+    background: var(--text);
+    position: relative;
+    height: 1em;
+    user-select: none;
+    margin: 1em 0;
+    z-index: 1;
+    font-size: 150%;
+}
+
+.appealchance {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: var(--key-dark);
+    font-size: 70%;
+    white-space: nowrap;
+    user-select: none;
+    z-index: 2;
+}
+
+.notebar .note {
+    position: absolute;
+    height: 50%;
+    background: var(--sidenav);
+    width: 2px;
+    user-select: none;
+    z-index: 3;
+}
+
+.notebar .note.top {
+    top: 0;
+}
+
+.notebar .note.bottom {
+    top: 50%;
+}
+
+.notebar .hold {
+    position: absolute;
+    height: 0.25em;
+    z-index: 3;
+    background: repeating-linear-gradient(to right, var(--sidenav) 0%, var(--sidenav) 50%, transparent 50%, transparent 100%);
+    background-size: 2px 0.5em;
+}
+
+.notebar .hold.top {
+    top: 0.125em;
+}
+
+.notebar .hold.bottom {
+    top: 0.625em;
+}
+
+.notebar .note.gimmicked {
+    background: lightskyblue;
+    z-index: 4;
+}
+
+.notebar .gimmick {
+    position: absolute;
+    user-select: none;
+    font-size: 50%;
+    width: 1.25em;
+    height: 1.25em;
+    line-height: 1.125em;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 0.625em;
+    z-index: 5;
+}
+
+.notebar .gimmick.top {
+    top: -1.45em;
+}
+
+.notebar .gimmick.bottom {
+    top: 2.2em;
+}
+
+.progress {
+    background: none;
+    height: 1.5em;
+    line-height: 1em;
+    margin: 0 0 0 1.66em;
+    padding-left: 2em;
+    border-left: 5px dotted var(--key-normal);
+    text-transform: uppercase;
+}
+
+.progress.reward {
+    height: 5em;
+    padding-top: 2em;
+}
+
+.progress.reward:last-child {
+    height: 3em;
+    overflow: visible;
+    margin-bottom: 2em;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SIFAS Notemap/Song Database</title>
+    <meta name="description"
+          content="A list of songs in SIFAS, including a complete note map reader, gimmick note timings and AC rewards.">
+
+    <link type="text/css" rel="stylesheet" href="../vendor/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../css/style.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../css/songdb.css" media="screen,projection"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="icon" type="image/png" sizes="96x96" href="../image/launcher-icon-96.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f48fb1">
+    <meta name="theme-color" content="#f48fb1">
+</head>
+<body>
+<script>
+    if (document.cookie.indexOf("dark-mode=yes") !== -1) {
+        document.body.className += 'dark-mode';
+    }
+</script>
+<div class="font-preload">
+    <span style="font-weight: 100">Thin</span>
+    <span style="font-weight: 300">Light</span>
+    <span style="font-weight: 400">Regular</span>
+    <span style="font-weight: 500">Medium</span>
+    <span style="font-weight: 700">Bold</span>
+</div>
+<nav>
+    <div class="nav-wrapper orange lighten-5">
+        <a class="brand-logo center">Notemap Database</a>
+        <ul id="nav-mobile" class="left">
+            <li class="orange lighten-3"><a href="../index.html"><i
+                    class="material-icons left">keyboard_arrow_left</i>BACK</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">$SONGDB</div>
+<script type="text/javascript" src="../js/register-sw.js"></script>
+<script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../vendor/materialize.js"></script>
+<script>$(function () {
+    M.AutoInit();
+});</script>
+</body>
+</html>
