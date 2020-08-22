@@ -50,7 +50,7 @@ for (let tower_id in towerdata) {
         s += '<div class="collapsible-body">' +
             '<div class="row nomargin"><div class="col l6"><b>Voltage Target: </b>' + floor.voltage_target + '</div>' +
             '<div class="col l6"><b>Recommended Stamina: </b>' + floor.recommended_stamina + '</div></div>' +
-            '<div class="row"><div class="col l6"><b>Note Damage: </b>' + floor.note_damage +
+            '<div class="row nomargin"><div class="col l6"><b>Note Damage: </b>' + floor.note_damage +
             ' (' + Math.round(floor.note_damage_rate * 100) + '% of Free Live)</div>' +
             '<div class="col l6"><b>Clear Reward: </b>' +
             floor.reward_clear["19001"] + ' medals, ' + floor.reward_clear["0"] + ' stars</div>' + "</div>";

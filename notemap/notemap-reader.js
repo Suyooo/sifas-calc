@@ -98,8 +98,8 @@ function ac_mission(type_id, goal) {
 function make_notemap(live) {
     let s = "";
 
+    let stacker_global = [];
     if (live.notes !== null) {
-        s += '<div class="notebar">';
         let firstnote_time = live.notes[0].time;
         let lastnote_time = live.notes[live.notes.length - 1].time;
 
@@ -115,6 +115,9 @@ function make_notemap(live) {
                 '&nbsp;</div>';
             totalacnotes += ac.range_note_ids[1] - ac.range_note_ids[0] + 1;
         }
+
+        let stacker_seperate = [];
+        for (let gi = 0; gi < live.note_gimmicks.length; gi++) stacker_seperate.push([]);
         for (let ni = 0; ni < live.notes.length; ni++) {
             let note = live.notes[ni];
 
@@ -130,17 +133,41 @@ function make_notemap(live) {
                     '&nbsp;</div>';
             }
             if (note.gimmick !== null) {
-                s += '<div class="gimmick ' + (note.rail == 1 ? 'top' : 'bottom') + '" style="' +
-                    'left: calc(' + ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1) + '% - 0.625em);">' +
-                    (note.gimmick + 1) + '</div>';
+                let marker_position = ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1);
+
+                let stack_layer_global = 0;
+                while (stack_layer_global < stacker_global.length && stacker_global[stack_layer_global] > marker_position) {
+                    stack_layer_global++;
+                }
+                if (stack_layer_global == stacker_global.length) stacker_global.push(0);
+
+                let stack_layer_seperate = 0;
+                while (stack_layer_seperate < stacker_seperate[note.gimmick].length &&
+                stacker_seperate[note.gimmick][stack_layer_seperate] > marker_position) {
+                    stack_layer_seperate++;
+                }
+                if (stack_layer_seperate == stacker_seperate[note.gimmick].length)
+                    stacker_seperate[note.gimmick].push(0);
+
+                s += '<div class="gimmick" style="--gimmicklayer: ' + stack_layer_global + ';' +
+                    '--gimmicklayer-filtered: ' + stack_layer_seperate + ';"><div class="gimmickmarker" style="' +
+                    'left: calc(' + marker_position + '% - 0.625em);">' + (note.gimmick + 1) + '</div>';
                 if (live.note_gimmicks[note.gimmick].finish_type === 2) {
                     let ni2 = ni + live.note_gimmicks[note.gimmick].finish_amount;
                     if (ni2 >= live.notes.length) ni2 = live.notes.length - 1;
-                    s += '<div class="gimmicklength ' + (note.rail == 1 ? 'top' : 'bottom') + '" style="' +
-                        'left: ' + ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1) + '%;' +
-                        'width: ' + ((live.notes[ni2].time - note.time) / (lastnote_time - firstnote_time) * 98) + '%;">' +
+                    let marker_length = ((live.notes[ni2].time - note.time) / (lastnote_time - firstnote_time) * 98);
+
+                    s += '<div class="gimmicklength" style="' +
+                        'left: ' + marker_position + '%;' +
+                        'width: ' + marker_length + '%;">' +
                         '&nbsp;</div>';
+
+                    stacker_global[stack_layer_global] = stacker_seperate[note.gimmick][stack_layer_seperate] = marker_position + marker_length;
+                } else {
+                    // magic value (TM) to avoid too much overlap of start markers
+                    stacker_global[stack_layer_global] = stacker_seperate[note.gimmick][stack_layer_seperate] = marker_position + 0.7;
                 }
+                s += '</div>';
             }
             if (ni > 0 && ni % 10 === 0) {
                 s += '<div class="marker' + (ni % 50 === 0 ? ' fifty' : '') +
@@ -149,7 +176,7 @@ function make_notemap(live) {
             }
         }
 
-        s += '</div><div class="row"><div class="col l6"><b>Note Count: </b>' + live.notes.length + '</div>' +
+        s += '</div></div><div class="row"><div class="col l6"><b>Note Count: </b>' + live.notes.length + '</div>' +
             '<div class="col l6"><b>Notes in ACs: </b>' + totalacnotes + '</div></div>';
     } else {
         s += '<div class="row" style="text-align: center">(no note map available)</div>';
@@ -231,7 +258,7 @@ function make_notemap(live) {
         }
     }
 
-    return s + "</div></div>";
+    return '<div class="notebarcontainer"><div class="notebar" style="--gimmicklayers: ' + stacker_global.length + '">' + s + "</div></div>";
 }
 
 module.exports = {

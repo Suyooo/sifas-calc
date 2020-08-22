@@ -70,7 +70,7 @@ for (let li = 0; li < live_ids.length; li++) {
         '<div class="col l6"><b>A Rank: </b>' + live.ranks.A + '</div></div>' +
         '<div class="row nomargin"><div class="col l6"><b>B Rank: </b>' + live.ranks.B + '</div>' +
         '<div class="col l6"><b>C Rank: </b>' + live.ranks.C + '</div></div>' +
-        '<div class="row"><div class="col l6"><b>Recommended Stamina: </b>' + live.recommended_stamina + '</div>' +
+        '<div class="row nomargin"><div class="col l6"><b>Recommended Stamina: </b>' + live.recommended_stamina + '</div>' +
         '<div class="col l6"><b>Note Damage: </b>' + live.note_damage + '</div></div>';
 
     current_tabs += notemap.make(live) + '</div>';
