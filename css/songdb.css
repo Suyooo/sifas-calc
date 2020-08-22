@@ -155,6 +155,22 @@
     font-weight: bold;
 }
 
+.detailinfo > div {
+    border: 1px solid var(--border);
+    margin-bottom: 1em;
+}
+
+.detailinfo > div > div:first-child {
+    background-color: var(--key-low2);
+    border-bottom: 1px solid var(--border);
+    padding: .3em .8em .2em;
+    font-weight: bold;
+}
+
+.detailinfo > div > div:last-child {
+    padding: .3em .8em .2em;
+}
+
 .progress {
     background: none;
     height: 1.5em;

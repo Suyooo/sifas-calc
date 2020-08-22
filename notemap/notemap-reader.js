@@ -141,6 +141,8 @@ function make_notemap(live) {
                     '&nbsp;</div>';
             }
             if (note.gimmick !== null) {
+                if (live.note_gimmicks[note.gimmick].counter === undefined) live.note_gimmicks[note.gimmick].counter = 1;
+                else live.note_gimmicks[note.gimmick].counter += 1;
                 let marker_position = ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1);
 
                 let stack_layer_global = 0;
@@ -191,22 +193,24 @@ function make_notemap(live) {
     }
 
     s += '<div class="row">'
-    s += '<div class="col l6"><b style="font-size: 150%">Gimmicks</b><br>';
-    s += '<b>Song Gimmick:</b><br>';
+    s += '<div class="col l6 detailinfo"><b style="font-size: 150%">Gimmicks</b>';
+    s += '<div><div>Song Gimmick</div><div>';
     if (live.gimmick === null) {
-        s += "none<br>";
+        s += "none";
     } else {
         let skillstr = skill(live.gimmick);
         if (live.gimmick.finish_type === 1) {
             // remove " until the song ends" if that is the condition - pretty much implied through being the song gimmick
             skillstr = skillstr.substring(0, skillstr.length - 20);
         }
-        s += capFirstLetter(skillstr) + "<br>";
+        s += capFirstLetter(skillstr) + '<br><b>Cleansable:</b> ' + (skillstr.indexOf("Base") !== -1 ? "No" : "Yes");
     }
+    s += '</div></div>';
+
     for (let gi = 0; gi < live.note_gimmicks.length; gi++) {
         let noteg = live.note_gimmicks[gi];
 
-        s += '<b>Note Gimmick ' + (gi + 1) + ':</b><br>';
+        s += '<div><div>Note Gimmick ' + (gi + 1) + '</div><div>';
         switch (noteg.trigger) {
             case 1:
                 s += "If hit, ";
@@ -225,17 +229,16 @@ function make_notemap(live) {
         if (noteg.trigger === 3) {
             skillstr = capFirstLetter(skillstr);
         }
-        s += skillstr + '<br>';
+        s += skillstr + '<br><b>Amount:</b> ' + noteg.counter + ' note' + (noteg.counter === 1 ? '' : 's') + '</div></div>';
     }
 
-    s += '</div><div class="col l6"><b style="font-size: 150%">Appeal Chances</b><br>';
+    s += '</div><div class="col l6 detailinfo"><b style="font-size: 150%">Appeal Chances</b>';
     for (let ai = 0; ai < live.appeal_chances.length; ai++) {
         let ac = live.appeal_chances[ai];
 
-        s += '<b>AC ' + (ai + 1) + ': ' + ac_mission(ac.mission_type, ac.mission_value) + '</b><br>' +
-            'Gimmick: ';
+        s += '<div><div>AC ' + (ai + 1) + ': ' + ac_mission(ac.mission_type, ac.mission_value) + '</div><div>';
         if (ac.gimmick === null) {
-            s += 'none<br>';
+            s += 'No Gimmick<br>';
         } else {
             switch (ac.gimmick.trigger) {
                 case 1:
@@ -255,15 +258,22 @@ function make_notemap(live) {
             }
             s += skill(ac.gimmick) + '<br>';
         }
+
         if (ac.range_note_ids !== null) {
             let aclength = (ac.range_note_ids[1] - ac.range_note_ids[0] + 1);
-            s += 'Length: ' + aclength + ' notes';
+            s += '<b>Length:</b> ' + aclength + ' notes';
             if (ac.mission_type === 1) {
-                s += ' (avg. ' + Math.ceil(ac.mission_value / aclength) + ' Voltage per note required)';
+                s += ' (avg. ' + Math.ceil(ac.mission_value / aclength) + ' Voltage per note)';
+            } else if (ac.mission_type === 8) {
+                s += ' (' + Math.ceil(ac.mission_value / aclength * 100) + '% of notes must crit)';
+            } else if (ac.mission_type === 9) {
+                s += ' (' + Math.ceil(ac.mission_value / aclength * 100) + '% of taps must proc)';
             }
-            s += '<br>Success: ' + ac.reward_voltage + ' Voltage<br>' +
-                'Failure: ' + ac.penalty_damage + ' Damage<br>';
+            s += '<div class="row nomargin"><div class="col m6 no-padding"><b>Success:</b> ' + ac.reward_voltage +
+                ' Voltage</div>' + '<div class="col m6 no-padding"><b>Failure:</b> ' + ac.penalty_damage + ' Damage</div></div>';
         }
+
+        s += '</div></div>';
     }
 
     return '<div class="notebarcontainer"><div class="notebar" style="--gimmicklayers: ' + stacker_global.length + '">' + s + "</div></div>";
