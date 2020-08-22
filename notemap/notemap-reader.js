@@ -34,16 +34,20 @@ function skill_target(target_id) {
     if (target_id === 77) return "non-Sp units ";
     if (target_id === 78) return "non-Gd units ";
     if (target_id === 79) return "non-Sk units ";
+    if (target_id === 87) return "non-Vo or Gd units ";
+    if (target_id === 90) return "non-Gd or Sp units ";
     throw new Error('Unknown Skill Target ' + target_id);
 }
 
 function skill_effect(type_id, amount) {
     if (type_id === 3) return "charge SP Gauge by " + amount + " points";
+    if (type_id === 4) return "gain " + amount + " points of shield";
     if (type_id === 5) return "restore " + amount + " points of stamina";
     if (type_id === 17) return "gain " + (amount / 100) + "% Appeal";
     if (type_id === 18) return "increase Voltage Gain by " + (amount / 100) + "%";
     if (type_id === 19) return "gain " + (amount / 100) + "% SP Gauge Fill Rate";
     if (type_id === 20) return "gain " + (amount / 100) + "% Critical Chance";
+    if (type_id === 21) return "gain " + (amount / 100) + "% Critical Power";
     if (type_id === 22) return "gain " + (amount / 100) + "% Skill Activation Chance";
     if (type_id === 23) return "increase SP Voltage Gain by " + (amount / 100) + "%";
     if (type_id === 45) return "gain " + (amount / 100) + "% Base SP Gauge Fill Rate";
@@ -66,9 +70,13 @@ function skill_effect(type_id, amount) {
     if (type_id === 86) return "lose " + (amount / 100) + "% Base Skill Activation Chance";
     if (type_id === 91) return "charge SP Gauge by " + (amount / 100) + "%";
     if (type_id === 96) return "restore " + (amount / 100) + "% of max stamina";
+    if (type_id === 132) return "restore " + amount + " points of stamina for each Sk unit in the formation";
     if (type_id === 134) return "restore " + amount + " points of stamina for each Gd unit in the formation";
     if (type_id === 141) return "gain " + (amount / 100) + "% Base Appeal for each Sk unit in the formation";
     if (type_id === 143) return "gain " + (amount / 100) + "% Base Appeal for each Gd unit in the formation";
+    if (type_id === 179) return "gain " + (amount / 100) + "% Critical Chance for each Sk unit in the formation";
+    if (type_id === 187) return "gain " + (amount / 100) + "% Base Critical Chance for each Sk unit in the formation";
+    if (type_id === 193) return "gain " + (amount / 100) + "% Critical Power for each Vo unit in the formation";
     throw new Error('Unknown Skill Effect Type ' + type_id);
 }
 

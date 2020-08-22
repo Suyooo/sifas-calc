@@ -53,7 +53,7 @@ the live difficulty ID, but `song_difficulty` will be set to 30.
 - 3: release
 
 Note: in the server live data, there are two more types, 4 and 5, for AC start and AC end.
-These notes are invisible in-game, and are always -1, 0 or 1 msec off, next to the start or finish note of the AC.
+These notes are invisible in-game, and are at most 2 msec off, next to the start or finish note of the AC.
 The `mapdb.json` file you can find in this repo has these notes merged together, so you can easily get the note count
 of a song by just using the length of the `notes` array.
 
@@ -127,20 +127,24 @@ of a song by just using the length of the `notes` array.
 - 77: Non-Sp Type  
 - 78: Non-Gd Type  
 - 79: Non-Sk Type
+- 87: Non-Vo or Gd Type
+- 90: Non-Gd or Sp Type
 
 ## Effects
 - 3: SP Gauge Charge (fixed amount)  
+- 4: Shield Gain (fixed amount)  
 - 5: Stamina Restore (fixed amount)  
 - 17: Appeal Up  
 - 18: Voltage Gain Up  
 - 19: SP Gauge Fill Rate Up  
-- 20: Critical Rate Up  
-- 22: Skill Activation Rate Up  
+- 20: Critical Chance Up  
+- 21: Critical Power Up  
+- 22: Skill Activation Chance Up  
 - 23: SP Voltage Gain Up  
 - 45: Base SP Gauge Fill Rate Up  
-- 46: Base Critical Rate Up  
+- 46: Base Critical Chance Up  
 - 47: Base Critical Power Up  
-- 48: Base Skill Activation Rate Up  
+- 48: Base Skill Activation Chance Up  
 - 49: Base Appeal Up  
 - 50: Base SP Voltage Gain Up  
 - 51: Base Voltage Gain Up  
@@ -148,18 +152,22 @@ of a song by just using the length of the `notes` array.
 - 69: SP Gauge Discharge (percentage of max)  
 - 71: Appeal Down  
 - 73: SP Gauge Fill Rate Down  
-- 76: Skill Activation Rate Down  
-- 78: Base Skill Activation Rate Down  
+- 76: Skill Activation Chance Down  
+- 78: Base Skill Activation Chance Down  
 - 81: Base Appeal Down  
 - 83: Base SP Gauge Fill Rate Down  
 - 84: Base Appeal Down (dupe?)  
 - 85: Base SP Gauge Fill Rate Down (dupe?)  
-- 86: Base Skill Activation Rate Down (dupe?)  
+- 86: Base Skill Activation Chance Down (dupe?)  
 - 91: SP Gauge Charge (percentage of max)  
 - 96: Stamina Restore (percentage of max)  
-- 134: Stamina Restore (fixed amount), for each Gd type  
-- 141: Base Appeal Up, for each Sk type  
-- 143: Base Appeal Up, for each Gd type  
+- 132: Stamina Restore (fixed amount), based on the amount of Sk types  
+- 134: Stamina Restore (fixed amount), based on the amount of Gd types  
+- 141: Base Appeal Up, based on the amount of Sk types  
+- 143: Base Appeal Up, based on the amount of Gd types  
+- 179: Critical Chance Up, based on the amount of Sk types  
+- 187: Base Critical Chance Up, based on the amount of Sk types
+- 193: Critical Power Up, based on the amount of Vo types
 
 ## Finish Conditions
 - 1: until song end  

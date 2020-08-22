@@ -11,6 +11,7 @@ function difficulty(diff_id) {
 }
 
 function attribute(attr_id) {
+    if (attr_id === 0) return "none";
     if (attr_id === 1) return "smile";
     if (attr_id === 2) return "pure";
     if (attr_id === 3) return "cool";
