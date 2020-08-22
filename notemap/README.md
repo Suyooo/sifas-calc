@@ -54,7 +54,7 @@ the live difficulty ID, but `song_difficulty` will be set to 30.
 
 Note: in the server live data, there are two more types, 4 and 5, for AC start and AC end.
 These notes are invisible in-game, and are always -1, 0 or 1 msec off, next to the start or finish note of the AC.
-The `song_db.json` file you can find in this repo has these notes merged together, so you can easily get the note count
+The `mapdb.json` file you can find in this repo has these notes merged together, so you can easily get the note count
 of a song by just using the length of the `notes` array.
 
 ## Actions
