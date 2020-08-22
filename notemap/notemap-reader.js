@@ -133,6 +133,19 @@ function make_notemap(live) {
                 s += '<div class="gimmick ' + (note.rail == 1 ? 'top' : 'bottom') + '" style="' +
                     'left: calc(' + ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1) + '% - 0.625em);">' +
                     (note.gimmick + 1) + '</div>';
+                if (live.note_gimmicks[note.gimmick].finish_type === 2) {
+                    let ni2 = ni + live.note_gimmicks[note.gimmick].finish_amount;
+                    if (ni2 >= live.notes.length) ni2 = live.notes.length - 1;
+                    s += '<div class="gimmicklength ' + (note.rail == 1 ? 'top' : 'bottom') + '" style="' +
+                        'left: ' + ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1) + '%;' +
+                        'width: ' + ((live.notes[ni2].time - note.time) / (lastnote_time - firstnote_time) * 98) + '%;">' +
+                        '&nbsp;</div>';
+                }
+            }
+            if (ni > 0 && ni % 10 === 0) {
+                s += '<div class="marker' + (ni % 50 === 0 ? ' fifty' : '') +
+                    '" style="left: calc(' + ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1) + '% - 1em);">' +
+                    '|<br>' + ni + '</div>';
             }
         }
 
