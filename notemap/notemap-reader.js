@@ -207,9 +207,13 @@ function make_notemap(live) {
             }
             s += skill(ac.gimmick) + '<br>';
         }
-
-        if (ac.reward_voltage !== null) {
-            s += 'Success: ' + ac.reward_voltage + ' Voltage<br>' +
+        if (ac.range_note_ids !== null) {
+            let aclength = (ac.range_note_ids[1] - ac.range_note_ids[0] + 1);
+            s += 'Length: ' + aclength + ' notes';
+            if (ac.mission_type === 1) {
+                s += ' (avg. ' + Math.ceil(ac.mission_value / aclength) + ' Voltage per note required)';
+            }
+            s += '<br>Success: ' + ac.reward_voltage + ' Voltage<br>' +
                 'Failure: ' + ac.penalty_damage + ' Damage<br>';
         }
     }

@@ -99,7 +99,8 @@ of a song by just using the length of the `notes` array.
 `effect_amount`: Effect strength  
 `trigger`: For song gimmicks, this is always 2 so far. For note and AC gimmicks, see the respective Gimmick Trigger sections above.  
 `finish_type`: Finish condition, see below  
-`finish_amount`: Value for the finish condition
+`finish_amount`: Value for the finish condition  
+`scale_type` and `calc_type`: Probably something about how the skills stack (additive/multiplicative)? Haven't looked into these much
 
 ## Targets
 - 1: All units  

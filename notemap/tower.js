@@ -13,6 +13,7 @@ function attribute(attr_id) {
 }
 
 let towerdata = JSON.parse(fs.readFileSync('notemap/tower.json'));
+let songdata = JSON.parse(fs.readFileSync('notemap/mapdb.json'));
 let layout = fs.readFileSync('notemap/tower.html').toString();
 let s = "";
 
@@ -26,6 +27,13 @@ for (let tower_id in towerdata) {
 
     for (let fi = 0; fi < tower["floors"].length; fi++) {
         let floor = tower["floors"][fi];
+        if (floor["notemap_live_difficulty_id"] !== null) {
+            let freelive = songdata[floor["notemap_live_difficulty_id"]];
+            floor["notes"] = freelive["notes"];
+            floor["gimmick"] = freelive["gimmick"];
+            floor["note_gimmicks"] = freelive["note_gimmicks"];
+            floor["appeal_chances"] = freelive["appeal_chances"];
+        }
 
         s += '<ul class="collapsible" data-collapsible="expandable"><li>' +
             '<div class="collapsible-header' + (floor.floor_type === 5 ? ' light-blue lighten-5' : '') + '">' +
