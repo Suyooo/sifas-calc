@@ -113,6 +113,11 @@
     --gimmicklayer: var(--gimmicklayer-filtered) !important;
 }
 
+.notebar .gimmick.hidden {
+    opacity: 0.1;
+    z-index: 0;
+}
+
 .notebar .gimmickmarker {
     position: absolute;
     background: var(--sidenav);
@@ -132,10 +137,8 @@
     background: black;
     position: absolute;
     z-index: 4;
-    top: calc((-1.45 - var(--gimmicklayer) * 1.25) * 1em);
-    /* this looks weird but it does ensure all the bars look the same height! */
-    height: 1.25em;
-    transform: scaleY(0.1);
+    top: calc((-.925 - var(--gimmicklayer) * 1.25) * 1em);
+    height: 2px;
 }
 
 .notebar .marker {

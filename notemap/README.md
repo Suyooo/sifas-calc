@@ -12,7 +12,7 @@ The live difficulty ID can be read as `ABCCCDDE`:
 
 ## Live type
 - 1: Free Live
-- 2: Story Live
+- 2: Story Live and Event Songs (no attribute)
 - 4: Sukusuta Big Live
 - 5: Dream Live Parade
 
