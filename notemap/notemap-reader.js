@@ -61,6 +61,7 @@ function skill_effect(type_id, amount) {
     if (type_id === 69) return "discharge SP Gauge by " + (amount / 100) + "%";
     if (type_id === 71) return "lose " + (amount / 100) + "% Appeal";
     if (type_id === 73) return "lose " + (amount / 100) + "% SP Gauge Fill Rate";
+    if (type_id === 75) return "lose " + (amount / 100) + "% Critical Power";
     if (type_id === 76) return "lose " + (amount / 100) + "% Skill Activation Chance";
     if (type_id === 78) return "lose " + (amount / 100) + "% Base Skill Activation Chance";
     if (type_id === 81) return "lose " + (amount / 100) + "% Base Appeal";
@@ -77,6 +78,7 @@ function skill_effect(type_id, amount) {
     if (type_id === 179) return "gain " + (amount / 100) + "% Critical Chance for each Sk unit in the formation";
     if (type_id === 187) return "gain " + (amount / 100) + "% Base Critical Chance for each Sk unit in the formation";
     if (type_id === 193) return "gain " + (amount / 100) + "% Critical Power for each Vo unit in the formation";
+    if (type_id === 230) return "increase the power of their Strategy Switch bonus by " + amount + " points";
     throw new Error('Unknown Skill Effect Type ' + type_id);
 }
 
@@ -175,7 +177,7 @@ function make_notemap(live) {
                     stacker_global[stack_layer_global] = stacker_seperate[note.gimmick][stack_layer_seperate] = marker_position + marker_length;
                 } else {
                     // magic value (TM) to avoid too much overlap of start markers
-                    stacker_global[stack_layer_global] = stacker_seperate[note.gimmick][stack_layer_seperate] = marker_position + 0.7;
+                    stacker_global[stack_layer_global] = stacker_seperate[note.gimmick][stack_layer_seperate] = marker_position + 0.75;
                 }
                 s += '</div>';
             }

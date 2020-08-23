@@ -86,7 +86,7 @@ of a song by just using the length of the `notes` array.
 - 7: Appeal with unique units
 - 8: Get Criticals
 - 9: Activate Tap Skills
-    
+
 ## Gimmick Triggers
 - 1: On AC Start (start note hit or missed)
 - 2: On AC Success
@@ -103,76 +103,78 @@ of a song by just using the length of the `notes` array.
 `scale_type` and `calc_type`: Probably something about how the skills stack (additive/multiplicative)? Haven't looked into these much
 
 ## Targets
-- 1: All units  
-- 30: Aqours  
-- 31: Nijigaku  
-- 38: Vo Type  
-- 39: Sp Type  
-- 40: Gd Type  
-- 41: Sk Type  
+- 1: All units
+- 30: Aqours
+- 31: Nijigaku
+- 38: Vo Type
+- 39: Sp Type
+- 40: Gd Type
+- 41: Sk Type
 - 58: No target (skill affects SP gauge or stamina)
-- 61: Smile  
-- 62: Pure  
-- 63: Cool  
-- 64: Active  
-- 65: Natural  
-- 66: Elegant  
-- 67: Non-Smile  
-- 68: Non-Vo Type  
-- 72: Non-Pure  
-- 73: Non-Cool  
-- 74: Non-Active  
-- 75: Non-Natural  
-- 76: Non-Elegant  
-- 77: Non-Sp Type  
-- 78: Non-Gd Type  
+- 61: Smile
+- 62: Pure
+- 63: Cool
+- 64: Active
+- 65: Natural
+- 66: Elegant
+- 67: Non-Smile
+- 68: Non-Vo Type
+- 72: Non-Pure
+- 73: Non-Cool
+- 74: Non-Active
+- 75: Non-Natural
+- 76: Non-Elegant
+- 77: Non-Sp Type
+- 78: Non-Gd Type
 - 79: Non-Sk Type
 - 87: Non-Vo or Gd Type
 - 90: Non-Gd or Sp Type
 
 ## Effects
-- 3: SP Gauge Charge (fixed amount)  
-- 4: Shield Gain (fixed amount)  
-- 5: Stamina Restore (fixed amount)  
-- 17: Appeal Up  
-- 18: Voltage Gain Up  
-- 19: SP Gauge Fill Rate Up  
-- 20: Critical Chance Up  
-- 21: Critical Power Up  
-- 22: Skill Activation Chance Up  
-- 23: SP Voltage Gain Up  
-- 45: Base SP Gauge Fill Rate Up  
-- 46: Base Critical Chance Up  
-- 47: Base Critical Power Up  
-- 48: Base Skill Activation Chance Up  
-- 49: Base Appeal Up  
-- 50: Base SP Voltage Gain Up  
-- 51: Base Voltage Gain Up  
-- 68: Stamina Damage (fixed amount)  
-- 69: SP Gauge Discharge (percentage of max)  
-- 71: Appeal Down  
-- 73: SP Gauge Fill Rate Down  
-- 76: Skill Activation Chance Down  
-- 78: Base Skill Activation Chance Down  
-- 81: Base Appeal Down  
-- 83: Base SP Gauge Fill Rate Down  
-- 84: Base Appeal Down (dupe?)  
-- 85: Base SP Gauge Fill Rate Down (dupe?)  
-- 86: Base Skill Activation Chance Down (dupe?)  
-- 91: SP Gauge Charge (percentage of max)  
-- 96: Stamina Restore (percentage of max)  
-- 132: Stamina Restore (fixed amount), based on the amount of Sk types  
-- 134: Stamina Restore (fixed amount), based on the amount of Gd types  
-- 141: Base Appeal Up, based on the amount of Sk types  
-- 143: Base Appeal Up, based on the amount of Gd types  
-- 179: Critical Chance Up, based on the amount of Sk types  
+- 3: SP Gauge Charge (fixed amount)
+- 4: Shield Gain (fixed amount)
+- 5: Stamina Restore (fixed amount)
+- 17: Appeal Up
+- 18: Voltage Gain Up
+- 19: SP Gauge Fill Rate Up
+- 20: Critical Chance Up
+- 21: Critical Power Up
+- 22: Skill Activation Chance Up
+- 23: SP Voltage Gain Up
+- 45: Base SP Gauge Fill Rate Up
+- 46: Base Critical Chance Up
+- 47: Base Critical Power Up
+- 48: Base Skill Activation Chance Up
+- 49: Base Appeal Up
+- 50: Base SP Voltage Gain Up
+- 51: Base Voltage Gain Up
+- 68: Stamina Damage (fixed amount)
+- 69: SP Gauge Discharge (percentage of max)
+- 71: Appeal Down
+- 73: SP Gauge Fill Rate Down
+- 75: Critical Power Down
+- 76: Skill Activation Chance Down
+- 78: Base Skill Activation Chance Down
+- 81: Base Appeal Down
+- 83: Base SP Gauge Fill Rate Down
+- 84: Base Appeal Down (dupe?)
+- 85: Base SP Gauge Fill Rate Down (dupe?)
+- 86: Base Skill Activation Chance Down (dupe?)
+- 91: SP Gauge Charge (percentage of max)
+- 96: Stamina Restore (percentage of max)
+- 132: Stamina Restore (fixed amount), based on the amount of Sk types
+- 134: Stamina Restore (fixed amount), based on the amount of Gd types
+- 141: Base Appeal Up, based on the amount of Sk types
+- 143: Base Appeal Up, based on the amount of Gd types
+- 179: Critical Chance Up, based on the amount of Sk types
 - 187: Base Critical Chance Up, based on the amount of Sk types
 - 193: Critical Power Up, based on the amount of Vo types
+- 230: Strategy Switch Bonus Up (fixed amount)
 
 ## Finish Conditions
-- 1: until song end  
-- 2: for X notes  
+- 1: until song end
+- 2: for X notes
 - 3: instant effect, no finishing (stamina or SP gauge effects)
-- 4: until AC ends  
-- 7: one time only  
-- 8: until next switch  
+- 4: until AC ends
+- 7: one time only
+- 8: until next switch
