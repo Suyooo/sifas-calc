@@ -58,6 +58,24 @@
             $(".indicator", tabs).css("left", (tabwidth * tabindex) + "%")
                 .css("right", (tabwidth * (-tabindex + alltabs.length - 2)) + "%");
         }
+
+        // gimmick filtering
+        let col = this;
+        let gimmicks = $(".detailinfo .gimmick", this);
+        gimmicks.click(function() {
+            gimmicks.removeClass("filtered");
+            $(this).addClass("filtered");
+            let gim = $(this).data("gimmick");
+            $(".notebar .gimmick", col).each(function() {
+                if ($(this).data("gimmick") === gim) {
+                    $(this).removeClass("hidden");
+                    $(this).addClass("filtered");
+                } else {
+                    $(this).removeClass("filtered");
+                    $(this).addClass("hidden");
+                }
+            })
+        });
     });
 });</script>
 </body>

@@ -54,7 +54,7 @@
     font-size: 150%;
 }
 
-.appealchance {
+.notebar .appealchance {
     position: absolute;
     top: 0;
     height: 100%;
@@ -114,7 +114,7 @@
 }
 
 .notebar .gimmick.hidden {
-    opacity: 0.1;
+    opacity: 0.05;
     z-index: 0;
 }
 
@@ -161,10 +161,14 @@
 }
 
 .detailinfo > div > div:first-child {
-    background-color: var(--key-low2);
+    background-color: var(--key-low);
     border-bottom: 1px solid var(--border);
     padding: .3em .8em .2em;
     font-weight: bold;
+}
+
+.detailinfo > div.filtered > div:first-child {
+    background-color: var(--key-normal);
 }
 
 .detailinfo > div > div:last-child {

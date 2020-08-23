@@ -85,6 +85,7 @@ function skill_effect(type_id, amount) {
     if (type_id === 51) return "increase Base Voltage Gain by " + format(amount / 100) + "%";
     if (type_id === 68) return "deal " + format(amount) + " points of stamina damage";
     if (type_id === 69) return "discharge SP Gauge by " + format(amount / 100) + "%";
+    if (type_id === 70) return "lose " + format(amount) + " points of shield";
     if (type_id === 71) return "lose " + format(amount / 100) + "% Appeal";
     if (type_id === 73) return "lose " + format(amount / 100) + "% SP Gauge Fill Rate";
     if (type_id === 75) return "lose " + format(amount / 100) + "% Critical Power";
@@ -96,6 +97,7 @@ function skill_effect(type_id, amount) {
     if (type_id === 85) return "lose " + format(amount / 100) + "% Base SP Gauge Fill Rate";
     if (type_id === 86) return "lose " + format(amount / 100) + "% Base Skill Activation Chance";
     if (type_id === 91) return "charge SP Gauge by " + format(amount / 100) + "%";
+    if (type_id === 93) return "gain " + format(amount / 100) + "% of max stamina as shield";
     if (type_id === 96) return "restore " + format(amount / 100) + "% of max stamina";
     if (type_id === 132) return "restore " + format(amount) + " points of stamina for each Sk unit in the formation";
     if (type_id === 134) return "restore " + format(amount) + " points of stamina for each Gd unit in the formation";
@@ -144,7 +146,7 @@ function make_notemap(live) {
             let start = live.notes[ac.range_note_ids[0]].time;
             let length = live.notes[ac.range_note_ids[1]].time - start;
 
-            s += '<div class="appealchance" style="' +
+            s += '<div data-ac="' + ai + '" class="appealchance" style="' +
                 'left: ' + ((start - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1) + '%;' +
                 'width: ' + (length / (lastnote_time - firstnote_time) * 98) + '%;">' +
                 '&nbsp;</div>';
@@ -187,8 +189,8 @@ function make_notemap(live) {
                 if (stack_layer_seperate == stacker_seperate[note.gimmick].length)
                     stacker_seperate[note.gimmick].push(0);
 
-                s += '<div class="gimmick" style="--gimmicklayer: ' + stack_layer_global + ';' +
-                    '--gimmicklayer-filtered: ' + stack_layer_seperate + ';"><div class="gimmickmarker" style="' +
+                s += '<div class="gimmick" data-gimmick="' + note.gimmick + '" style="--gimmicklayer: ' + stack_layer_global +
+                    ';' + '--gimmicklayer-filtered: ' + stack_layer_seperate + ';"><div class="gimmickmarker" style="' +
                     'left: calc(' + marker_position + '% - 0.625em);">' + (note.gimmick + 1) + '</div>';
                 if (live.note_gimmicks[note.gimmick].finish_type === 2) {
                     let ni2 = ni + live.note_gimmicks[note.gimmick].finish_amount;
@@ -239,7 +241,7 @@ function make_notemap(live) {
     for (let gi = 0; gi < live.note_gimmicks.length; gi++) {
         let noteg = live.note_gimmicks[gi];
 
-        s += '<div><div>Note Gimmick ' + format(gi + 1) + '</div><div>';
+        s += '<div data-gimmick="' + gi + '" class="gimmick"><div>Note Gimmick ' + format(gi + 1) + '</div><div>';
         switch (noteg.trigger) {
             case 1:
                 s += "If hit, ";
@@ -265,11 +267,12 @@ function make_notemap(live) {
         s += '</div></div>';
     }
 
-    s += '</div><div class="col l6 detailinfo"><b style="font-size: 150%">Appeal Chances</b>';
+    s += '</div><div class="col l6 detailinfo" class="appealchance"><b style="font-size: 150%">Appeal Chances</b>';
     for (let ai = 0; ai < live.appeal_chances.length; ai++) {
         let ac = live.appeal_chances[ai];
 
-        s += '<div><div>AC ' + format(ai + 1) + ': ' + ac_mission(ac.mission_type, ac.mission_value) + '</div><div>';
+        s += '<div data-ac="' + ai + '"><div>AC ' + format(ai + 1) + ': ' + ac_mission(ac.mission_type, ac.mission_value) +
+            '</div><div>';
         if (ac.gimmick === null) {
             s += 'No Gimmick<br>';
         } else {
