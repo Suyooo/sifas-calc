@@ -2,25 +2,6 @@ const fs = require('fs');
 const notemap = require('./notemap-reader.js');
 const minify = require('html-minifier').minify;
 
-function difficulty(diff_id) {
-    if (diff_id === 10) return "Beginner";
-    if (diff_id === 20) return "Intermediate";
-    if (diff_id === 30) return "Advanced";
-    if (diff_id === 40) return "Advanced+";
-    throw new Error('Unknown Difficulty ' + diff_id);
-}
-
-function attribute(attr_id) {
-    if (attr_id === 1) return "smile";
-    if (attr_id === 2) return "pure";
-    if (attr_id === 3) return "cool";
-    if (attr_id === 4) return "active";
-    if (attr_id === 5) return "natural";
-    if (attr_id === 6) return "elegant";
-    if (attr_id === 9) return "none";
-    throw new Error('Unknown Attribute ' + attr_id);
-}
-
 let songdata = JSON.parse(fs.readFileSync('notemap/mapdb.json'));
 let layout = fs.readFileSync('notemap/notemap.html').toString();
 let s = "<h5>µ's</h5>"
@@ -60,14 +41,15 @@ for (let li = 0; li < live_ids.length; li++) {
 
         s += '<ul class="collapsible" data-collapsible="expandable"><li>' +
             '<div class="collapsible-header">' +
-            '<img src="image/icon_' + attribute(live.song_attribute) + '.png" alt="' + attribute(live.song_attribute) + '">' +
+            '<img src="image/icon_' + notemap.attribute(live.song_attribute) + '.png" ' +
+            'alt="' + notemap.attribute(live.song_attribute) + '">' +
             '<b>' + live.song_name + '</b></div>' +
             '<div class="collapsible-body"><ul class="tabs tabs-transparent tabs-fixed-width">';
     }
     if (live_difficulty_id !== 20010301) last_live_id = live_difficulty_id;
 
     s += '<li class="tab"><a href="#' + live_difficulty_id + '"' + (diff_id === 30 ? ' class="active"' : '') + '>' +
-        difficulty(diff_id) + '</a></li>';
+        notemap.difficulty(diff_id) + '</a></li>';
     current_tabs += '<div id="' + live_difficulty_id + '">' +
         '<div class="row nomargin"><div class="col l6"><b>S Rank: </b>' + notemap.format(live.ranks.S) + '</div>' +
         '<div class="col l6"><b>A Rank: </b>' + notemap.format(live.ranks.A) + '</div></div>' +

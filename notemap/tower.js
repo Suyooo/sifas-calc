@@ -2,17 +2,6 @@ const fs = require('fs');
 const notemap = require('./notemap-reader.js');
 const minify = require('html-minifier').minify;
 
-function attribute(attr_id) {
-    if (attr_id === 0) return "none";
-    if (attr_id === 1) return "smile";
-    if (attr_id === 2) return "pure";
-    if (attr_id === 3) return "cool";
-    if (attr_id === 4) return "active";
-    if (attr_id === 5) return "natural";
-    if (attr_id === 6) return "elegant";
-    throw new Error('Unknown Attribute ' + attr_id);
-}
-
 let towerdata = JSON.parse(fs.readFileSync('notemap/tower.json'));
 let songdata = JSON.parse(fs.readFileSync('notemap/mapdb.json'));
 let layout = fs.readFileSync('notemap/tower.html').toString();
@@ -38,7 +27,8 @@ for (let tower_id in towerdata) {
 
         s += '<ul class="collapsible" data-collapsible="expandable"><li>' +
             '<div class="collapsible-header' + (floor.floor_type === 5 ? ' light-blue lighten-5' : '') + '">' +
-            '<img src="image/icon_' + attribute(floor.song_attribute) + '.png" alt="' + attribute(floor.song_attribute) + '">' +
+            '<img src="image/icon_' + notemap.attribute(floor.song_attribute) + '.png" ' +
+            'alt="' + notemap.attribute(floor.song_attribute) + '">' +
             '<b class="floorno">' + floor.floor_number + (floor.notes === null ? " *" : "") + ')</b>' +
             '<div class="row">' +
             '<div class="col l3"><b>' + floor.song_name + '</b></div>' +
@@ -54,7 +44,9 @@ for (let tower_id in towerdata) {
             '<div class="row nomargin"><div class="col l6"><b>Note Damage: </b>' + notemap.format(floor.note_damage) +
             ' (' + notemap.format(Math.round(floor.note_damage_rate * 100)) + '% of Free Live)</div>' +
             '<div class="col l6"><b>Clear Reward: </b>' +
-            notemap.format(floor.reward_clear["19001"]) + ' medals, ' + notemap.format(floor.reward_clear["0"]) + ' stars</div>' + "</div>";
+            notemap.format(floor.reward_clear["19001"]) + ' medals, ' + notemap.format(floor.reward_clear["0"]) + ' stars</div></div>' +
+            '<div class="row nomargin"><div class="col l6"><b>Difficulty: </b>' + notemap.difficulty(floor.song_difficulty) + '</div>' +
+            '<div class="col l6"><b>Floor Type: </b>' + (floor.floor_type === 5 ? 'Super Stage' : 'Regular') + '</div></div>';
 
         s += notemap.make(floor);
 

@@ -11,6 +11,25 @@ function format(x) {
     return parts.join(".");
 }
 
+function attribute(attr_id) {
+    if (attr_id === 1) return "smile";
+    if (attr_id === 2) return "pure";
+    if (attr_id === 3) return "cool";
+    if (attr_id === 4) return "active";
+    if (attr_id === 5) return "natural";
+    if (attr_id === 6) return "elegant";
+    if (attr_id === 9) return "none";
+    throw new Error('Unknown Attribute ' + attr_id);
+}
+
+function difficulty(diff_id) {
+    if (diff_id === 10) return "Beginner";
+    if (diff_id === 20) return "Intermediate";
+    if (diff_id === 30) return "Advanced";
+    if (diff_id === 40) return "Advanced+";
+    throw new Error('Unknown Difficulty ' + diff_id);
+}
+
 function skill(skill) {
     return skill_target(skill.target) + skill_effect(skill.effect_type, skill.effect_amount) +
         skill_finish(skill.finish_type, skill.finish_amount);
@@ -115,7 +134,6 @@ function ac_mission(type_id, goal) {
 function make_notemap(live) {
     let s = "";
 
-    let stacker_global = [];
     if (live.notes !== null) {
         let firstnote_time = live.notes[0].time;
         let lastnote_time = live.notes[live.notes.length - 1].time;
@@ -133,6 +151,7 @@ function make_notemap(live) {
             totalacnotes += ac.range_note_ids[1] - ac.range_note_ids[0] + 1;
         }
 
+        let stacker_global = [];
         let stacker_seperate = [];
         for (let gi = 0; gi < live.note_gimmicks.length; gi++) stacker_seperate.push([]);
         for (let ni = 0; ni < live.notes.length; ni++) {
@@ -197,8 +216,9 @@ function make_notemap(live) {
 
         s += '</div></div><div class="row"><div class="col l6"><b>Note Count: </b>' + format(live.notes.length) + '</div>' +
             '<div class="col l6"><b>Notes in ACs: </b>' + format(totalacnotes) + '</div></div>';
+        s = '<div class="notebarcontainer"><div class="notebar" style="--gimmicklayers: ' + stacker_global.length + '">' + s;
     } else {
-        s += '<div class="row" style="text-align: center">(no note map available)</div>';
+        s += '<div class="row" style="margin-top: 1em; text-align: center">(no note map available)</div>';
     }
 
     s += '<div class="row">'
@@ -289,11 +309,13 @@ function make_notemap(live) {
         s += '</div></div>';
     }
 
-    return '<div class="notebarcontainer"><div class="notebar" style="--gimmicklayers: ' + stacker_global.length + '">' + s + "</div></div>";
+    return s + "</div></div>";
 }
 
 module.exports = {
     "make": make_notemap,
+    "attribute": attribute,
+    "difficulty": difficulty,
     "skill_effect": skill_effect,
     "format": format
 };
