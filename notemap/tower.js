@@ -42,26 +42,27 @@ for (let tower_id in towerdata) {
             '<b class="floorno">' + floor.floor_number + (floor.notes === null ? " *" : "") + ')</b>' +
             '<div class="row">' +
             '<div class="col l3"><b>' + floor.song_name + '</b></div>' +
-            '<div class="col l3"><b>Target:</b> ' + floor.voltage_target + '</div>' +
+            '<div class="col l3"><b>Target:</b> ' + notemap.format(floor.voltage_target) + '</div>' +
             '<div class="col l3"><b>Cleansable:</b> ' +
             (floor.gimmick === null ? "-" :
                 notemap.skill_effect(floor.gimmick.effect_type, 0).indexOf("Base") === -1 ? "Yes" : "No") + '</div>' +
-            '<div class="col l3"><b>Note Damage:</b> ' + floor.note_damage + '</div>' +
+            '<div class="col l3"><b>Note Damage:</b> ' + notemap.format(floor.note_damage) + '</div>' +
             '</div></div>';
         s += '<div class="collapsible-body">' +
-            '<div class="row nomargin"><div class="col l6"><b>Voltage Target: </b>' + floor.voltage_target + '</div>' +
-            '<div class="col l6"><b>Recommended Stamina: </b>' + floor.recommended_stamina + '</div></div>' +
-            '<div class="row nomargin"><div class="col l6"><b>Note Damage: </b>' + floor.note_damage +
-            ' (' + Math.round(floor.note_damage_rate * 100) + '% of Free Live)</div>' +
+            '<div class="row nomargin"><div class="col l6"><b>Voltage Target: </b>' + notemap.format(floor.voltage_target) + '</div>' +
+            '<div class="col l6"><b>Recommended Stamina: </b>' + notemap.format(floor.recommended_stamina) + '</div></div>' +
+            '<div class="row nomargin"><div class="col l6"><b>Note Damage: </b>' + notemap.format(floor.note_damage) +
+            ' (' + notemap.format(Math.round(floor.note_damage_rate * 100)) + '% of Free Live)</div>' +
             '<div class="col l6"><b>Clear Reward: </b>' +
-            floor.reward_clear["19001"] + ' medals, ' + floor.reward_clear["0"] + ' stars</div>' + "</div>";
+            notemap.format(floor.reward_clear["19001"]) + ' medals, ' + notemap.format(floor.reward_clear["0"]) + ' stars</div>' + "</div>";
 
         s += notemap.make(floor);
 
         s += '</div></li></ul>';
 
         if (floor.reward_progress !== null) {
-            s += '<div class="progress reward"><b>Progress Reward:</b> ' + floor.reward_progress["19001"] + ' medals, ' + floor.reward_progress["0"] + ' stars</div>';
+            s += '<div class="progress reward"><b>Progress Reward:</b> ' + notemap.format(floor.reward_progress["19001"]) +
+                ' medals, ' + notemap.format(floor.reward_progress["0"]) + ' stars</div>';
         } else {
             s += '<div class="progress">&nbsp;</div>';
         }

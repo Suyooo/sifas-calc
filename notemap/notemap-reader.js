@@ -4,6 +4,13 @@ function capFirstLetter(s) {
     return s.substring(0, 1).toUpperCase() + s.substring(1);
 }
 
+function format(x) {
+    // https://stackoverflow.com/a/2901298
+    let parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts.join(".");
+}
+
 function skill(skill) {
     return skill_target(skill.target) + skill_effect(skill.effect_type, skill.effect_amount) +
         skill_finish(skill.finish_type, skill.finish_amount);
@@ -40,51 +47,51 @@ function skill_target(target_id) {
 }
 
 function skill_effect(type_id, amount) {
-    if (type_id === 3) return "charge SP Gauge by " + amount + " points";
-    if (type_id === 4) return "gain " + amount + " points of shield";
-    if (type_id === 5) return "restore " + amount + " points of stamina";
-    if (type_id === 17) return "gain " + (amount / 100) + "% Appeal";
-    if (type_id === 18) return "increase Voltage Gain by " + (amount / 100) + "%";
-    if (type_id === 19) return "gain " + (amount / 100) + "% SP Gauge Fill Rate";
-    if (type_id === 20) return "gain " + (amount / 100) + "% Critical Chance";
-    if (type_id === 21) return "gain " + (amount / 100) + "% Critical Power";
-    if (type_id === 22) return "gain " + (amount / 100) + "% Skill Activation Chance";
-    if (type_id === 23) return "increase SP Voltage Gain by " + (amount / 100) + "%";
-    if (type_id === 45) return "gain " + (amount / 100) + "% Base SP Gauge Fill Rate";
-    if (type_id === 46) return "gain " + (amount / 100) + "% Base Critical Chance";
-    if (type_id === 47) return "gain " + (amount / 100) + "% Base Critical Power";
-    if (type_id === 48) return "gain " + (amount / 100) + "% Base Skill Activation Chance";
-    if (type_id === 49) return "gain " + (amount / 100) + "% Base Appeal";
-    if (type_id === 50) return "increase Base SP Voltage Gain by " + (amount / 100) + "%";
-    if (type_id === 51) return "increase Base Voltage Gain by " + (amount / 100) + "%";
-    if (type_id === 68) return "deal " + amount + " points of stamina damage";
-    if (type_id === 69) return "discharge SP Gauge by " + (amount / 100) + "%";
-    if (type_id === 71) return "lose " + (amount / 100) + "% Appeal";
-    if (type_id === 73) return "lose " + (amount / 100) + "% SP Gauge Fill Rate";
-    if (type_id === 75) return "lose " + (amount / 100) + "% Critical Power";
-    if (type_id === 76) return "lose " + (amount / 100) + "% Skill Activation Chance";
-    if (type_id === 78) return "lose " + (amount / 100) + "% Base Skill Activation Chance";
-    if (type_id === 81) return "lose " + (amount / 100) + "% Base Appeal";
-    if (type_id === 83) return "lose " + (amount / 100) + "% Base SP Gauge Fill Rate";
-    if (type_id === 84) return "lose " + (amount / 100) + "% Base Appeal";
-    if (type_id === 85) return "lose " + (amount / 100) + "% Base SP Gauge Fill Rate";
-    if (type_id === 86) return "lose " + (amount / 100) + "% Base Skill Activation Chance";
-    if (type_id === 91) return "charge SP Gauge by " + (amount / 100) + "%";
-    if (type_id === 96) return "restore " + (amount / 100) + "% of max stamina";
-    if (type_id === 132) return "restore " + amount + " points of stamina for each Sk unit in the formation";
-    if (type_id === 134) return "restore " + amount + " points of stamina for each Gd unit in the formation";
-    if (type_id === 141) return "gain " + (amount / 100) + "% Base Appeal for each Sk unit in the formation";
-    if (type_id === 143) return "gain " + (amount / 100) + "% Base Appeal for each Gd unit in the formation";
-    if (type_id === 179) return "gain " + (amount / 100) + "% Critical Chance for each Sk unit in the formation";
-    if (type_id === 187) return "gain " + (amount / 100) + "% Base Critical Chance for each Sk unit in the formation";
-    if (type_id === 193) return "gain " + (amount / 100) + "% Critical Power for each Vo unit in the formation";
-    if (type_id === 230) return "increase the power of their Strategy Switch bonus by " + amount + " points";
+    if (type_id === 3) return "charge SP Gauge by " + format(amount) + " points";
+    if (type_id === 4) return "gain " + format(amount) + " points of shield";
+    if (type_id === 5) return "restore " + format(amount) + " points of stamina";
+    if (type_id === 17) return "gain " + format(amount / 100) + "% Appeal";
+    if (type_id === 18) return "increase Voltage Gain by " + format(amount / 100) + "%";
+    if (type_id === 19) return "gain " + format(amount / 100) + "% SP Gauge Fill Rate";
+    if (type_id === 20) return "gain " + format(amount / 100) + "% Critical Chance";
+    if (type_id === 21) return "gain " + format(amount / 100) + "% Critical Power";
+    if (type_id === 22) return "gain " + format(amount / 100) + "% Skill Activation Chance";
+    if (type_id === 23) return "increase SP Voltage Gain by " + format(amount / 100) + "%";
+    if (type_id === 45) return "gain " + format(amount / 100) + "% Base SP Gauge Fill Rate";
+    if (type_id === 46) return "gain " + format(amount / 100) + "% Base Critical Chance";
+    if (type_id === 47) return "gain " + format(amount / 100) + "% Base Critical Power";
+    if (type_id === 48) return "gain " + format(amount / 100) + "% Base Skill Activation Chance";
+    if (type_id === 49) return "gain " + format(amount / 100) + "% Base Appeal";
+    if (type_id === 50) return "increase Base SP Voltage Gain by " + format(amount / 100) + "%";
+    if (type_id === 51) return "increase Base Voltage Gain by " + format(amount / 100) + "%";
+    if (type_id === 68) return "deal " + format(amount) + " points of stamina damage";
+    if (type_id === 69) return "discharge SP Gauge by " + format(amount / 100) + "%";
+    if (type_id === 71) return "lose " + format(amount / 100) + "% Appeal";
+    if (type_id === 73) return "lose " + format(amount / 100) + "% SP Gauge Fill Rate";
+    if (type_id === 75) return "lose " + format(amount / 100) + "% Critical Power";
+    if (type_id === 76) return "lose " + format(amount / 100) + "% Skill Activation Chance";
+    if (type_id === 78) return "lose " + format(amount / 100) + "% Base Skill Activation Chance";
+    if (type_id === 81) return "lose " + format(amount / 100) + "% Base Appeal";
+    if (type_id === 83) return "lose " + format(amount / 100) + "% Base SP Gauge Fill Rate";
+    if (type_id === 84) return "lose " + format(amount / 100) + "% Base Appeal";
+    if (type_id === 85) return "lose " + format(amount / 100) + "% Base SP Gauge Fill Rate";
+    if (type_id === 86) return "lose " + format(amount / 100) + "% Base Skill Activation Chance";
+    if (type_id === 91) return "charge SP Gauge by " + format(amount / 100) + "%";
+    if (type_id === 96) return "restore " + format(amount / 100) + "% of max stamina";
+    if (type_id === 132) return "restore " + format(amount) + " points of stamina for each Sk unit in the formation";
+    if (type_id === 134) return "restore " + format(amount) + " points of stamina for each Gd unit in the formation";
+    if (type_id === 141) return "gain " + format(amount / 100) + "% Base Appeal for each Sk unit in the formation";
+    if (type_id === 143) return "gain " + format(amount / 100) + "% Base Appeal for each Gd unit in the formation";
+    if (type_id === 179) return "gain " + format(amount / 100) + "% Critical Chance for each Sk unit in the formation";
+    if (type_id === 187) return "gain " + format(amount / 100) + "% Base Critical Chance for each Sk unit in the formation";
+    if (type_id === 193) return "gain " + format(amount / 100) + "% Critical Power for each Vo unit in the formation";
+    if (type_id === 230) return "increase the power of their Strategy Switch bonus by " + format(amount) + " points";
     throw new Error('Unknown Skill Effect Type ' + type_id);
 }
 
 function skill_finish(condition_id, amount) {
     if (condition_id === 1) return " until the song ends"
-    if (condition_id === 2) return " for " + amount + " notes"
+    if (condition_id === 2) return " for " + format(amount) + " notes"
     if (condition_id === 3) return "" // instant effect (affecting SP charge or stamina)
     if (condition_id === 4) return "" // until AC ends (this is handled in the trigger switch below)
     if (condition_id === 7) return " for one time only"
@@ -93,15 +100,15 @@ function skill_finish(condition_id, amount) {
 }
 
 function ac_mission(type_id, goal) {
-    if (type_id === 1) return "Get " + goal + " Voltage";
-    if (type_id === 2) return "Hit " + goal + " NICEs";
-    if (type_id === 3) return "Hit " + goal + " GREATs";
-    if (type_id === 4) return "Hit " + goal + " WONDERFULs";
-    if (type_id === 5) return goal + " Voltage in one Appeal";
-    if (type_id === 6) return goal + " Voltage from SP";
-    if (type_id === 7) return "Appeal with " + goal + " Units";
-    if (type_id === 8) return "Get " + goal + " Criticals";
-    if (type_id === 9) return "Activate " + goal + " Tap Skills";
+    if (type_id === 1) return "Get " + format(goal) + " Voltage";
+    if (type_id === 2) return "Hit " + format(goal) + " NICEs";
+    if (type_id === 3) return "Hit " + format(goal) + " GREATs";
+    if (type_id === 4) return "Hit " + format(goal) + " WONDERFULs";
+    if (type_id === 5) return format(goal) + " Voltage in one Appeal";
+    if (type_id === 6) return format(goal) + " Voltage from SP";
+    if (type_id === 7) return "Appeal with " + format(goal) + " Units";
+    if (type_id === 8) return "Get " + format(goal) + " Criticals";
+    if (type_id === 9) return "Activate " + format(goal) + " Tap Skills";
     throw new Error('Unknown AC Mission Type ' + type_id);
 }
 
@@ -184,12 +191,12 @@ function make_notemap(live) {
             if (ni > 0 && ni % 10 === 0) {
                 s += '<div class="marker' + (ni % 50 === 0 ? ' fifty' : '') +
                     '" style="left: calc(' + ((note.time - firstnote_time) / (lastnote_time - firstnote_time) * 98 + 1) + '% - 1em);">' +
-                    '|<br>' + ni + '</div>';
+                    '|<br>' + format(ni) + '</div>';
             }
         }
 
-        s += '</div></div><div class="row"><div class="col l6"><b>Note Count: </b>' + live.notes.length + '</div>' +
-            '<div class="col l6"><b>Notes in ACs: </b>' + totalacnotes + '</div></div>';
+        s += '</div></div><div class="row"><div class="col l6"><b>Note Count: </b>' + format(live.notes.length) + '</div>' +
+            '<div class="col l6"><b>Notes in ACs: </b>' + format(totalacnotes) + '</div></div>';
     } else {
         s += '<div class="row" style="text-align: center">(no note map available)</div>';
     }
@@ -212,7 +219,7 @@ function make_notemap(live) {
     for (let gi = 0; gi < live.note_gimmicks.length; gi++) {
         let noteg = live.note_gimmicks[gi];
 
-        s += '<div><div>Note Gimmick ' + (gi + 1) + '</div><div>';
+        s += '<div><div>Note Gimmick ' + format(gi + 1) + '</div><div>';
         switch (noteg.trigger) {
             case 1:
                 s += "If hit, ";
@@ -231,14 +238,18 @@ function make_notemap(live) {
         if (noteg.trigger === 3) {
             skillstr = capFirstLetter(skillstr);
         }
-        s += skillstr + '<br><b>Amount:</b> ' + noteg.counter + ' note' + (noteg.counter === 1 ? '' : 's') + '</div></div>';
+        s += skillstr;
+        if (noteg.counter !== undefined) {
+            s += '<br><b>Amount:</b> ' + format(noteg.counter) + ' note' + (noteg.counter === 1 ? '' : 's');
+        }
+        s += '</div></div>';
     }
 
     s += '</div><div class="col l6 detailinfo"><b style="font-size: 150%">Appeal Chances</b>';
     for (let ai = 0; ai < live.appeal_chances.length; ai++) {
         let ac = live.appeal_chances[ai];
 
-        s += '<div><div>AC ' + (ai + 1) + ': ' + ac_mission(ac.mission_type, ac.mission_value) + '</div><div>';
+        s += '<div><div>AC ' + format(ai + 1) + ': ' + ac_mission(ac.mission_type, ac.mission_value) + '</div><div>';
         if (ac.gimmick === null) {
             s += 'No Gimmick<br>';
         } else {
@@ -263,16 +274,16 @@ function make_notemap(live) {
 
         if (ac.range_note_ids !== null) {
             let aclength = (ac.range_note_ids[1] - ac.range_note_ids[0] + 1);
-            s += '<b>Length:</b> ' + aclength + ' notes';
+            s += '<b>Length:</b> ' + format(aclength) + ' notes';
             if (ac.mission_type === 1) {
-                s += ' (avg. ' + Math.ceil(ac.mission_value / aclength) + ' Voltage per note)';
+                s += ' (avg. ' + format(Math.ceil(ac.mission_value / aclength)) + ' Voltage per note)';
             } else if (ac.mission_type === 8) {
-                s += ' (' + Math.ceil(ac.mission_value / aclength * 100) + '% of notes must crit)';
+                s += ' (' + format(Math.ceil(ac.mission_value / aclength * 100)) + '% of notes must crit)';
             } else if (ac.mission_type === 9) {
-                s += ' (' + Math.ceil(ac.mission_value / aclength * 100) + '% of taps must proc)';
+                s += ' (' + format(Math.ceil(ac.mission_value / aclength * 100)) + '% of taps must proc)';
             }
-            s += '<div class="row nomargin"><div class="col m6 no-padding"><b>Success:</b> ' + ac.reward_voltage +
-                ' Voltage</div>' + '<div class="col m6 no-padding"><b>Failure:</b> ' + ac.penalty_damage + ' Damage</div></div>';
+            s += '<div class="row nomargin"><div class="col m6 no-padding"><b>Success:</b> ' + format(ac.reward_voltage) +
+                ' Voltage</div>' + '<div class="col m6 no-padding"><b>Failure:</b> ' + format(ac.penalty_damage) + ' Damage</div></div>';
         }
 
         s += '</div></div>';
@@ -283,5 +294,6 @@ function make_notemap(live) {
 
 module.exports = {
     "make": make_notemap,
-    "skill_effect": skill_effect
+    "skill_effect": skill_effect,
+    "format": format
 };

@@ -59,7 +59,7 @@ for (let li = 0; li < live_ids.length; li++) {
         }
 
         s += '<ul class="collapsible" data-collapsible="expandable"><li>' +
-            '<div class="collapsible-header' + (live.floor_type === 5 ? ' light-blue lighten-5' : '') + '">' +
+            '<div class="collapsible-header">' +
             '<img src="image/icon_' + attribute(live.song_attribute) + '.png" alt="' + attribute(live.song_attribute) + '">' +
             '<b>' + live.song_name + '</b></div>' +
             '<div class="collapsible-body"><ul class="tabs tabs-transparent tabs-fixed-width">';
@@ -69,12 +69,12 @@ for (let li = 0; li < live_ids.length; li++) {
     s += '<li class="tab"><a href="#' + live_difficulty_id + '"' + (diff_id === 30 ? ' class="active"' : '') + '>' +
         difficulty(diff_id) + '</a></li>';
     current_tabs += '<div id="' + live_difficulty_id + '">' +
-        '<div class="row nomargin"><div class="col l6"><b>S Rank: </b>' + live.ranks.S + '</div>' +
-        '<div class="col l6"><b>A Rank: </b>' + live.ranks.A + '</div></div>' +
-        '<div class="row nomargin"><div class="col l6"><b>B Rank: </b>' + live.ranks.B + '</div>' +
-        '<div class="col l6"><b>C Rank: </b>' + live.ranks.C + '</div></div>' +
-        '<div class="row nomargin"><div class="col l6"><b>Recommended Stamina: </b>' + live.recommended_stamina + '</div>' +
-        '<div class="col l6"><b>Note Damage: </b>' + live.note_damage + '</div></div>';
+        '<div class="row nomargin"><div class="col l6"><b>S Rank: </b>' + notemap.format(live.ranks.S) + '</div>' +
+        '<div class="col l6"><b>A Rank: </b>' + notemap.format(live.ranks.A) + '</div></div>' +
+        '<div class="row nomargin"><div class="col l6"><b>B Rank: </b>' + notemap.format(live.ranks.B) + '</div>' +
+        '<div class="col l6"><b>C Rank: </b>' + notemap.format(live.ranks.C) + '</div></div>' +
+        '<div class="row nomargin"><div class="col l6"><b>Recommended Stamina: </b>' + notemap.format(live.recommended_stamina) + '</div>' +
+        '<div class="col l6"><b>Note Damage: </b>' + notemap.format(live.note_damage) + '</div></div>';
 
     current_tabs += notemap.make(live) + '</div>';
 }
