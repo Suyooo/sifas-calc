@@ -150,6 +150,7 @@ of a song by just using the length of the `notes` array.
 - 51: Base Voltage Gain Up
 - 68: Stamina Damage (fixed amount)
 - 69: SP Gauge Discharge (percentage of max)
+- 70: Shield Removal (fixed amount)
 - 71: Appeal Down
 - 73: SP Gauge Fill Rate Down
 - 75: Critical Power Down
@@ -161,6 +162,7 @@ of a song by just using the length of the `notes` array.
 - 85: Base SP Gauge Fill Rate Down (dupe?)
 - 86: Base Skill Activation Chance Down (dupe?)
 - 91: SP Gauge Charge (percentage of max)
+- 93: Shield Gain (percentage of max)
 - 96: Stamina Restore (percentage of max)
 - 132: Stamina Restore (fixed amount), based on the amount of Sk types
 - 134: Stamina Restore (fixed amount), based on the amount of Gd types
