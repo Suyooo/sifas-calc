@@ -32,7 +32,7 @@
 </div>
 <nav>
     <div class="nav-wrapper orange lighten-5">
-        <a class="brand-logo center">Notemap Database</a>
+        <a class="brand-logo center">Notemap DB</a>
         <ul id="nav-mobile" class="left">
             <li class="orange lighten-3"><a href="index.html"><i
                     class="material-icons left">keyboard_arrow_left</i>BACK</a></li>
@@ -52,6 +52,7 @@
     M.AutoInit();
     let tooltip = $(".tooltip");
     let tooltipInner = $(".tooltip-inner");
+    let body = $("body");
 
     // materialize doesn't set indicator positions inside hidden elements, so we'll do it ourselves on open
     $(".collapsible").each(function () {
@@ -64,12 +65,49 @@
             $(".indicator", tabs).css("left", (tabwidth * tabindex) + "%")
                 .css("right", (tabwidth * (-tabindex + alltabs.length - 2)) + "%");
         }
+
         $(".live-difficulty", this).each(function () {
+            let selecting = false;
+            // note measure
+            let notebar = $(".notebar", this);
+            notebar.mousedown(function (e) {
+                selecting = true;
+                let selector = $("<div></div>").addClass("selection");
+                notebar.append(selector);
+                let fixedStartpos = e.pageX;
+                let notebarPos = notebar.offset();
+                body.mousemove(function (e) {
+                    let startpos = fixedStartpos;
+                    let endpos = e.pageX;
+                    if (endpos < startpos) {
+                        let temp = startpos;
+                        startpos = endpos;
+                        endpos = temp;
+                    }
+
+                    let count = 0;
+                    $(".note", notebar).each(function () {
+                        let notepos = $(this).offset().left;
+                        if (notepos >= startpos && notepos <= endpos) count++;
+                    });
+
+                    tooltipInner.text(count + " note" + (count !== 1 ? "s" : ""));
+                    tooltip.css({"left": (startpos + endpos) / 2, "top": notebarPos.top});
+                    selector.css({"left": startpos - notebarPos.left, "width": endpos - startpos});
+                });
+                body.mouseup(function () {
+                    $(this).off("mousemove").off("mouseup");
+                    selecting = false;
+                    selector.remove();
+                    tooltip.css({"left": 0, "top": 0});
+                });
+            });
+
             // gimmick mouseover
             let gimmickmarkers = $(".notebar .gimmick", this);
             let gimmickinfos = $(".detailinfo .gimmick", this);
             gimmickmarkers.mouseover(function () {
-                if ($(this).hasClass("hidden")) return;
+                if (selecting || $(this).hasClass("hidden")) return;
                 let gi = $(this).data("gimmick");
                 gimmickinfos.each(function () {
                     if ($(this).data("gimmick") === gi) {
@@ -91,6 +129,7 @@
             let acmarkers = $(".notebar .appealchance", this);
             let acinfos = $(".detailinfo .appealchance", this);
             acmarkers.mouseover(function () {
+                if (selecting) return;
                 let ai = $(this).data("ac");
                 acinfos.each(function () {
                     if ($(this).data("ac") === ai) {

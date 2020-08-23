@@ -112,6 +112,7 @@
     --gimmicklayer: -999;
     --gimmicklayer-filtered: -999;
     transition: opacity .2s;
+    user-select: none;
 }
 
 .notebar .gimmick > div {
@@ -158,10 +159,20 @@
     top: 1.5em;
     line-height: 1em;
     z-index: 0;
+    user-select: none;
 }
 
 .notebar .marker.fifty {
     font-weight: bold;
+}
+
+.notebar .selection {
+    height: 100%;
+    top: 0;
+    background-color: var(--key-normal);
+    position: absolute;
+    opacity: 0.5;
+    z-index: 6;
 }
 
 .detailinfo > div {
