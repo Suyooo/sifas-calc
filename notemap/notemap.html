@@ -61,16 +61,17 @@
 
         // gimmick filtering
         let col = this;
-        let gimmicks = $(".detailinfo .gimmick", this);
-        gimmicks.click(function () {
+        let gimmickmarkers = $(".notebar .gimmick", col);
+        let gimmickinfos = $(".detailinfo .gimmick", this);
+        gimmickinfos.click(function () {
             if ($(this).hasClass("filtered")) {
                 $(this).removeClass("filtered");
-                $(".notebar .gimmick", col).removeClass("hidden").removeClass("filtered");
+                gimmickmarkers.removeClass("hidden").removeClass("filtered");
             } else {
-                gimmicks.removeClass("filtered");
+                gimmickinfos.removeClass("filtered");
                 $(this).addClass("filtered");
                 let gim = $(this).data("gimmick");
-                $(".notebar .gimmick", col).each(function () {
+                gimmickmarkers.each(function () {
                     if ($(this).data("gimmick") === gim) {
                         $(this).removeClass("hidden");
                         $(this).addClass("filtered");
