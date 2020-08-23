@@ -104,7 +104,7 @@
 }
 
 .dark-mode .notebar .note.gimmicked {
-    background: royalblue;
+    background: darkturquoise;
 }
 
 .notebar .gimmick {
@@ -130,7 +130,7 @@
 
 .notebar .gimmickmarker {
     position: absolute;
-    background: var(--sidenav);
+    background: var(--panel);
     color: var(--text);
     user-select: none;
     width: 1.25em;
@@ -144,7 +144,7 @@
 }
 
 .notebar .gimmicklength {
-    background: black;
+    background: var(--text);
     position: absolute;
     z-index: 4;
     top: calc((-.925 - var(--gimmicklayer) * 1.25) * 1em);
