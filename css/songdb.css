@@ -167,8 +167,16 @@
     font-weight: bold;
 }
 
-.detailinfo > div.gimmick:not(.filtered):hover > div:first-child::after {
+.detailinfo > div.gimmick:hover > div:first-child::after {
     content: "click to focus";
+    float: right;
+    font-weight: normal;
+    font-size: 70%;
+    margin-top: 0.33em;
+}
+
+.detailinfo > div.gimmick.filtered > div:first-child::after {
+    content: "click to unfocus";
     float: right;
     font-weight: normal;
     font-size: 70%;
