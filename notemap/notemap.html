@@ -41,11 +41,17 @@
 </nav>
 <center><a href="tower.html" style="font-size: 200%">View DLP Stage List &gt;&gt;&gt;</a></center>
 <div class="container">$SONGDB</div>
+<div class="tooltip">
+    <div class="tooltip-inner"></div>
+    <div class="tooltip-arrow">&#9662;</div>
+</div>
 <script type="text/javascript" src="js/register-sw.js"></script>
 <script type="text/javascript" src="vendor/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="vendor/materialize.js"></script>
 <script>$(function () {
     M.AutoInit();
+    let tooltip = $(".tooltip");
+    let tooltipInner = $(".tooltip-inner");
 
     // materialize doesn't set indicator positions inside hidden elements, so we'll do it ourselves on open
     $(".collapsible").each(function () {
@@ -58,29 +64,69 @@
             $(".indicator", tabs).css("left", (tabwidth * tabindex) + "%")
                 .css("right", (tabwidth * (-tabindex + alltabs.length - 2)) + "%");
         }
-
-        // gimmick filtering
-        let col = this;
-        let gimmickmarkers = $(".notebar .gimmick", col);
-        let gimmickinfos = $(".detailinfo .gimmick", this);
-        gimmickinfos.click(function () {
-            if ($(this).hasClass("filtered")) {
-                $(this).removeClass("filtered");
-                gimmickmarkers.removeClass("hidden").removeClass("filtered");
-            } else {
-                gimmickinfos.removeClass("filtered");
-                $(this).addClass("filtered");
-                let gim = $(this).data("gimmick");
-                gimmickmarkers.each(function () {
-                    if ($(this).data("gimmick") === gim) {
-                        $(this).removeClass("hidden");
-                        $(this).addClass("filtered");
-                    } else {
-                        $(this).removeClass("filtered");
-                        $(this).addClass("hidden");
+        $(".live-difficulty", this).each(function () {
+            // gimmick mouseover
+            let gimmickmarkers = $(".notebar .gimmick", this);
+            let gimmickinfos = $(".detailinfo .gimmick", this);
+            gimmickmarkers.mouseover(function () {
+                if ($(this).hasClass("hidden")) return;
+                let gi = $(this).data("gimmick");
+                gimmickinfos.each(function () {
+                    if ($(this).data("gimmick") === gi) {
+                        let details = $("div", this);
+                        tooltipInner.html("<b>" + details[0].innerHTML + "</b><br>" + details[1].innerHTML);
+                        return false;
                     }
                 });
-            }
+                let thismarker = $(".gimmickmarker", this);
+                let position = thismarker.offset();
+                position.left += thismarker.width() / 2;
+                tooltip.css(position);
+            });
+            gimmickmarkers.mouseout(function () {
+                tooltip.css({"left": 0, "top": 0});
+            });
+
+            // appeal chance mouseover
+            let acmarkers = $(".notebar .appealchance", this);
+            let acinfos = $(".detailinfo .appealchance", this);
+            acmarkers.mouseover(function () {
+                let ai = $(this).data("ac");
+                acinfos.each(function () {
+                    if ($(this).data("ac") === ai) {
+                        let details = $("div", this);
+                        tooltipInner.html("<b>" + details[0].innerHTML + "</b><br>" + details[1].innerHTML);
+                        return false;
+                    }
+                });
+                let position = $(this).offset();
+                position.left += $(this).width() / 2;
+                tooltip.css(position);
+            });
+            acmarkers.mouseout(function () {
+                tooltip.css({"left": 0, "top": 0});
+            });
+
+            // gimmick filtering
+            gimmickinfos.click(function () {
+                if ($(this).hasClass("filtered")) {
+                    $(this).removeClass("filtered");
+                    gimmickmarkers.removeClass("hidden filtered");
+                } else {
+                    gimmickinfos.removeClass("filtered");
+                    $(this).addClass("filtered");
+                    let gi = $(this).data("gimmick");
+                    gimmickmarkers.each(function () {
+                        if ($(this).data("gimmick") === gi) {
+                            $(this).removeClass("hidden");
+                            $(this).addClass("filtered");
+                        } else {
+                            $(this).removeClass("filtered");
+                            $(this).addClass("hidden");
+                        }
+                    });
+                }
+            });
         });
     });
 });</script>

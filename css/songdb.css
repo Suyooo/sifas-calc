@@ -70,8 +70,8 @@
     height: 50%;
     background: var(--sidenav);
     width: 2px;
-    user-select: none;
     z-index: 3;
+    pointer-events: none;
 }
 
 .notebar .note.top {
@@ -88,6 +88,7 @@
     z-index: 3;
     background: repeating-linear-gradient(to right, var(--sidenav) 0%, var(--sidenav) 50%, transparent 50%, transparent 100%);
     background-size: 2px 0.5em;
+    pointer-events: none;
 }
 
 .notebar .hold.top {
@@ -100,7 +101,10 @@
 
 .notebar .note.gimmicked {
     background: lightskyblue;
-    z-index: 4;
+}
+
+.dark-mode .notebar .note.gimmicked {
+    background: royalblue;
 }
 
 .notebar .gimmick {
@@ -195,6 +199,36 @@
 
 .detailinfo > div > div:last-child {
     padding: .3em .8em .2em;
+}
+
+.tooltip {
+    position: absolute;
+    max-width: 350px;
+    left: 0;
+    top: 0;
+    transform: translate(-50%,-100%);
+    z-index: 100;
+    pointer-events: none;
+}
+
+.tooltip .tooltip-inner {
+    background-color: var(--key-low2);
+    border: 1px solid var(--border);
+    padding: .5em .8em;
+}
+
+.tooltip .tooltip-arrow {
+    width: 100%;
+    height: 0.7rem;
+    font-size: 2.1rem;
+    line-height: 0;
+    color: var(--border);
+    text-align: center;
+    overflow: hidden;
+}
+
+.tooltip .col.m6 {
+    width: 100%;
 }
 
 .progress {

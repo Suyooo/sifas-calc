@@ -267,12 +267,12 @@ function make_notemap(live) {
         s += '</div></div>';
     }
 
-    s += '</div><div class="col l6 detailinfo" class="appealchance"><b style="font-size: 150%">Appeal Chances</b>';
+    s += '</div><div class="col l6 detailinfo"><b style="font-size: 150%">Appeal Chances</b>';
     for (let ai = 0; ai < live.appeal_chances.length; ai++) {
         let ac = live.appeal_chances[ai];
 
-        s += '<div data-ac="' + ai + '"><div>AC ' + format(ai + 1) + ': ' + ac_mission(ac.mission_type, ac.mission_value) +
-            '</div><div>';
+        s += '<div data-ac="' + ai + '" class="appealchance"><div>AC ' + format(ai + 1) + ': ' +
+            ac_mission(ac.mission_type, ac.mission_value) + '</div><div>';
         if (ac.gimmick === null) {
             s += 'No Gimmick<br>';
         } else {

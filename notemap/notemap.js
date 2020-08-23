@@ -50,7 +50,7 @@ for (let li = 0; li < live_ids.length; li++) {
 
     s += '<li class="tab"><a href="#' + live_difficulty_id + '"' + (diff_id === 30 ? ' class="active"' : '') + '>' +
         notemap.difficulty(diff_id) + '</a></li>';
-    current_tabs += '<div id="' + live_difficulty_id + '">' +
+    current_tabs += '<div class="live-difficulty" id="' + live_difficulty_id + '">' +
         '<div class="row nomargin"><div class="col l6"><b>S Rank: </b>' + notemap.format(live.ranks.S) + '</div>' +
         '<div class="col l6"><b>A Rank: </b>' + notemap.format(live.ranks.A) + '</div></div>' +
         '<div class="row nomargin"><div class="col l6"><b>B Rank: </b>' + notemap.format(live.ranks.B) + '</div>' +

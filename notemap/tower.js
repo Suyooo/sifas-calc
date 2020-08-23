@@ -38,7 +38,7 @@ for (let tower_id in towerdata) {
                 notemap.skill_effect(floor.gimmick.effect_type, 0).indexOf("Base") === -1 ? "Yes" : "No") + '</div>' +
             '<div class="col l3"><b>Note Damage:</b> ' + notemap.format(floor.note_damage) + '</div>' +
             '</div></div>';
-        s += '<div class="collapsible-body">' +
+        s += '<div class="collapsible-body live-difficulty">' +
             '<div class="row nomargin"><div class="col l6"><b>Voltage Target: </b>' + notemap.format(floor.voltage_target) + '</div>' +
             '<div class="col l6"><b>Recommended Stamina: </b>' + notemap.format(floor.recommended_stamina) + '</div></div>' +
             '<div class="row nomargin"><div class="col l6"><b>Note Damage: </b>' + notemap.format(floor.note_damage) +
