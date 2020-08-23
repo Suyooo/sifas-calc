@@ -167,6 +167,14 @@
     font-weight: bold;
 }
 
+.detailinfo > div.gimmick:not(.filtered):hover > div:first-child::after {
+    content: "click to focus";
+    float: right;
+    font-weight: normal;
+    font-size: 70%;
+    margin-top: 0.33em;
+}
+
 .detailinfo > div.filtered > div:first-child {
     background-color: var(--key-normal);
 }
