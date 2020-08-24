@@ -16,6 +16,11 @@ $(function () {
                 let tabId = window.location.hash.substring(5);
                 let wantedTab = $("#" + tabId, this);
                 if (wantedTab.length > 0) {
+                    // add padding at bottom to successfully scroll to divs at the end of the page
+                    body.css({"padding-bottom": "100%"});
+                    setTimeout(function () {
+                        body.css({"padding-bottom": 0, "transition": "padding-bottom .5s"})
+                    }, 300);
                     collapsible.open();
                     tabs.select(tabId);
                     window.scrollTo(0, $(this).offset().top);
@@ -44,6 +49,11 @@ $(function () {
 
             if (window.location.hash.startsWith("#floor")) {
                 if ($(this).data("floor") == window.location.hash.substring(6)) {
+                    // add padding at bottom to successfully scroll to divs at the end of the page
+                    body.css({"padding-bottom": "100%"});
+                    setTimeout(function () {
+                        body.css({"padding-bottom": 0, "transition": "padding-bottom .5s"})
+                    }, 300);
                     collapsible.open();
                     window.scrollTo(0, $(this).offset().top);
                 }
