@@ -83,6 +83,7 @@ function skill_effect(type_id, amount) {
     if (type_id === 49) return "gain " + format(amount / 100) + "% Base Appeal";
     if (type_id === 50) return "increase Base SP Voltage Gain by " + format(amount / 100) + "%";
     if (type_id === 51) return "increase Base Voltage Gain by " + format(amount / 100) + "%";
+    if (type_id === 52) return "remove all buffs (excluding those affecting Base values)";
     if (type_id === 68) return "deal " + format(amount) + " points of stamina damage";
     if (type_id === 69) return "discharge SP Gauge by " + format(amount / 100) + "%";
     if (type_id === 70) return "lose " + format(amount) + " points of shield";
@@ -99,13 +100,16 @@ function skill_effect(type_id, amount) {
     if (type_id === 91) return "charge SP Gauge by " + format(amount / 100) + "%";
     if (type_id === 93) return "gain " + format(amount / 100) + "% of max stamina as shield";
     if (type_id === 96) return "restore " + format(amount / 100) + "% of max stamina";
+    if (type_id === 119) return "gain " + format(amount / 100) + "% Appeal for each Vo unit in the formation";
     if (type_id === 132) return "restore " + format(amount) + " points of stamina for each Sk unit in the formation";
     if (type_id === 134) return "restore " + format(amount) + " points of stamina for each Gd unit in the formation";
     if (type_id === 141) return "gain " + format(amount / 100) + "% Base Appeal for each Sk unit in the formation";
     if (type_id === 143) return "gain " + format(amount / 100) + "% Base Appeal for each Gd unit in the formation";
+    if (type_id === 164) return "gain " + format(amount / 100) + "% Skill Activation Chance for each Gd unit in the formation";
     if (type_id === 179) return "gain " + format(amount / 100) + "% Critical Chance for each Sk unit in the formation";
     if (type_id === 187) return "gain " + format(amount / 100) + "% Base Critical Chance for each Sk unit in the formation";
     if (type_id === 193) return "gain " + format(amount / 100) + "% Critical Power for each Vo unit in the formation";
+    if (type_id === 210) return "increase SP Voltage Gain by " + format(amount / 100) + "% for each Sp unit in the formation";
     if (type_id === 230) return "increase the power of their Strategy Switch bonus by " + format(amount) + " points";
     throw new Error('Unknown Skill Effect Type ' + type_id);
 }

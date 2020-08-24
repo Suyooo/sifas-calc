@@ -148,6 +148,7 @@ of a song by just using the length of the `notes` array.
 - 49: Base Appeal Up
 - 50: Base SP Voltage Gain Up
 - 51: Base Voltage Gain Up
+- 52: Remove Buffs
 - 68: Stamina Damage (fixed amount)
 - 69: SP Gauge Discharge (percentage of max)
 - 70: Shield Removal (fixed amount)
@@ -164,13 +165,16 @@ of a song by just using the length of the `notes` array.
 - 91: SP Gauge Charge (percentage of max)
 - 93: Shield Gain (percentage of max)
 - 96: Stamina Restore (percentage of max)
+- 119: Appeal Up, based on the amount of Vo types
 - 132: Stamina Restore (fixed amount), based on the amount of Sk types
 - 134: Stamina Restore (fixed amount), based on the amount of Gd types
 - 141: Base Appeal Up, based on the amount of Sk types
 - 143: Base Appeal Up, based on the amount of Gd types
+- 164: Skill Activation Chance Up, based on the amount of Gd types
 - 179: Critical Chance Up, based on the amount of Sk types
 - 187: Base Critical Chance Up, based on the amount of Sk types
 - 193: Critical Power Up, based on the amount of Vo types
+- 210: SP Voltage Gain Up, based on the amount of Sp types
 - 230: Strategy Switch Bonus Up (fixed amount)
 
 ## Finish Conditions
