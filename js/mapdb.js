@@ -4,17 +4,38 @@ $(function () {
     let tooltipInner = $(".tooltip-inner");
     let body = $("body");
 
-    // materialize doesn't set indicator positions inside hidden elements, so we'll do it ourselves on open
     $(".collapsible").each(function () {
-        M.Collapsible.getInstance(this).options.onOpenStart = function () {
+        if ($(this).hasClass("pageinfo")) return true;
+        let collapsible = M.Collapsible.getInstance(this);
+        let tabs = M.Tabs.getInstance($(".tabs", this)[0]);
+
+        if (window.location.hash.startsWith("#live")) {
+            let tabId = window.location.hash.substring(5);
+            let wantedTab = $("#" + tabId, this);
+            if (wantedTab.length > 0) {
+                collapsible.open();
+                tabs.select(tabId);
+                window.scrollTo(0, $(this).offset().top);
+            }
+        }
+
+        // materialize doesn't set indicator positions inside hidden elements, so we'll do it ourselves on open
+        // we can also use it to set the location anchor to link to that live difficulty
+        collapsible.options.onOpenStart = function () {
             let tabs = $(".tabs", this.el);
-            let activetab = $(".active", tabs).parent();
+            let activetablink = $(".active", tabs);
+            let activetab = activetablink.parent();
             let alltabs = activetab.parent().children();
             let tabindex = alltabs.index(activetab);
             let tabwidth = 100 / (alltabs.length - 1);
             $(".indicator", tabs).css("left", (tabwidth * tabindex) + "%")
                 .css("right", (tabwidth * (-tabindex + alltabs.length - 2)) + "%");
-        }
+            window.location.hash = "live" + activetablink.attr("href").substring(1);
+        };
+
+        tabs.options.onShow = function (e) {
+            window.location.hash = "live" + $(e).attr("id");
+        };
 
         $(".live-difficulty", this).each(function () {
             let selecting = false;
