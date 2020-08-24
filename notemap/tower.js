@@ -25,7 +25,7 @@ for (let tower_id in towerdata) {
             floor["appeal_chances"] = freelive["appeal_chances"];
         }
 
-        s += '<ul class="collapsible" data-collapsible="expandable"><li>' +
+        s += '<ul class="collapsible" data-floor="' + (fi + 1) + '" data-collapsible="expandable"><li>' +
             '<div class="collapsible-header' + (floor.floor_type === 5 ? ' light-blue lighten-5' : '') + '">' +
             '<img src="image/icon_' + notemap.attribute(floor.song_attribute) + '.png" ' +
             'alt="' + notemap.attribute(floor.song_attribute) + '">' +
