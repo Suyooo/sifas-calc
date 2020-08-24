@@ -77,6 +77,7 @@
                 notebar.append(selector);
                 let fixedStartpos = e.pageX;
                 let notebarPos = notebar.offset();
+                let notebarWidth = notebar.width();
                 body.mousemove(function (e) {
                     let startpos = fixedStartpos;
                     let endpos = e.pageX;
@@ -84,6 +85,12 @@
                         let temp = startpos;
                         startpos = endpos;
                         endpos = temp;
+                    }
+                    if (startpos < notebarPos.left) {
+                        startpos = notebarPos.left;
+                    }
+                    if (endpos > notebarPos.left + notebarWidth) {
+                        endpos = notebarPos.left + notebarWidth;
                     }
 
                     let count = 0;
