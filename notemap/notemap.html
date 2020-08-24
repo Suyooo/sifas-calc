@@ -40,7 +40,76 @@
     </div>
 </nav>
 <center><a href="tower.html" style="font-size: 200%">View DLP Stage List &gt;&gt;&gt;</a></center>
-<div class="container">$SONGDB</div>
+<div class="container">
+    <ul class="collapsible" data-collapsible="expandable">
+        <li>
+            <div class="collapsible-header">
+                <i class="material-icons">help</i> What is this?
+            </div>
+            <div class="collapsible-body">
+                <p>
+                    This page attempts to give an as-complete-as-possible collection of song information. This is done
+                    by using note map data, which is downloaded from the server when playing a song in the game, in
+                    addition to the usual information from the app database.
+                </p>
+                <p>
+                    With the note map data, it is possible to show a full timeline of the song, including note counts,
+                    the positions of notes and which gimmicks they are associated with, the amount of notes in an Appeal
+                    Chance to see what voltage or skill/crit chances are required, and the rewards and penalties for
+                    clearing or failing them.
+                </p>
+                <p>
+                    Since note map data is only available when the song is played in game and requires network traffic
+                    to be captured, this is a lot of manual work. It might be possible that some songs will be missing
+                    for a while until I can unlock them (or just until I stop forgetting to dump them).
+                </p>
+                <p>
+                    If there's any note map that is missing, or one you desperately want to see, feel free to contact me
+                    and I'll add it as soon as possible. If you have any ideas for more features, I'd love to hear them,
+                    too! You can find Twitter/Discord/GitHub in the sidenav menu on the main Calc page.
+                </p>
+                <b>Here's some neat stuff you can do on this page:</b>
+                <ul class="browser-default">
+                    <li>
+                        Hover over or tap a note gimmick or AC on the timeline to get a popup with the associated
+                        detail information. (It's the same information as the panels below, but without having to scroll
+                        down.)
+                    </li>
+                    <li>
+                        Click or tap on a Note Gimmick panel to highlight only that gimmick, moving the markers closer
+                        to the timeline and fading out others. Click/tap again to unhide. Good for Adv+ notemaps with
+                        tons of gimmick notes.
+                    </li>
+                    <li>
+                        Desktop only for now: Hold and drag on the timeline to measure the amount of notes between any
+                        two points. You can use this, for example, to measure how many notes are between two ACs to see
+                        whether there is enough for you to re-charge your SP skill.
+                    </li>
+                </ul>
+                <br>
+                <b>Future Plans:</b>
+                <ul class="browser-default">
+                    <li>
+                        Slowly start dumping Beginner and Intermediate note maps between events (for the sake of
+                        completeness).
+                    </li>
+                    <li>
+                        Once Klab releases the new compressed Story chapters with less Lives, start dumping those, so it
+                        is possible to find Story Lives that might be good alternatives to the Free Live for Voltage
+                        Rankings.
+                    </li>
+                    <li>
+                        Somehow get my hands on the Love U my friends note map, which is the only one missing for the
+                        DLP page, but is not available in Free Live and I've already cleared the DLP stage so I can't
+                        play it again... (if you have that stage unlocked, but still uncleared when DLP comes around
+                        next time, please let me know, maybe we can make something work!)
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    $SONGDB
+</div>
 <div class="tooltip">
     <div class="tooltip-inner"></div>
     <div class="tooltip-arrow">&#9662;</div>

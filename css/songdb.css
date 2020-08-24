@@ -189,7 +189,7 @@
 }
 
 .detailinfo > div.gimmick:hover > div:first-child::after {
-    content: "click to focus";
+    content: "click to highlight";
     float: right;
     font-weight: normal;
     font-size: 70%;
@@ -197,7 +197,7 @@
 }
 
 .detailinfo > div.gimmick.filtered > div:first-child::after {
-    content: "click to unfocus";
+    content: "click to unhighlight";
     float: right;
     font-weight: normal;
     font-size: 70%;
