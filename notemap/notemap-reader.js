@@ -125,9 +125,9 @@ function ac_mission(type_id, goal) {
     if (type_id === 2) return "Hit " + format(goal) + " NICEs";
     if (type_id === 3) return "Hit " + format(goal) + " GREATs";
     if (type_id === 4) return "Hit " + format(goal) + " WONDERFULs";
-    if (type_id === 5) return format(goal) + " Voltage in one Appeal";
-    if (type_id === 6) return format(goal) + " Voltage from SP";
-    if (type_id === 7) return "Appeal with " + format(goal) + " Units";
+    if (type_id === 5) return "Get " + format(goal) + " Voltage in one Appeal";
+    if (type_id === 6) return "Get " + format(goal) + " Voltage from SP";
+    if (type_id === 7) return "Appeal with " + format(goal) + " unique Units";
     if (type_id === 8) return "Get " + format(goal) + " Criticals";
     if (type_id === 9) return "Activate " + format(goal) + " Tap Skills";
     throw new Error('Unknown AC Mission Type ' + type_id);
@@ -189,18 +189,18 @@ function make_notemap(live) {
                 if (stack_layer_seperate == stacker_seperate[note.gimmick].length)
                     stacker_seperate[note.gimmick].push(0);
 
-                s += '<div class="gimmick" data-gimmick="' + note.gimmick + '" style="--gimmicklayer: ' + stack_layer_global +
-                    ';' + '--gimmicklayer-filtered: ' + stack_layer_seperate + ';"><div class="gimmickmarker" style="' +
-                    'left: calc(' + marker_position + '% - 0.625em);">' + (note.gimmick + 1) + '</div>';
+                let marker_length = 0;
                 if (live.note_gimmicks[note.gimmick].finish_type === 2) {
                     let ni2 = ni + live.note_gimmicks[note.gimmick].finish_amount;
                     if (ni2 >= live.notes.length) ni2 = live.notes.length - 1;
-                    let marker_length = ((live.notes[ni2].time - note.time) / (lastnote_time - firstnote_time) * 98);
+                    marker_length = ((live.notes[ni2].time - note.time) / (lastnote_time - firstnote_time) * 98);
+                }
 
-                    s += '<div class="gimmicklength" style="' +
-                        'left: ' + marker_position + '%;' +
-                        'width: ' + marker_length + '%;">' +
-                        '&nbsp;</div>';
+                s += '<div class="gimmick" data-gimmick="' + note.gimmick + '" style="--gimmicklayer: ' + stack_layer_global +
+                    ';' + '--gimmicklayer-filtered: ' + stack_layer_seperate + '; left: ' + marker_position + '%; ' +
+                    'width:' + marker_length + '%"><div class="gimmickmarker">' + (note.gimmick + 1) + '</div>';
+                if (live.note_gimmicks[note.gimmick].finish_type === 2) {
+                    s += '<div class="gimmicklength">&nbsp;</div>';
 
                     stacker_global[stack_layer_global] = stacker_seperate[note.gimmick][stack_layer_seperate] = marker_position + marker_length;
                 } else {
@@ -223,8 +223,8 @@ function make_notemap(live) {
         s += '<div class="row" style="margin-top: 1em; text-align: center">(no note map available)</div>';
     }
 
-    s += '<div class="row">'
-    s += '<div class="col l6 detailinfo"><b style="font-size: 150%">Gimmicks</b>';
+    s += '<div class="row nomargin">'
+    s += '<div class="col l6 detailinfo"><h5>Gimmicks</h5>';
     s += '<div><div>Song Gimmick</div><div>';
     if (live.gimmick === null) {
         s += "none";
@@ -267,7 +267,7 @@ function make_notemap(live) {
         s += '</div></div>';
     }
 
-    s += '</div><div class="col l6 detailinfo"><b style="font-size: 150%">Appeal Chances</b>';
+    s += '</div><div class="col l6 detailinfo"><h5>Appeal Chances</h5>';
     for (let ai = 0; ai < live.appeal_chances.length; ai++) {
         let ac = live.appeal_chances[ai];
 

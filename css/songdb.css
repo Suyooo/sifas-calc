@@ -6,13 +6,15 @@
     width: 3em;
 }
 
-.tower .collapsible {
-    margin-top: 0;
-    margin-bottom: 0;
+h5 {
+    color: var(--key-accented);
+    letter-spacing: .05em;
+    font-weight: 700;
+    margin-top: 3rem;
 }
 
-.collapsible-header .row, .row.nomargin {
-    margin: 0;
+.collapsible-header .row, .nomargin {
+    margin: 0 !important;
 }
 
 .collapsible-header img {
@@ -21,7 +23,8 @@
 }
 
 .tabs.tabs-transparent {
-    margin-bottom: 1em;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
 }
 
 .tabs.tabs-transparent .tab a {
@@ -32,8 +35,13 @@
     color: var(--text);
 }
 
-.tabs.tabs-transparent .tab a:focus, .tabs.tabs-transparent .tab a:focus.active {
+.tabs.tabs-transparent .tab a.active {
     background-color: var(--key-low);
+    text-decoration: none;
+}
+
+.tabs.tabs-fixed-width .tab {
+    flex-basis: 0;
 }
 
 .notebarcontainer {
@@ -108,19 +116,19 @@
 }
 
 .notebar .gimmick {
+    position: absolute;
     font-size: 50%;
     --gimmicklayer: -999;
     --gimmicklayer-filtered: -999;
-    transition: opacity .2s;
+    transition: opacity .2s, top .2s;
     user-select: none;
-}
-
-.notebar .gimmick > div {
-    transition: top .2s;
+    top: calc((-1.45 - var(--gimmicklayer) * 1.25) * 1em);
+    background: var(--panel);
+    height: 1.25em;
 }
 
 .notebar .gimmick.filtered {
-    --gimmicklayer: var(--gimmicklayer-filtered) !important;
+    top: calc((-1.45 - var(--gimmicklayer-filtered) * 1.25) * 1em);
 }
 
 .notebar .gimmick.hidden {
@@ -140,15 +148,17 @@
     border: 1px solid var(--text);
     border-radius: 0.625em;
     z-index: 5;
-    top: calc((-1.45 - var(--gimmicklayer) * 1.25) * 1em);
+    left: -0.625em;
+    top: 0;
 }
 
 .notebar .gimmicklength {
     background: var(--text);
     position: absolute;
     z-index: 4;
-    top: calc((-.925 - var(--gimmicklayer) * 1.25) * 1em);
+    top: calc(0.625em - 1px);
     height: 2px;
+    width: 100%;
 }
 
 .notebar .marker {
@@ -173,6 +183,11 @@
     position: absolute;
     opacity: 0.5;
     z-index: 6;
+}
+
+.detailinfo h5 {
+    font-size: 1.3rem;
+    margin-top: 0;
 }
 
 .detailinfo > div {
@@ -240,6 +255,11 @@
 
 .tooltip .col.m6 {
     width: 100%;
+}
+
+.tower .collapsible {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .progress {

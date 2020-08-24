@@ -70,7 +70,7 @@ $(function () {
                 gimmickinfos.each(function () {
                     if ($(this).data("gimmick") === gi) {
                         let details = $("div", this);
-                        tooltipInner.html("<b>" + details[0].innerHTML + "</b><br>" + details[1].innerHTML);
+                        tooltipInner.html(details[1].innerHTML);
                         return false;
                     }
                 });
@@ -92,7 +92,7 @@ $(function () {
                 acinfos.each(function () {
                     if ($(this).data("ac") === ai) {
                         let details = $("div", this);
-                        tooltipInner.html("<b>" + details[0].innerHTML + "</b><br>" + details[1].innerHTML);
+                        tooltipInner.html("<b>" + details[0].innerHTML.split(":")[1] + "</b><br>" + details[1].innerHTML);
                         return false;
                     }
                 });
