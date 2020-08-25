@@ -104,6 +104,7 @@ of a song by just using the length of the `notes` array.
 
 ## Targets
 - 1: All units
+- 29: µ's
 - 30: Aqours
 - 31: Nijigaku
 - 38: Vo Type

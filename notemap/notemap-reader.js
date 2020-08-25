@@ -37,6 +37,7 @@ function skill(skill) {
 
 function skill_target(target_id) {
     if (target_id === 1) return "all units ";
+    if (target_id === 29) return "µ's units ";
     if (target_id === 30) return "Aqours units ";
     if (target_id === 31) return "Nijigaku units ";
     if (target_id === 38) return "Vo units ";
