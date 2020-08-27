@@ -77,6 +77,7 @@ $(function () {
                 let fixedStartpos = e.pageX;
                 let notebarPos = notebar.offset();
                 let notebarWidth = notebar.width();
+                let totalTime = Number(notebar.data("totaltime"));
                 body.mousemove(function (e) {
                     let startpos = fixedStartpos;
                     let endpos = e.pageX;
@@ -98,7 +99,9 @@ $(function () {
                         if (notepos >= startpos && notepos <= endpos) count++;
                     });
 
-                    tooltipInner.text(count + " note" + (count !== 1 ? "s" : ""));
+                    let selectedTime = ((endpos - startpos) / notebarWidth * totalTime / 1000).toFixed(2);
+
+                    tooltipInner.html(count + " note" + (count !== 1 ? "s" : "") + "<br>" + selectedTime + " seconds");
                     tooltip.css({"left": (startpos + endpos) / 2, "top": notebarPos.top});
                     selector.css({"left": startpos - notebarPos.left, "width": endpos - startpos});
                 });

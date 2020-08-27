@@ -144,6 +144,8 @@ function make_notemap(live) {
     if (live.notes !== null) {
         let firstnote_time = live.notes[0].time;
         let lastnote_time = live.notes[live.notes.length - 1].time;
+        // notes are placed in the center 98% of the timeline, but we need the total time covered for timing
+        let total_time = (lastnote_time - firstnote_time) / 98 * 100;
 
         let totalacnotes = 0;
         for (let ai = 0; ai < live.appeal_chances.length; ai++) {
@@ -223,7 +225,8 @@ function make_notemap(live) {
 
         s += '</div></div><div class="row"><div class="col l6"><b>Note Count: </b>' + format(live.notes.length) + '</div>' +
             '<div class="col l6"><b>Notes in ACs: </b>' + format(totalacnotes) + '</div></div>';
-        s = '<div class="notebarcontainer"><div class="notebar" style="--gimmicklayers: ' + stacker_global.length + '">' + s;
+        s = '<div class="notebarcontainer"><div class="notebar" style="--gimmicklayers: ' + stacker_global.length + '"' +
+            'data-totaltime="' + total_time + '">' + s;
     } else {
         s += '<div class="row" style="margin-top: 1em; text-align: center">(no note map available)</div>';
     }
