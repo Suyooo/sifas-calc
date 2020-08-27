@@ -2,24 +2,29 @@ const fs = require('fs');
 const notemap = require('./notemap-reader.js');
 const minify = require('html-minifier').minify;
 
-let songdata = JSON.parse(fs.readFileSync('notemap/mapdb.json'));
+let live_ids = [];
+let songdata = {};
+
+fs.readdirSync("notemap/mapdb/.").forEach(function (f) {
+    if (f.endsWith(".json")) {
+        let lid = Number(f.substring(0, f.length - 5));
+        if (lid < 20000000 || lid === 20010301) {
+            live_ids.push(lid);
+            songdata[lid] = JSON.parse(fs.readFileSync('notemap/mapdb/' + lid + '.json'));
+        }
+    }
+});
+
+live_ids = live_ids.sort(function (a, b) {
+    let do_comp = songdata[a].display_order - songdata[b].display_order;
+
+    // same live id => sort by difficulty id, which results in a sort by difficulty
+    if (do_comp !== 0) return do_comp;
+    else return a - b;
+});
+
 let layout = fs.readFileSync('notemap/notemap.html').toString();
 let s = "<h5>µ's</h5>"
-
-let live_ids = Object.keys(songdata)
-    .map(function (x) {
-        return Number(x);
-    })
-    .filter(function (x) {
-        return x < 20000000 || x === 20010301;
-    })
-    .sort(function (a, b) {
-        let do_comp = songdata[a].display_order - songdata[b].display_order;
-
-        // same live id => sort by difficulty id, which results in a sort by difficulty
-        if (do_comp !== 0) return do_comp;
-        else return a - b;
-    });
 
 let last_live_id = 0;
 let current_tabs = "";

@@ -2,8 +2,19 @@ const fs = require('fs');
 const notemap = require('./notemap-reader.js');
 const minify = require('html-minifier').minify;
 
-let towerdata = JSON.parse(fs.readFileSync('notemap/tower.json'));
-let songdata = JSON.parse(fs.readFileSync('notemap/mapdb.json'));
+let tower_ids = [];
+let towerdata = {};
+
+fs.readdirSync("notemap/tower/.").forEach(function (f) {
+    if (f.endsWith(".json")) {
+        let tid = Number(f.substring(0, f.length - 5));
+        tower_ids.push(tid);
+        towerdata[tid] = JSON.parse(fs.readFileSync('notemap/tower/' + tid + '.json'));
+    }
+});
+
+tower_ids = tower_ids.sort();
+
 let layout = fs.readFileSync('notemap/tower.html').toString();
 let s = "";
 
@@ -18,7 +29,7 @@ for (let tower_id in towerdata) {
     for (let fi = 0; fi < tower["floors"].length; fi++) {
         let floor = tower["floors"][fi];
         if (floor["notemap_live_difficulty_id"] !== null) {
-            let freelive = songdata[floor["notemap_live_difficulty_id"]];
+            let freelive = JSON.parse(fs.readFileSync('notemap/mapdb/' + floor["notemap_live_difficulty_id"] + '.json'));
             floor["notes"] = freelive["notes"];
             floor["gimmick"] = freelive["gimmick"];
             floor["note_gimmicks"] = freelive["note_gimmicks"];
