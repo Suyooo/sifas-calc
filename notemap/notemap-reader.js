@@ -7,7 +7,7 @@ function capFirstLetter(s) {
 function format(x) {
     // https://stackoverflow.com/a/2901298
     let parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, "&#8239;");
     return parts.join(".");
 }
 
