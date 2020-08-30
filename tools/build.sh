@@ -23,7 +23,7 @@ done
 echo "Copy Library CSS..."
 for F in vendor/*.css; do
     echo "    ${F}"
-    purifycss ${F} index.html sppower.html notemap/tower.html notemap/notemap.html notemap/tower.js notemap/notemap.js notemap/notemap-reader.js js/mapdb.js  js/sppower.js js/story.js js/ui.js js/common.js vendor/materialize.js -m -o build/${F}
+    purifycss ${F} index.html sppower.html js/sppower.js js/story.js js/ui.js js/common.js vendor/materialize.js -m -o build/${F}
 done
 
 echo "Minify HTML..."
@@ -43,13 +43,8 @@ echo "Minify CSS..."
 mkdir build/css
 for F in css/*.css; do
     echo "    ${F}"
-    purifycss ${F} index.html sppower.html notemap/tower.html notemap/notemap.html notemap/tower.js notemap/notemap.js notemap/notemap-reader.js js/mapdb.js  js/sppower.js js/story.js js/ui.js js/common.js vendor/materialize.js -m -o build/${F}
+    purifycss ${F} index.html sppower.html js/sppower.js js/story.js js/ui.js js/common.js vendor/materialize.js -m -o build/${F}
 done
-
-echo "Build DLP page..."
-node notemap/tower.js
-echo "Build Notemap DB page..."
-node notemap/notemap.js
 
 echo "Copy JPG images..."
 mkdir build/image
