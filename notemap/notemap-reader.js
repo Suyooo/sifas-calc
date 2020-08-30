@@ -36,105 +36,105 @@ function skill(skill) {
 }
 
 function skill_target(target_id) {
-    if (target_id === 1) return "all units ";
-    if (target_id === 29) return "µ's units ";
-    if (target_id === 30) return "Aqours units ";
-    if (target_id === 31) return "Nijigaku units ";
-    if (target_id === 38) return "Vo units ";
-    if (target_id === 39) return "Sp units ";
-    if (target_id === 40) return "Gd units ";
-    if (target_id === 41) return "Sk units ";
-    if (target_id === 58) return ""; // no target (affecting SP charge or stamina)
-    if (target_id === 61) return "Smile units ";
-    if (target_id === 62) return "Pure units ";
-    if (target_id === 63) return "Cool units ";
-    if (target_id === 64) return "Active units ";
-    if (target_id === 65) return "Natural units ";
-    if (target_id === 66) return "Elegant units ";
-    if (target_id === 67) return "non-Smile units ";
-    if (target_id === 68) return "non-Vo units ";
-    if (target_id === 72) return "non-Pure units ";
-    if (target_id === 73) return "non-Cool units ";
-    if (target_id === 74) return "non-Active units ";
-    if (target_id === 75) return "non-Natural units ";
-    if (target_id === 76) return "non-Elegant units ";
-    if (target_id === 77) return "non-Sp units ";
-    if (target_id === 78) return "non-Gd units ";
-    if (target_id === 79) return "non-Sk units ";
-    if (target_id === 87) return "non-Vo or Gd units ";
-    if (target_id === 90) return "non-Gd or Sp units ";
+    if (target_id === 1) return 'all units ';
+    if (target_id === 29) return 'µ\'s units ';
+    if (target_id === 30) return 'Aqours units ';
+    if (target_id === 31) return 'Nijigaku units ';
+    if (target_id === 38) return '<span class="t vo">Vo</span> units ';
+    if (target_id === 39) return '<span class="t sp">Sp</span> units ';
+    if (target_id === 40) return '<span class="t gd">Gd</span> units ';
+    if (target_id === 41) return '<span class="t sk">Sk</span> units ';
+    if (target_id === 58) return ''; // no target (affecting SP charge or stamina)
+    if (target_id === 61) return '<span class="a smile">Smile</span> units ';
+    if (target_id === 62) return '<span class="a pure">Pure</span> units ';
+    if (target_id === 63) return '<span class="a cool">Cool</span> units ';
+    if (target_id === 64) return '<span class="a active">Active</span> units ';
+    if (target_id === 65) return '<span class="a natural">Natural</span> units ';
+    if (target_id === 66) return '<span class="a elegant">Elegant</span> units ';
+    if (target_id === 67) return 'non-<span class="a smile">Smile</span> units ';
+    if (target_id === 68) return 'non-<span class="t vo">Vo</span> units ';
+    if (target_id === 72) return 'non-<span class="a pure">Pure</span> units ';
+    if (target_id === 73) return 'non-<span class="a cool">Cool</span> units ';
+    if (target_id === 74) return 'non-<span class="a active">Active</span> units ';
+    if (target_id === 75) return 'non-<span class="a natural">Natural</span> units ';
+    if (target_id === 76) return 'non-<span class="a elegant">Elegant</span> units ';
+    if (target_id === 77) return 'non-<span class="t sp">Sp</span> units ';
+    if (target_id === 78) return 'non-<span class="t gd">Gd</span> units ';
+    if (target_id === 79) return 'non-<span class="t sk">Sk</span> units ';
+    if (target_id === 87) return 'non-<span class="t vo">Vo</span> or <span class="t gd">Gd</span> units ';
+    if (target_id === 90) return 'non-<span class="t gd">Gd</span> or <span class="t sp">Sp</span> units ';
     throw new Error('Unknown Skill Target ' + target_id);
 }
 
 function skill_effect(type_id, amount) {
-    if (type_id === 3) return "charge SP Gauge by " + format(amount) + " points";
-    if (type_id === 4) return "gain " + format(amount) + " points of shield";
-    if (type_id === 5) return "restore " + format(amount) + " points of stamina";
-    if (type_id === 17) return "gain " + format(amount / 100) + "% Appeal";
-    if (type_id === 18) return "increase Voltage Gain by " + format(amount / 100) + "%";
-    if (type_id === 19) return "gain " + format(amount / 100) + "% SP Gauge Fill Rate";
-    if (type_id === 20) return "gain " + format(amount / 100) + "% Critical Chance";
-    if (type_id === 21) return "gain " + format(amount / 100) + "% Critical Power";
-    if (type_id === 22) return "gain " + format(amount / 100) + "% Skill Activation Chance";
-    if (type_id === 23) return "increase SP Voltage Gain by " + format(amount / 100) + "%";
-    if (type_id === 45) return "gain " + format(amount / 100) + "% Base SP Gauge Fill Rate";
-    if (type_id === 46) return "gain " + format(amount / 100) + "% Base Critical Chance";
-    if (type_id === 47) return "gain " + format(amount / 100) + "% Base Critical Power";
-    if (type_id === 48) return "gain " + format(amount / 100) + "% Base Skill Activation Chance";
-    if (type_id === 49) return "gain " + format(amount / 100) + "% Base Appeal";
-    if (type_id === 50) return "increase Base SP Voltage Gain by " + format(amount / 100) + "%";
-    if (type_id === 51) return "increase Base Voltage Gain by " + format(amount / 100) + "%";
-    if (type_id === 52) return "remove all buffs (excluding those affecting Base values)";
-    if (type_id === 68) return "deal " + format(amount) + " points of stamina damage";
-    if (type_id === 69) return "discharge SP Gauge by " + format(amount / 100) + "%";
-    if (type_id === 70) return "lose " + format(amount) + " points of shield";
-    if (type_id === 71) return "lose " + format(amount / 100) + "% Appeal";
-    if (type_id === 73) return "lose " + format(amount / 100) + "% SP Gauge Fill Rate";
-    if (type_id === 75) return "lose " + format(amount / 100) + "% Critical Power";
-    if (type_id === 76) return "lose " + format(amount / 100) + "% Skill Activation Chance";
-    if (type_id === 78) return "lose " + format(amount / 100) + "% Base Skill Activation Chance";
-    if (type_id === 81) return "lose " + format(amount / 100) + "% Base Appeal";
-    if (type_id === 83) return "lose " + format(amount / 100) + "% Base SP Gauge Fill Rate";
-    if (type_id === 84) return "lose " + format(amount / 100) + "% Base Appeal";
-    if (type_id === 85) return "lose " + format(amount / 100) + "% Base SP Gauge Fill Rate";
-    if (type_id === 86) return "lose " + format(amount / 100) + "% Base Skill Activation Chance";
-    if (type_id === 91) return "charge SP Gauge by " + format(amount / 100) + "%";
-    if (type_id === 93) return "gain " + format(amount / 100) + "% of max stamina as shield";
-    if (type_id === 96) return "restore " + format(amount / 100) + "% of max stamina";
-    if (type_id === 119) return "gain " + format(amount / 100) + "% Appeal for each Vo unit in the formation";
-    if (type_id === 132) return "restore " + format(amount) + " points of stamina for each Sk unit in the formation";
-    if (type_id === 134) return "restore " + format(amount) + " points of stamina for each Gd unit in the formation";
-    if (type_id === 141) return "gain " + format(amount / 100) + "% Base Appeal for each Sk unit in the formation";
-    if (type_id === 143) return "gain " + format(amount / 100) + "% Base Appeal for each Gd unit in the formation";
-    if (type_id === 164) return "gain " + format(amount / 100) + "% Skill Activation Chance for each Gd unit in the formation";
-    if (type_id === 179) return "gain " + format(amount / 100) + "% Critical Chance for each Sk unit in the formation";
-    if (type_id === 187) return "gain " + format(amount / 100) + "% Base Critical Chance for each Sk unit in the formation";
-    if (type_id === 193) return "gain " + format(amount / 100) + "% Critical Power for each Vo unit in the formation";
-    if (type_id === 210) return "increase SP Voltage Gain by " + format(amount / 100) + "% for each Sp unit in the formation";
-    if (type_id === 230) return "increase the power of their Strategy Switch bonus by " + format(amount) + " points";
+    if (type_id === 3) return 'charge SP Gauge by ' + format(amount) + ' points';
+    if (type_id === 4) return 'gain ' + format(amount) + ' points of shield';
+    if (type_id === 5) return 'restore ' + format(amount) + ' points of stamina';
+    if (type_id === 17) return 'gain ' + format(amount / 100) + '% Appeal';
+    if (type_id === 18) return 'increase Voltage Gain by ' + format(amount / 100) + '%';
+    if (type_id === 19) return 'gain ' + format(amount / 100) + '% SP Gauge Fill Rate';
+    if (type_id === 20) return 'gain ' + format(amount / 100) + '% Critical Chance';
+    if (type_id === 21) return 'gain ' + format(amount / 100) + '% Critical Power';
+    if (type_id === 22) return 'gain ' + format(amount / 100) + '% Skill Activation Chance';
+    if (type_id === 23) return 'increase SP Voltage Gain by ' + format(amount / 100) + '%';
+    if (type_id === 45) return 'gain ' + format(amount / 100) + '% Base SP Gauge Fill Rate';
+    if (type_id === 46) return 'gain ' + format(amount / 100) + '% Base Critical Chance';
+    if (type_id === 47) return 'gain ' + format(amount / 100) + '% Base Critical Power';
+    if (type_id === 48) return 'gain ' + format(amount / 100) + '% Base Skill Activation Chance';
+    if (type_id === 49) return 'gain ' + format(amount / 100) + '% Base Appeal';
+    if (type_id === 50) return 'increase Base SP Voltage Gain by ' + format(amount / 100) + '%';
+    if (type_id === 51) return 'increase Base Voltage Gain by ' + format(amount / 100) + '%';
+    if (type_id === 52) return 'remove all buffs (excluding those affecting Base values)';
+    if (type_id === 68) return 'deal ' + format(amount) + ' points of stamina damage';
+    if (type_id === 69) return 'discharge SP Gauge by ' + format(amount / 100) + '%';
+    if (type_id === 70) return 'lose ' + format(amount) + ' points of shield';
+    if (type_id === 71) return 'lose ' + format(amount / 100) + '% Appeal';
+    if (type_id === 73) return 'lose ' + format(amount / 100) + '% SP Gauge Fill Rate';
+    if (type_id === 75) return 'lose ' + format(amount / 100) + '% Critical Power';
+    if (type_id === 76) return 'lose ' + format(amount / 100) + '% Skill Activation Chance';
+    if (type_id === 78) return 'lose ' + format(amount / 100) + '% Base Skill Activation Chance';
+    if (type_id === 81) return 'lose ' + format(amount / 100) + '% Base Appeal';
+    if (type_id === 83) return 'lose ' + format(amount / 100) + '% Base SP Gauge Fill Rate';
+    if (type_id === 84) return 'lose ' + format(amount / 100) + '% Base Appeal';
+    if (type_id === 85) return 'lose ' + format(amount / 100) + '% Base SP Gauge Fill Rate';
+    if (type_id === 86) return 'lose ' + format(amount / 100) + '% Base Skill Activation Chance';
+    if (type_id === 91) return 'charge SP Gauge by ' + format(amount / 100) + '%';
+    if (type_id === 93) return 'gain ' + format(amount / 100) + '% of max stamina as shield';
+    if (type_id === 96) return 'restore ' + format(amount / 100) + '% of max stamina';
+    if (type_id === 119) return 'gain ' + format(amount / 100) + '% Appeal for each <span class="t vo">Vo</span> unit in the formation';
+    if (type_id === 132) return 'restore ' + format(amount) + ' points of stamina for each <span class="t sk">Sk</span> unit in the formation';
+    if (type_id === 134) return 'restore ' + format(amount) + ' points of stamina for each <span class="t gd">Gd</span> unit in the formation';
+    if (type_id === 141) return 'gain ' + format(amount / 100) + '% Base Appeal for each <span class="t sk">Sk</span> unit in the formation';
+    if (type_id === 143) return 'gain ' + format(amount / 100) + '% Base Appeal for each <span class="t gd">Gd</span> unit in the formation';
+    if (type_id === 164) return 'gain ' + format(amount / 100) + '% Skill Activation Chance for each <span class="t gd">Gd</span> unit in the formation';
+    if (type_id === 179) return 'gain ' + format(amount / 100) + '% Critical Chance for each <span class="t sk">Sk</span> unit in the formation';
+    if (type_id === 187) return 'gain ' + format(amount / 100) + '% Base Critical Chance for each <span class="t sk">Sk</span> unit in the formation';
+    if (type_id === 193) return 'gain ' + format(amount / 100) + '% Critical Power for each <span class="t vo">Vo</span> unit in the formation';
+    if (type_id === 210) return 'increase SP Voltage Gain by ' + format(amount / 100) + '% for each <span class="t sp">Sp</span> unit in the formation';
+    if (type_id === 230) return 'increase the power of their Strategy Switch bonus by ' + format(amount) + ' points';
     throw new Error('Unknown Skill Effect Type ' + type_id);
 }
 
 function skill_finish(condition_id, amount) {
-    if (condition_id === 1) return " until the song ends"
-    if (condition_id === 2) return " for " + format(amount) + " notes"
+    if (condition_id === 1) return ' until the song ends'
+    if (condition_id === 2) return ' for ' + format(amount) + ' notes'
     if (condition_id === 3) return "" // instant effect (affecting SP charge or stamina)
     if (condition_id === 4) return "" // until AC ends (this is handled in the trigger switch below)
-    if (condition_id === 7) return " for one time only"
-    if (condition_id === 8) return " until the next Strategy switch"
+    if (condition_id === 7) return ' for one time only'
+    if (condition_id === 8) return ' until the next Strategy switch'
     throw new Error('Unknown Skill Finish Condition ' + condition_id);
 }
 
 function ac_mission(type_id, goal) {
-    if (type_id === 1) return "Get " + format(goal) + " Voltage";
-    if (type_id === 2) return "Hit " + format(goal) + " NICEs";
-    if (type_id === 3) return "Hit " + format(goal) + " GREATs";
-    if (type_id === 4) return "Hit " + format(goal) + " WONDERFULs";
-    if (type_id === 5) return "Get " + format(goal) + " Voltage in one Appeal";
-    if (type_id === 6) return "Get " + format(goal) + " Voltage from SP";
-    if (type_id === 7) return "Appeal with " + format(goal) + " unique Units";
-    if (type_id === 8) return "Get " + format(goal) + " Criticals";
-    if (type_id === 9) return "Activate " + format(goal) + " Tap Skills";
+    if (type_id === 1) return 'Get ' + format(goal) + ' Voltage';
+    if (type_id === 2) return 'Hit ' + format(goal) + ' NICEs';
+    if (type_id === 3) return 'Hit ' + format(goal) + ' GREATs';
+    if (type_id === 4) return 'Hit ' + format(goal) + ' WONDERFULs';
+    if (type_id === 5) return 'Get ' + format(goal) + ' Voltage in one Appeal';
+    if (type_id === 6) return 'Get ' + format(goal) + ' Voltage from SP';
+    if (type_id === 7) return 'Appeal with ' + format(goal) + ' unique Units';
+    if (type_id === 8) return 'Get ' + format(goal) + ' Criticals';
+    if (type_id === 9) return 'Activate ' + format(goal) + ' Tap Skills';
     throw new Error('Unknown AC Mission Type ' + type_id);
 }
 

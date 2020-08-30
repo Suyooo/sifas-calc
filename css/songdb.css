@@ -232,13 +232,13 @@ h5 {
     max-width: 350px;
     left: 0;
     top: 0;
-    transform: translate(-50%,-100%);
+    transform: translate(-50%, -100%);
     z-index: 100;
     pointer-events: none;
 }
 
 .tooltip .tooltip-inner {
-    background-color: var(--key-low2);
+    background-color: var(--panel);
     border: 1px solid var(--border);
     padding: .5em .8em;
 }
@@ -281,4 +281,88 @@ h5 {
     height: 3em;
     overflow: visible;
     margin-bottom: 2em;
+}
+
+.t, .a {
+    font-weight: 500;
+}
+
+.t.vo {
+    color: #cf403d; /* original colour */
+}
+
+.dark-mode .t.vo {
+    color: #ff8e8b;
+}
+
+.t.sp {
+    color: #248ecf; /* original colour */
+}
+
+.dark-mode .t.sp {
+    color: #4ebcff;
+}
+
+.t.gd {
+    color: #3ea15b; /* original colour */
+}
+
+.dark-mode .t.gd {
+    color: #28ca57;
+}
+
+.t.sk {
+    color: #a07200;
+}
+
+.dark-mode .t.sk {
+    color: #e4b642; /* original colour */
+}
+
+.a.smile {
+    color: #dd4aa5; /* original colour */
+}
+
+.dark-mode .a.smile {
+    color: #ffb6e3;
+}
+
+.a.pure {
+    color: #39a85d; /* original colour */
+}
+
+.dark-mode .a.pure {
+    color: #16d754;
+}
+
+.a.cool {
+    color: #0099ee; /* original colour */
+}
+
+.dark-mode .a.cool {
+    color: #3cb9ff;
+}
+
+.a.active {
+    color: #db3e3e; /* original colour */
+}
+
+.dark-mode .a.active {
+    color: #ff8e8e;
+}
+
+.a.natural {
+    color: #b98c19;
+}
+
+.dark-mode .a.natural {
+    color: #edbb3e; /* original colour */
+}
+
+.a.elegant {
+    color: #85519c; /* original colour */
+}
+
+.dark-mode .a.elegant {
+    color: #de94ff;
 }
