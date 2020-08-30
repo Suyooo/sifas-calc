@@ -295,6 +295,10 @@ ul.collapsible {
     margin-top: -3px;
 }
 
+.keyboard-focused .collapsible-header:focus {
+    background-color: var(--key-low2);
+}
+
 .small-collapsible.with-margin {
     margin-top: 1.8em;
 }
@@ -452,6 +456,10 @@ input[type="radio"]:not(.default-radio) + label {
 input[type="radio"]:not(.default-radio):checked + label {
     background-color: var(--key-normal);
     font-weight: bold;
+}
+
+input[type="radio"]:not(.default-radio):focus + label {
+    background-color: var(--key-low2);
 }
 
 input[type="checkbox"] + span {
