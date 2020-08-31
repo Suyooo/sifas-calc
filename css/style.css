@@ -458,7 +458,7 @@ input[type="radio"]:not(.default-radio):checked + label {
     font-weight: bold;
 }
 
-input[type="radio"]:not(.default-radio):focus + label {
+.keyboard-focused input[type="radio"]:not(.default-radio):focus + label {
     background-color: var(--key-low2);
 }
 
