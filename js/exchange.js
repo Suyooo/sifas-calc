@@ -213,7 +213,7 @@ ExchangeEstimationInfo.prototype.showResult = function () {
         $("#exchangeResultLiveCandy100").text("---");
     }
 
-    Results.show($("#exchangeResult"), highlightSkippedLives, showSleepWarning, this.lpRecoveryInfo.region === "en");
+    Results.show($("#exchangeResult"), highlightSkippedLives, showSleepWarning, this.storyEstimationInfo.lpRecoveryInfo.region === "en");
 };
 
 /**
