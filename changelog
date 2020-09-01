@@ -2,6 +2,8 @@ September 1, 2020 - Double Fuck Klab WW, Triple Unironically Edition
 ----------------------------
 - KLAB WW TEAM JUST CAN'T KEEP THEMSELVES FROM FUCKING UP ABSOLUTELY EVERYTHING!
 - SO THE KLAB WARNING IS BACK! FUCK YOU KLAB WW TEAM!
+- On the brighter side, re-implementing the Klab warning made me find a bug:
+- Fixed a bug when saving configuration on the Exchange Calc while the Target Type is set to Item Amount
 
 July 23, 2020 - Bond Boarding Edition
 ----------------------------

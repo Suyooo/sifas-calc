@@ -10,7 +10,6 @@ $(function () {
     registerPopUpButtons();
     registerCalculatorButtons();
 
-    loadCookieData();
     goToDirectLinkTab();
     notificationLoad();
 
@@ -198,6 +197,17 @@ function registerPopUpButtons() {
  * buttons, and the automatic calculation if a value is changed.
  */
 function registerCalculatorButtons() {
+    $("#exchangeTargetTypeEP").click(function () {
+        $("#exchangeItemAmountInputs").hide();
+        $("#exchangeEventPointInputs").show();
+    }).click();
+    $("#exchangeTargetTypeIA").click(function () {
+        $("#exchangeEventPointInputs").hide();
+        $("#exchangeItemAmountInputs").show();
+    });
+
+    loadCookieData();
+
     var newDataObjectFunctions = {
         "story": function () {
             return new StoryData();
@@ -290,15 +300,6 @@ function registerCalculatorButtons() {
                 }
             }
         });
-    });
-
-    $("#exchangeTargetTypeEP").click(function () {
-        $("#exchangeItemAmountInputs").hide();
-        $("#exchangeEventPointInputs").show();
-    }).click();
-    $("#exchangeTargetTypeIA").click(function () {
-        $("#exchangeEventPointInputs").hide();
-        $("#exchangeItemAmountInputs").show();
     });
 }
 
