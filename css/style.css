@@ -720,4 +720,5 @@ table.striped > tbody > tr:nth-child(2n+1) {
 
 .klab-warning {
     display: none;
+    text-align: justify;
 }

@@ -462,6 +462,7 @@ Results.hide = function (resultDiv) {
     $(".result-large", resultDiv).stop(true, true).fadeTo(0, 0);
     $(".result-small", resultDiv).stop(true, true).fadeTo(0, 0);
     $(".collapsible ", resultDiv).stop(true, true).fadeTo(0, 0);
+    $(".klab-warning ", resultDiv).stop(true, true).fadeTo(0, 0);
     $(resultDiv).addClass("no-link");
 };
 
@@ -471,8 +472,9 @@ Results.hide = function (resultDiv) {
  * @param resultDiv jQuery element representing the div containing the results.
  * @param highlightSkippedLives Whether the line showing the amount of skipped lives should be highlighted
  * @param showSleepWarning Whether the collapsible with the sleep warning should be shown.
+ * @param showKlabWarning Whether the warning about Klab WW team incompetency should be shown.
  */
-Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning) {
+Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning, showKlabWarning) {
     $(".result-large", resultDiv).delay(50).fadeTo(200, 1);
 
     if (highlightSkippedLives) {
@@ -482,6 +484,12 @@ Results.show = function (resultDiv, highlightSkippedLives, showSleepWarning) {
     }
 
     $(".recovery-items", resultDiv).delay(100).fadeTo(200, 1);
+
+    if (showKlabWarning) {
+        $(".klab-warning", resultDiv).delay(75).fadeTo(200, 1);
+    } else {
+        $(".klab-warning", resultDiv).css("display","none");
+    }
 
     if (showSleepWarning) {
         $(".sleep-warning", resultDiv).delay(125).fadeTo(200, 1);
