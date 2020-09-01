@@ -539,7 +539,7 @@ Results.setBigResult = function (element, text) {
 function Cookie() {
 }
 
-var COOKIE_POLICY = "<h5>Cookie Policy</h5>SIFAS Calc uses cookies to store your preferences and inputs for later " +
+const COOKIE_POLICY = "<h5>Cookie Policy</h5>SIFAS Calc uses cookies to store your preferences and inputs for later " +
     "use. It will only do so if you agree to this message.<br>The page is still functional without if you do " +
     "not allow storage, however, you will be unable to:<ul><li>Save configurations for later</li>" +
     "<li>Dismiss notifications permanently</li><li>Save your setting for dark mode</li></ul>No other data is " +
@@ -572,7 +572,7 @@ Cookie.set = function (key, value, days) {
     } else {
         var expiryDate = new Date();
         expiryDate.setTime(expiryDate.getTime() + (days * 24 * 60 * 60 * 1000));
-        document.cookie = key + "=" + value + "; expires=" + expiryDate.toUTCString() + "; path=/sifas";
+        document.cookie = key + "=" + value + "; expires=" + expiryDate.toUTCString() + "; path=/sifas; SameSite=Lax";
         return true;
     }
 };
