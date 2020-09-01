@@ -561,7 +561,7 @@ Cookie.set = function (key, value, days) {
             function () {
                 var expiryDate = new Date();
                 expiryDate.setTime(expiryDate.getTime() + (5 * 60 * 1000));
-                document.cookie = "cookieConsent=1; expires=" + expiryDate.toUTCString() + "; path=/sifas";
+                document.cookie = "cookieConsent=1; expires=" + expiryDate.toUTCString() + "; path=/sifas; SameSite=Lax";
                 if (Cookie.get("cookieConsent") === undefined) {
                     showPopUp("Unable to store cookies. Your browser might be blocking cookie " +
                         "storage. Please check your browser's privacy and storage settings, then try again.");
