@@ -48,6 +48,7 @@ ExchangeData.prototype.readFromUi = function () {
     this.storyData.storyLiveDifficulty = $("input:radio[name=exchangeLiveDifficulty]:checked").val();
     this.storyData.storyLiveScore = $("input:radio[name=exchangeLiveScore]:checked").val();
     this.storyData.storyUnitBonusPct = ReadHelpers.toNum($("#exchangeUnitBonusPct").val(), 0);
+    this.storyData.storyPassRefill = $("#exchangePassRefillOn").prop("checked");
     this.exchangeTargetType = $("input:radio[name=exchangeTargetType]:checked").val();
     this.storyData.storyTargetEventPoints = ReadHelpers.toNum($("#exchangeTargetEventPoints").val());
     this.storyData.storyCurrentEventPoints = ReadHelpers.toNum($("#exchangeCurrentEventPoints").val());
@@ -78,6 +79,7 @@ ExchangeData.setToUi = function (savedData) {
     SetHelpers.radioButtonHelper($("input:radio[name=exchangeLiveDifficulty]"), savedData.storyData.storyLiveDifficulty);
     SetHelpers.radioButtonHelper($("input:radio[name=exchangeLiveScore]"), savedData.storyData.storyLiveScore);
     SetHelpers.inputHelper($("#exchangeUnitBonusPct"), savedData.storyData.storyUnitBonusPct);
+    SetHelpers.radioButtonHelper($("input:radio[name=exchangePassRefill]"), savedData.storyData.storyPassRefill ? "Y" : "N");
     SetHelpers.radioButtonHelper($("input:radio[name=exchangeTargetType]"), savedData.exchangeTargetType);
     SetHelpers.inputHelper($("#exchangeTargetEventPoints"), savedData.storyData.storyTargetEventPoints);
     SetHelpers.inputHelper($("#exchangeCurrentEventPoints"), savedData.storyData.storyCurrentEventPoints);
@@ -96,22 +98,23 @@ ExchangeData.setToUi = function (savedData) {
  * Debug method, used to show a dialog with all input values.
  */
 ExchangeData.prototype.alert = function () {
-    alert("exchangeTimerMethodAuto: " + this.storyData.storyTimerMethodAuto + "\n" +
-        "exchangeRegion: " + this.storyData.storyRegion + "\n" +
-        "exchangeTimerMethodManual: " + this.storyData.storyTimerMethodManual + "\n" +
-        "exchangeManualRestTimeInHours: " + this.storyData.storyManualRestTimeInHours + "\n" +
-        "exchangeMinimumSleepHours: " + this.storyData.storyMinimumSleepHours + "\n" +
-        "exchangeLiveDifficulty: " + this.storyData.storyLiveDifficulty + "\n" +
-        "exchangeLiveScore: " + this.storyData.storyLiveScore + "\n" +
-        "exchangeUnitBonusPct: " + this.storyData.storyUnitBonusPct + "\n" +
+    alert("storyTimerMethodAuto: " + this.storyData.storyTimerMethodAuto + "\n" +
+        "storyRegion: " + this.storyData.storyRegion + "\n" +
+        "storyTimerMethodManual: " + this.storyData.storyTimerMethodManual + "\n" +
+        "storyManualRestTimeInHours: " + this.storyData.storyManualRestTimeInHours + "\n" +
+        "storyMinimumSleepHours: " + this.storyData.storyMinimumSleepHours + "\n" +
+        "storyLiveDifficulty: " + this.storyData.storyLiveDifficulty + "\n" +
+        "storyLiveScore: " + this.storyData.storyLiveScore + "\n" +
+        "storyUnitBonusPct: " + this.storyData.storyUnitBonusPct + "\n" +
+        "storyPassRefill: " + this.storyData.storyPassRefill + "\n" +
         "exchangeTargetType: " + this.exchangeTargetType + "\n" +
-        "exchangeTargetEventPoints: " + this.storyData.storyTargetEventPoints + "\n" +
-        "exchangeCurrentEventPoints: " + this.storyData.storyCurrentEventPoints + "\n" +
+        "storyTargetEventPoints: " + this.storyData.storyTargetEventPoints + "\n" +
+        "storyCurrentEventPoints: " + this.storyData.storyCurrentEventPoints + "\n" +
         "exchangeTargetItemAmount: " + this.exchangeTargetItemAmount + "\n" +
         "exchangeCurrentItemAmount: " + this.exchangeCurrentItemAmount + "\n" +
-        "exchangeCurrentRank: " + this.storyData.storyCurrentRank + "\n" +
-        "exchangeCurrentLP: " + this.storyData.storyCurrentLP + "\n" +
-        "exchangeCurrentEXP: " + this.storyData.storyCurrentEXP);
+        "storyCurrentRank: " + this.storyData.storyCurrentRank + "\n" +
+        "storyCurrentLP: " + this.storyData.storyCurrentLP + "\n" +
+        "storyCurrentEXP: " + this.storyData.storyCurrentEXP);
 };
 
 /**
@@ -165,7 +168,8 @@ ExchangeData.prototype.estimate = function () {
     var eei = new ExchangeEstimationInfo(StoryEstimator.estimate(this.createLiveInfo(),
         this.getEventPointsLeft(), this.storyData.getRestTimeInMinutes(),
         this.storyData.storyMinimumSleepHours, this.storyData.storyCurrentRank, this.storyData.storyCurrentEXP,
-        this.storyData.storyCurrentLP, 0, 0, this.storyData.storyRegion));
+        this.storyData.storyCurrentLP, 0, 0, this.storyData.storyRegion,
+        this.storyData.getPassRefillCount()));
     eei.exchangeItems = this.getItemCount(eei.storyEstimationInfo.liveCount);
     return eei;
 };

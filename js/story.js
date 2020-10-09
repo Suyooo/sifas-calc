@@ -15,6 +15,7 @@
  * @property {number} storyUnitBonusPct - Event point bonus gained through bonus units, in percent
  * @property {number} storyBoostersStock - Amount of Booster Items available for use before daily missions.
  * @property {boolean} storyBoostersDaily - Whether to use Booster Items from daily missions.
+ * @property {boolean} storyPassRefill - Whether to use the daily full refill from the Sukusuta Pass subscription.
  * @property {number} storyTargetEventPoints - The desired final amount of event points.
  * @property {number} storyCurrentEventPoints - The current amount of event points.
  * @property {number} storyCurrentRank - The player's current rank.
@@ -33,6 +34,7 @@ function StoryData() {
     this.storyUnitBonusPct = 0;
     this.storyBoostersStock = 0;
     this.storyBoostersDaily = false;
+    this.storyPassRefill = false;
     this.storyTargetEventPoints = 0;
     this.storyCurrentEventPoints = 0;
     this.storyCurrentRank = 0;
@@ -113,6 +115,7 @@ StoryData.prototype.readFromUi = function () {
     this.storyUnitBonusPct = ReadHelpers.toNum($("#storyUnitBonusPct").val(), 0);
     this.storyBoostersStock = ReadHelpers.toNum($("#storyBoostersStock").val(), 0);
     this.storyBoostersDaily = $("#storyBoostersDailyOn").prop("checked");
+    this.storyPassRefill = $("#storyPassRefillOn").prop("checked");
     this.storyTargetEventPoints = ReadHelpers.toNum($("#storyTargetEventPoints").val());
     this.storyCurrentEventPoints = ReadHelpers.toNum($("#storyCurrentEventPoints").val());
     this.storyCurrentRank = ReadHelpers.toNum($("#storyCurrentRank").val());
@@ -142,6 +145,7 @@ StoryData.setToUi = function (savedData) {
     SetHelpers.inputHelper($("#storyUnitBonusPct"), savedData.storyUnitBonusPct);
     SetHelpers.inputHelper($("#storyBoostersStock"), savedData.storyBoostersStock);
     SetHelpers.radioButtonHelper($("input:radio[name=storyBoostersDaily]"), savedData.storyBoostersDaily ? "Y" : "N");
+    SetHelpers.radioButtonHelper($("input:radio[name=storyPassRefill]"), savedData.storyPassRefill ? "Y" : "N");
     SetHelpers.inputHelper($("#storyTargetEventPoints"), savedData.storyTargetEventPoints);
     SetHelpers.inputHelper($("#storyCurrentEventPoints"), savedData.storyCurrentEventPoints);
     SetHelpers.inputHelper($("#storyCurrentRank"), savedData.storyCurrentRank);
@@ -167,6 +171,7 @@ StoryData.prototype.alert = function () {
         "storyUnitBonusPct: " + this.storyUnitBonusPct + "\n" +
         "storyBoostersStock: " + this.storyBoostersStock + "\n" +
         "storyBoostersDaily: " + this.storyBoostersDaily + "\n" +
+        "storyPassRefill: " + this.storyPassRefill + "\n" +
         "storyTargetEventPoints: " + this.storyTargetEventPoints + "\n" +
         "storyCurrentRank: " + this.storyCurrentRank + "\n" +
         "storyCurrentEventPoints: " + this.storyCurrentEventPoints + "\n" +
@@ -184,6 +189,19 @@ StoryData.prototype.getRestTimeInMinutes = function () {
     }
     if (this.storyTimerMethodManual) {
         return 60 * this.storyManualRestTimeInHours;
+    }
+    return 0;
+};
+
+/**
+ * @returns {number} The amount of daily resets left until the event ends.
+ */
+StoryData.prototype.getResetsLeft = function () {
+    if (this.storyTimerMethodAuto) {
+        return Common.getAutoResetsLeftInEvent(this.storyRegion);
+    }
+    if (this.storyTimerMethodManual) {
+        return Math.floor(this.storyManualRestTimeInHours / 24);
     }
     return 0;
 };
@@ -232,13 +250,17 @@ StoryData.prototype.getDailyMissionBoosterCount = function () {
     if (!this.storyBoostersDaily) {
         return 0;
     }
-    if (this.storyTimerMethodAuto) {
-        return Common.getAutoResetsLeftInEvent(this.storyRegion) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
+    return this.getResetsLeft() * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
+};
+
+/**
+ * @returns {number} The amount of uses of full refills from the Sukusuta Pass subscription.
+ */
+StoryData.prototype.getPassRefillCount = function () {
+    if (!this.storyPassRefill) {
+        return 0;
     }
-    if (this.storyTimerMethodManual) {
-        return Math.floor(this.storyManualRestTimeInHours / 24) * COMMON_BOOSTER_ITEM_DAILY_MISSION_REWARD;
-    }
-    return 0;
+    return this.getResetsLeft();
 };
 
 /**
@@ -332,7 +354,7 @@ StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBo
 StoryData.prototype.estimate = function () {
     return StoryEstimator.estimate(this.createLiveInfo(), this.getEventPointsLeft(), this.getRestTimeInMinutes(),
         this.storyMinimumSleepHours, this.storyCurrentRank, this.storyCurrentEXP, this.storyCurrentLP,
-        this.storyBoostersStock, this.getDailyMissionBoosterCount(), this.storyRegion);
+        this.storyBoostersStock, this.getDailyMissionBoosterCount(), this.storyRegion, this.getPassRefillCount());
 };
 
 /**
@@ -351,11 +373,12 @@ StoryData.prototype.estimate = function () {
  * @param {number} stockBoosterCount Amount of Booster Items available before daily missions.
  * @param {number} dailyBoosterCount Amount of Booster Items gained from daily missions to use.
  * @param {region} region The region to use for the max LP calculation.
+ * @param {number} passRefillUses Amount of uses of full refills from the Sukusuta Pass subscription.
  * @returns {StoryEstimationInfo} A new object with all properties set, or the recoveryInfo property set to null if
  *      reaching the target is impossible.
  */
 StoryEstimator.estimate =
-    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBoosterCount, dailyBoosterCount, region) {
+    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBoosterCount, dailyBoosterCount, region, passRefillUses) {
         var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft, stockBoosterCount, dailyBoosterCount);
         var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp, region);
 
@@ -393,6 +416,9 @@ StoryEstimator.estimate =
         if (minimumSleepHours * 60 >= COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
             estimation.lpRecoveryInfo.sleepWarning = false;
         }
+        estimation.lpRecoveryInfo.refills = Math.max(0, estimation.lpRecoveryInfo.refills - passRefillUses);
+        estimation.lpRecoveryInfo.lpToRecover = Math.max(0,
+            estimation.lpRecoveryInfo.lpToRecover - passRefillUses * estimation.lpRecoveryInfo.lovecaLpRecovery);
 
         return estimation;
     };

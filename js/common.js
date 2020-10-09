@@ -18,7 +18,7 @@ function Common() {
  * @property {number} lpToRecover - LP required to recover in order to reach the target.
  * @property {number} rankUpCount - How often the player will rank up before they reach the target.
  * @property {number} lovecaLpRecovery - Average LP gained when using a loveca.
- * @property {number} lovecaUses - Total amount of loveca used.
+ * @property {number} refills - Total amount of full LP refills required.
  * @property {number} finalRank - The player's final rank after reaching the target.
  * @property {number} finalRankExp - The player's final EXP in the final rank after reaching the target.
  * @property {boolean} sleepWarning - Whether to display a warning about having to interrupt sleep.
