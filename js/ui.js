@@ -402,12 +402,6 @@ function updateTimerSection(page) {
     }
     eventInfo.slideDown(300);
 
-    if (region == "en") {
-        $(".event-info-note", eventInfo).html('<b style="color:red">Warning: There is a 7-hour maintenance on Dec 7. The calc does not account for LP regeneration lost during it. Check the in-game news for details.</b><br>Something wrong? <a data-target="sidebar" class="sidenav-trigger">Contact me!</a>')
-    } else {
-        $(".event-info-note", eventInfo).html('Something wrong? <a data-target="sidebar" class="sidenav-trigger">Contact me!</a>')
-    }
-
     var eventDates = Common.getEventBeginEndTime(region);
     var start = eventDates[0];
     var now = new Date();
