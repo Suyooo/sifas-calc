@@ -441,6 +441,14 @@ StoryEstimationInfo.prototype.getPlayTimeRate = function () {
 };
 
 /**
+ * Check whether the estimation has succeeded or not, or was judged to be impossible within the time left.
+ * @returns {boolean}
+ */
+StoryEstimationInfo.prototype.hasResult = function () {
+    return this.lpRecoveryInfo !== null;
+}
+
+/**
  * Displays the calculation results on the UI.
  */
 StoryEstimationInfo.prototype.showResult = function () {

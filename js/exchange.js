@@ -175,6 +175,14 @@ ExchangeData.prototype.estimate = function () {
 };
 
 /**
+ * Check whether the estimation has succeeded or not, or was judged to be impossible within the time left.
+ * @returns {boolean}
+ */
+ExchangeEstimationInfo.prototype.hasResult = function () {
+    return this.storyEstimationInfo.hasResult();
+}
+
+/**
  * Displays the calculation results on the UI.
  */
 ExchangeEstimationInfo.prototype.showResult = function () {
