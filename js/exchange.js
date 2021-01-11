@@ -192,8 +192,8 @@ ExchangeEstimationInfo.prototype.showResult = function () {
         if (this.storyEstimationInfo.skippedLives === 0) {
             $("#exchangeResultSkippedLivesText").text("0");
         } else {
-            $("#exchangeResultSkippedLivesText").text(this.storyEstimationInfo.skippedLives + " (" + this.storyEstimationInfo.skippedLiveTickets +
-                " tickets per live)");
+            $("#storyResultSkippedLivesText").text((this.storyEstimationInfo.skippedLives * this.storyEstimationInfo.skippedLiveTickets) + " (" +
+                this.storyEstimationInfo.skippedLives + " x " + this.storyEstimationInfo.skippedLiveTickets + " tickets)");
             highlightSkippedLives = true;
         }
         showSleepWarning = this.storyEstimationInfo.lpRecoveryInfo.sleepWarning;

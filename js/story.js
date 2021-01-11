@@ -457,8 +457,8 @@ StoryEstimationInfo.prototype.showResult = function () {
         if (this.skippedLives === 0) {
             $("#storyResultSkippedLivesText").text("0");
         } else {
-            $("#storyResultSkippedLivesText").text(this.skippedLives + " (" + this.skippedLiveTickets +
-                " tickets per live)");
+            $("#storyResultSkippedLivesText").text((this.skippedLives * this.skippedLiveTickets) + " (" +
+                this.skippedLives + " x " + this.skippedLiveTickets + " tickets)");
             highlightSkippedLives = true;
         }
         $("#storyResultBoostedLives").text(this.liveCount.boostedLives);
