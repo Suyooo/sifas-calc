@@ -394,7 +394,7 @@ StoryEstimator.estimate =
         }
 
         var estimation = new StoryEstimationInfo(liveCount, timeLeft, 0,
-            Math.min(5, Math.floor(avgMaxLp / liveInfo.lp)), regenTimeLostToSleep);
+            Math.min(20, Math.floor((avgMaxLp + 100) / liveInfo.lp)), regenTimeLostToSleep);
         if (estimation.getPlayTime() > timeLeft - playTimeLostToSleep) {
             // check whether we can use skip tickets to meet the target
 
