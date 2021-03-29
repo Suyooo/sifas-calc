@@ -410,7 +410,7 @@ function updateTimerSection(page) {
     var progressBar = $("#" + page + "TimerProgress");
     var leftLabel = $("#" + page + "TimerLeft");
     var eventBanner = $("#" + page + "EventBanner");
-    var newBanner = "image/event_" + region + ".png";
+    var newBanner = "image/event_" + region + ".jpg";
     eventBanner.attr("src", newBanner);
 
     // Reset progress bar animation by creating a new one and removing the old one (this skips the transition)

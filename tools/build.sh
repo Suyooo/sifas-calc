@@ -69,7 +69,7 @@ echo "Generate service worker..."
 uglifyjs --compress sequences=true,conditionals=true,booleans=true,if_return=true,join_vars=true --mangle -o build/serviceworker.js serviceworker.js
 echo "" >> build/serviceworker.js
 echo -n "var cache_files = new Set([" >> build/serviceworker.js
-find build -not -path '*/\.*' -not -iname '.htaccess' -not -iname 'serviceworker.js' -not -iname 'networkinfo.js' -not -iname 'event_jp.png' -not -iname 'event_en.png' -not -iname 'launcher-icon-???.png' -type f -printf '"%P"\n' | tr '\n' ',' | sed 's/,$//' >> build/serviceworker.js
+find build -not -path '*/\.*' -not -iname '.htaccess' -not -iname 'serviceworker.js' -not -iname 'networkinfo.js' -not -iname 'event_jp.jpg' -not -iname 'event_en.jpg' -not -iname 'launcher-icon-???.png' -type f -printf '"%P"\n' | tr '\n' ',' | sed 's/,$//' >> build/serviceworker.js
 echo "]);" >> build/serviceworker.js
 date "+// %Y/%m/%d %H:%M:%S" >> build/serviceworker.js
 
