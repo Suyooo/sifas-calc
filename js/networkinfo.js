@@ -1,10 +1,10 @@
-var jpDateOverride = [new Date(Date.UTC(2021, 2, 23, 6)),
-    new Date(Date.UTC(2021, 2, 30, 6))];
-var enDateOverride = [new Date(Date.UTC(2021, 3, 1, 6)),
-    new Date(Date.UTC(2021, 3, 7, 6))];
+var jpDateOverride = [new Date(Date.UTC(2021, 4, 7, 6)),
+    new Date(Date.UTC(2021, 4, 14, 6))];
+var enDateOverride = [new Date(Date.UTC(2021, 4, 4, 6)),
+    new Date(Date.UTC(2021, 4, 9, 6))];
 
 var notificationInfo = {
-    message: "<b>NEW AND SHINY:</b> Check out the <a href='/sifas/mapdb'>Note Map Database, an extensive song information page</a> - including not only gimmicks and AC missions, but rewards, gimmick locations, and data on every single note.",
-    id: 12,
+    message: "<b>May 7 Update: </b>Item Exchange calc now uses the new currently drop rates if you set the Region to JP. (It'll still use the old ones for WW calculations.)",
+    id: 13,
     allowDismiss: true
 };
