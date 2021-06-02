@@ -131,7 +131,9 @@ ExchangeData.prototype.createLiveInfo = function () {
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        pointReward = this.exchangeTargetType == 'EP' ? STORY_EVENT_POINTS[diffId][rankId] : (this.storyData.storyRegion === "en" ? EXCHANGE_EVENT_ITEMS_WW[diffId][rankId] : EXCHANGE_EVENT_ITEMS[diffId][rankId]) * bonusFactor;
+        pointReward = this.exchangeTargetType == 'EP'
+            ?  (this.storyData.storyRegion === "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId])
+            : (this.storyData.storyRegion === "en" ? EXCHANGE_EVENT_ITEMS_WW[diffId][rankId] : EXCHANGE_EVENT_ITEMS[diffId][rankId]) * bonusFactor;
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, pointReward, expReward);
 };

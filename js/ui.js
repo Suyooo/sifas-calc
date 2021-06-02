@@ -147,10 +147,10 @@ function registerDarkMode() {
         body.addClass("dark-mode-transition-disabler");
         if (dms.prop("checked") === true) {
             body.addClass("dark-mode");
-            Cookie.set("dark-mode", "yes", 30);
+            Cookie.set("dark-mode", "yes", 365);
         } else {
             body.removeClass("dark-mode");
-            Cookie.set("dark-mode", "no", 30);
+            Cookie.set("dark-mode", "no", 365);
         }
         setTimeout(function () {
             body.removeClass("dark-mode-transition-disabler")
