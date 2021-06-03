@@ -133,7 +133,7 @@ ExchangeData.prototype.createLiveInfo = function () {
         expReward = COMMON_EXP_REWARD[diffId],
         pointReward = this.exchangeTargetType == 'EP'
             ?  (this.storyData.storyRegion === "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId])
-            : (this.storyData.storyRegion === "en" ? EXCHANGE_EVENT_ITEMS_WW[diffId][rankId] : EXCHANGE_EVENT_ITEMS[diffId][rankId]) * bonusFactor;
+            : EXCHANGE_EVENT_ITEMS[diffId][rankId] * bonusFactor;
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, pointReward, expReward);
 };
@@ -157,7 +157,7 @@ ExchangeData.prototype.getItemCount = function (liveCount) {
     if (diffId == COMMON_DIFFICULTY_IDS.ERROR || rankId == STORY_RANK.ERROR || bonusFactor === 0) {
         return 0;
     }
-    return Math.ceil((this.storyData.storyRegion === "en" ? EXCHANGE_EVENT_ITEMS_WW[diffId][rankId] : EXCHANGE_EVENT_ITEMS[diffId][rankId]) * bonusFactor) * liveCount.liveCount;
+    return Math.ceil(EXCHANGE_EVENT_ITEMS[diffId][rankId] * bonusFactor) * liveCount.liveCount;
 };
 
 /**
@@ -323,16 +323,4 @@ var EXCHANGE_EVENT_ITEMS = [
     [225, 210, 195, 180, 165],
     [345, 330, 315, 300, 285],
     [525, 510, 495, 480, 465]
-]
-
-/**
- * Exchange item rewards tables for lives on WW - first index is difficulty, second index is rank.
- * @constant
- * @type {number[][]}
- */
-var EXCHANGE_EVENT_ITEMS_WW = [
-    [100, 120, 140, 160, 180],
-    [220, 240, 260, 280, 300],
-    [380, 400, 420, 440, 460],
-    [620, 640, 660, 680, 700]
 ]
