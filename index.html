@@ -41,7 +41,10 @@
         <div class="nav-content">
             <ul class="tabs tabs-transparent">
                 <li class="tab"><a href="#story">Story Event</a></li>
-                <li class="tab"><a href="#exchange">Exchange Event</a></li>
+                <li class="tab two-line"><a href="#itexLoveca">Exchange Event<br>
+                    <small>Loveca Use</small></a></li>
+                <li class="tab two-line"><a href="#itexShop">Exchange Event<br>
+                    <small>Item Shop</small></a></li>
                 <li class="tab"><a target="_self" class="sidenav-trigger tab-sidebar-button" data-target="toolsbar">
                     Tools&nbsp;&nbsp;&nbsp;&#x25B6;</a></li>
                 <li class="tab"><a href="/llsif/calc" target="_self">LLSIF Calc&nbsp;&nbsp;&nbsp;&#x25B6;</a></li>
@@ -756,6 +759,332 @@
                     </div>
                 </div>
                 <span id="itexLovecaError"></span>
+            </div>
+        </div>
+    </div>
+    <div id="itexShop" class="col s12">
+        <div class="row">
+            <div class="col s12 xl4">
+                <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">public</i>Region Settings
+                        </div>
+                        <div class="collapsible-body">
+                            <span class="form-label">Region</span>
+                            <div class="radio-row">
+                                <input name="itexShopRegion" type="radio" id="itexShopRegionEn" value="en"/>
+                                <label for="itexShopRegionEn">Worldwide</label>
+                                <input name="itexShopRegion" type="radio" id="itexShopRegionJp" value="jp"/>
+                                <label for="itexShopRegionJp">Japan</label>
+                            </div>
+                            <span class="form-label">Timer Method</span>
+                            <div class="radio-row">
+                                <input name="itexShopTimerMethod" type="radio" id="itexShopTimerMethodAuto"
+                                       value="auto"/>
+                                <label for="itexShopTimerMethodAuto">Automatic</label>
+                                <input name="itexShopTimerMethod" type="radio" id="itexShopTimerMethodManual"
+                                       value="manual"/>
+                                <label for="itexShopTimerMethodManual">Manual Input</label>
+                            </div>
+                            <div id="itexShopTimerMethodAutoSection">
+                                <div id="itexShopTimerEventInfo" class="event-info">
+                                    <span class="form-label" id="itexShopTimerLeft"></span>
+                                    <div class="event-progress-bar">
+                                        <div class="event-progress-done" id="itexShopTimerProgress"></div>
+                                    </div>
+                                    <div class="event-banner-container">
+                                        <img src="" id="itexShopEventBanner" class="event-banner">
+                                    </div>
+                                    <small class="event-info-note">Something wrong? <a data-target="sidebar"
+                                                                                       class="sidenav-trigger">Contact
+                                        me!</a>
+                                    </small>
+                                </div>
+                            </div>
+                            <div id="itexShopTimerMethodManualSection" class="manual-timer-input">
+                                <div class="input-field">
+                                    <input id="itexShopManualRestTime" type="number" min="0" step="any" class="validate"
+                                           placeholder="">
+                                    <label for="itexShopManualRestTime">
+                                        Time Left In Hours</label>
+                                    <span class="helper-text" data-error="Must be a positive number!"></span>
+                                </div>
+                            </div>
+                            <div class="input-field below-radio">
+                                <input id="itexShopMinimumSleepHours" type="number" min="0" step="any" class="validate"
+                                       placeholder="8">
+                                <label for="itexShopMinimumSleepHours">
+                                    Minimum Hours Of Sleep</label>
+                                <span class="helper-text" data-error="Must be a positive number!"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12 xl4">
+                <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">music_note</i>Live Settings
+                        </div>
+                        <div class="collapsible-body">
+                            <span class="form-label">Live Difficulty</span>
+                            <div class="radio-row">
+                                <input name="itexShopLiveDifficulty" type="radio" id="itexShopLiveDifficultyEasy"
+                                       value="EASY"/>
+                                <label for="itexShopLiveDifficultyEasy">Easy</label>
+                                <input name="itexShopLiveDifficulty" type="radio" id="itexShopLiveDifficultyNorm"
+                                       value="NORMAL"/>
+                                <label for="itexShopLiveDifficultyNorm">Normal</label>
+                                <input name="itexShopLiveDifficulty" type="radio" id="itexShopLiveDifficultyHard"
+                                       value="HARD"/>
+                                <label for="itexShopLiveDifficultyHard">Hard</label>
+                                <input name="itexShopLiveDifficulty" type="radio" id="itexShopLiveDifficultyHardPlus"
+                                       value="HARD_PLUS"/>
+                                <label for="itexShopLiveDifficultyHardPlus">Hard+</label>
+                            </div>
+                            <span class="form-label">Live Score Rank</span>
+                            <div class="radio-row">
+                                <input name="itexShopLiveScore" type="radio" id="itexShopLiveScoreD" value="D"/>
+                                <label for="itexShopLiveScoreD">D</label>
+                                <input name="itexShopLiveScore" type="radio" id="itexShopLiveScoreC" value="C"/>
+                                <label for="itexShopLiveScoreC">C</label>
+                                <input name="itexShopLiveScore" type="radio" id="itexShopLiveScoreB" value="B"/>
+                                <label for="itexShopLiveScoreB">B</label>
+                                <input name="itexShopLiveScore" type="radio" id="itexShopLiveScoreA" value="A"/>
+                                <label for="itexShopLiveScoreA">A</label>
+                                <input name="itexShopLiveScore" type="radio" id="itexShopLiveScoreS" value="S"/>
+                                <label for="itexShopLiveScoreS">S</label>
+                            </div>
+                            <div class="input-field below-radio">
+                                <input id="itexShopUnitBonusPct" type="number" min="0" class="validate"
+                                       placeholder="0">
+                                <label for="itexShopUnitBonusPct">
+                                    Unit Bonus in Percent
+                                    <div class="explain-button bigger">
+                                        <a class="tooltipped" data-position="top" data-delay="0"
+                                           data-tooltip="Using units from the matching event or gacha increases currency
+                                           gain. The bonuses are shown on the live prep screen and the event result
+                                           screen at the end of a live.">
+                                            <i class="material-icons">help</i>
+                                        </a>
+                                    </div>
+                                </label>
+                                <span class="helper-text" data-error="Must be a positive integer!"></span>
+                            </div>
+                            <span class="form-label">Subtract Uses of Free LP Refills From Pass</span>
+                            <div class="radio-row">
+                                <input name="itexShopPassRefill" type="radio" id="itexShopPassRefillOn" value="Y"/>
+                                <label for="itexShopPassRefillOn">Yes</label>
+                                <input name="itexShopPassRefill" type="radio" id="itexShopPassRefillOff" value="N"/>
+                                <label for="itexShopPassRefillOff">No</label>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12 xl4">
+                <ul class="collapsible" data-collapsible="expandable">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">flag</i>Stats and Target</div>
+                        <div class="collapsible-body">
+                            <span class="form-label">Target Type</span>
+                            <div class="radio-row">
+                                <input name="itexShopTargetType" type="radio" id="itexShopTargetTypeEP" value="EP"/>
+                                <label for="itexShopTargetTypeEP">Event Points</label>
+                                <input name="itexShopTargetType" type="radio" id="itexShopTargetTypeIA" value="IA"/>
+                                <label for="itexShopTargetTypeIA">Item Amount</label>
+                            </div>
+                            <div id="itexShopEventPointInputs">
+                                <div class="input-field below-radio">
+                                    <input id="itexShopTargetEventPoints" type="number" min="1" class="validate"
+                                           placeholder="">
+                                    <label for="itexShopTargetEventPoints">
+                                        Target Event Points</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="itexShopCurrentEventPoints" type="number" min="0" class="validate"
+                                           placeholder="">
+                                    <label for="itexShopCurrentEventPoints">
+                                        Current Event Points</label>
+                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                </div>
+                            </div>
+                            <div id="itexShopItemAmountInputs">
+                                <div class="input-field below-radio">
+                                    <input id="itexShopTargetItemAmount" type="number" min="1" class="validate"
+                                           placeholder="">
+                                    <label for="itexShopTargetItemAmount">
+                                        Target Item Amount</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="itexShopCurrentItemAmount" type="number" min="0" class="validate"
+                                           placeholder="">
+                                    <label for="itexShopCurrentItemAmount">
+                                        Current Item Amount</label>
+                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                </div>
+                            </div>
+                            <div class="input-field">
+                                <input id="itexShopCurrentRank" type="number" min="1" class="validate" placeholder="">
+                                <label for="itexShopCurrentRank">
+                                    Current Player Rank</label>
+                                <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                            </div>
+                            <ul id="itexShopCurrentExtra" class="collapsible small-collapsible z-depth-0"
+                                data-collapsible="expandable">
+                                <li>
+                                    <div class="collapsible-header">
+                                        Optional Fields
+                                        <div class="explain-button bigger">
+                                            <a class="tooltipped" data-position="top" data-delay="0"
+                                               data-tooltip="These values usually make no difference, but might be
+                                                   useful for calculations in the last few hours of an event.">
+                                                <i class="material-icons">help</i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <div class="input-field">
+                                            <input id="itexShopCurrentLP" type="number" min="0" class="validate"
+                                                   placeholder="0">
+                                            <label for="itexShopCurrentLP">
+                                                Current LP</label>
+                                            <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                        </div>
+                                        <div class="input-field">
+                                            <input id="itexShopCurrentEXP" type="number" min="0" class="validate"
+                                                   placeholder="0">
+                                            <label for="itexShopCurrentEXP">
+                                                Current EXP in Rank</label>
+                                            <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="buttons col s12 xl4 offset-xl4">
+                <a id="itexShopCalculate" class="waves-effect orange lighten-3 waves-light btn">Calculate</a>
+                <a id="itexShopSaveConfig" class="waves-effect orange lighten-5 waves-light btn">
+                    Save current configuration</a>
+                <div class="result-box no-link" id="itexShopResult">
+                    <div class="row result-row">
+                        <div class="col s4 result-large">
+                            <div class="result-large-number" id="itexShopResultRefills"></div>
+                            <div class="result-large-label">Full Refills Needed</div>
+                        </div>
+                        <div class="col s4 result-large">
+                            <div class="result-large-number" id="itexShopResultLiveCount"></div>
+                            <div class="result-large-label">Live Plays</div>
+                        </div>
+                        <div class="col s4 result-large">
+                            <div class="result-large-number" id="itexShopResultItems"></div>
+                            <div class="result-large-label">Items Collected</div>
+                        </div>
+                    </div>
+                    <div class="result-small" id="itexShopResultSkippedLivesLine">
+                        <div class="result-small-label">Lives with Skip Tickets</div>
+                        <div class="result-small-number" id="itexShopResultSkippedLivesText"></div>
+                    </div>
+                    <div class="klab-warning"><!--<a href="https://twitter.com/TierAndChill/status/1300700987632627713">
+                        <b>After multiple incidents of Klab WW team ignoring cheaters in their games and giving them the
+                            rewards that belong to legit community members, the server adminstration has decided to ban
+                            the top three players of the last event, for seemingly no reason other than that they are
+                            all part of the same clan and parked on the same point total.<br>
+                            While they have been unbanned now (after missing an entire event), this is just another
+                            example of the recent inexcusable quality of their service - cheaters getting away, crashes
+                            making the game inacccessible and legit players being punished. Please send Klab WW a mail
+                            to demand transparency the playerbase deserves and a commitment to improvement, and please
+                            consider not spending your money on the developers until they prove they are working on a
+                            better player experience.</b>
+                    </a>--></div>
+                    <ul class="collapsible small-collapsible z-depth-0 recovery-items" style="opacity: 0;"
+                        data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header grey lighten-5">LP Recovery Items</div>
+                            <div class="collapsible-body grey lighten-5">
+                                <div class="result-small">
+                                    <div class="result-small-label">Loveca Stars Needed</div>
+                                    <div class="result-small-number" id="itexShopResultLoveca"></div>
+                                </div>
+                                <div class="result-small">
+                                    <div class="result-small-label">Live Candy [100 LP] Needed</div>
+                                    <div class="result-small-number" id="itexShopResultLiveCandy100"></div>
+                                </div>
+                                <div class="result-small">
+                                    <div class="result-small-label">Live Candy [50 LP] Needed</div>
+                                    <div class="result-small-number" id="itexShopResultLiveCandy50"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="collapsible small-collapsible z-depth-0 sleep-warning" style="opacity: 0;"
+                        data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header orange lighten-3">
+                                <i class="material-icons">warning</i>
+                                WARNING: Please Sleep
+                            </div>
+                            <div class="collapsible-body orange lighten-5" style="font-size: 85%; text-align: justify;">
+                                As you might know, this site assumes that you will play with 100% efficiency in order to
+                                make the calculation. That means the result above is only accurate if you don't waste
+                                any LP. However, the target your have entered would <b>require you to wake up every
+                                single night</b> to empty your LP
+                                tank.<br>
+                                I want to explicitly state here that <b>I do not endorse this and I don't want to force
+                                you do wake up in the middle of the night to
+                                play games</b>.<br>
+                                You can enter "Hours of Sleep" in the timer section to re-run the calculation while
+                                considering the LP regeneration missed by sleeping.<br>
+                                If you really want to go for the wake-up strategy, remember that you can use Skip
+                                Tickets to reduce the time you spend on your phone at night, and to plan your rank ups
+                                so you don't get hit by one during your night sessions.<br>
+                                And if you notice you're starting to feel tired or unwell in the mornings, don't forget
+                                that your health is more important than games! Please consider using a few more loveca
+                                stars in exchange for some better sleep.<br>
+                                This has been my small advisory about sleeping. Thanks for reading, have fun playing and
+                                tier responsibly ❤︎
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="result-small">
+                        <div class="result-small-label">Final Rank</div>
+                        <div class="result-small-number" id="itexShopResultFinalRank"></div>
+                    </div>
+                    <div class="result-small">
+                        <div class="result-small-label">Total Play Time
+                            <div class="explain-button">
+                                <a class="tooltipped" data-position="top" data-delay="0"
+                                   data-tooltip="Assuming 3 minutes for one song, how much play time you need to reach the Point Target.">
+                                    <i class="material-icons">help</i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="result-small-number" id="itexShopResultPlayTime"></div>
+                    </div>
+                    <div class="result-small">
+                        <div class="result-small-label">Play Time Rate
+                            <div class="explain-button">
+                                <a class="tooltipped" data-position="top" data-delay="0"
+                                   data-tooltip="Play Time divided by Remaining Time. The higher this value is, the more efficiently you will need to play.">
+                                    <i class="material-icons">help</i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="result-small-number" id="itexShopResultPlayTimeRate"></div>
+                    </div>
+                    <div class="result-small">
+                        <div class="result-small-label">LP Lost To Sleep</div>
+                        <div class="result-small-number" id="itexShopResultRegenTimeLost"></div>
+                    </div>
+                </div>
+                <span id="itexShopError"></span>
             </div>
         </div>
     </div>
