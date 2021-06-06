@@ -1,95 +1,95 @@
 /**
- * @file Exchange Event calculator.
+ * @file Item Exchange Event (Loveca Use) Event calculator. Basically just a wrapper around the Story Event one.
  */
 
 /**
- * A string, representing the target type - either Event Points or Item Amount
- * @typedef {('EP','IA')} ExchangeTargetType
+ * A string, representing the target type - either Event Points or Currency Amount
+ * @typedef {('EP','CA')} ItexLovecaTargetType
  */
 
 /**
- * An object used to store input values for the Exchange Event calculator.
- * @class ExchangeData
- * @property {StoryData} storyData - Use the StoryData object to store all values.
- * @property {ExchangeTargetType} exchangeTargetType - The requested target type, either Event Points or Item Amount
- * @property {number} exchangeTargetItemAmount - The desired final amount of items.
- * @property {number} exchangeCurrentItemAmount - The current amount of items.
+ * An object used to store input values for the Item Exchange Event (Loveca Use) calculator.
+ * @class ItexLovecaData
+ * @property {StoryData} storyData - Wrapped StoryData object.
+ * @property {ItexLovecaTargetType} itexLovecaTargetType - The requested target type, either Event Points or Currency Amount
+ * @property {number} itexLovecaTargetCurrencyAmount - The desired final amount of currency.
+ * @property {number} itexLovecaCurrentCurrencyAmount - The current amount of currency.
  * @constructor
  */
-function ExchangeData() {
+function ItexLovecaData() {
     this.storyData = new StoryData();
-    this.exchangeTargetType = 'EP';
-    this.exchangeTargetItemAmount = 0;
-    this.exchangeCurrentItemAmount = 0;
+    this.itexLovecaTargetType = 'EP';
+    this.itexLovecaTargetCurrencyAmount = 0;
+    this.itexLovecaCurrentCurrencyAmount = 0;
 }
 
 /**
- * A class serving static calculation methods handling ExchangeData objects.
- * @class ExchangeEstimationInfo
+ * A class serving static calculation methods handling ItexLovecaData objects.
+ * @class ItexLovecaEstimationInfo
  * @param {StoryEstimationInfo} sei - The calculated StoryEstimationInfo object with most of the values.
  * @property {StoryEstimationInfo} storyEstimationInfo - Use the StoryEstimationInfo object to store most values.
- * @property {number} exchangeItems - Amount of items collected.
+ * @property {number} itexLovecaCurrency - Amount of currency collected.
  * @constructor
  */
-function ExchangeEstimationInfo(sei) {
+function ItexLovecaEstimationInfo(sei) {
     this.storyEstimationInfo = sei;
-    this.exchangeItems = 0;
+    this.itexLovecaCurrency = 0;
 }
 
 /**
  * Read input values from the UI.
  */
-ExchangeData.prototype.readFromUi = function () {
-    this.storyData.storyTimerMethodAuto = $("#exchangeTimerMethodAuto").prop("checked");
-    this.storyData.storyRegion = $("input:radio[name=exchangeRegion]:checked").val();
-    this.storyData.storyTimerMethodManual = $("#exchangeTimerMethodManual").prop("checked");
-    this.storyData.storyManualRestTimeInHours = ReadHelpers.toNum($("#exchangeManualRestTime").val());
-    this.storyData.storyMinimumSleepHours = ReadHelpers.toNum($("#exchangeMinimumSleepHours").val(), 8);
-    this.storyData.storyLiveDifficulty = $("input:radio[name=exchangeLiveDifficulty]:checked").val();
-    this.storyData.storyLiveScore = $("input:radio[name=exchangeLiveScore]:checked").val();
-    this.storyData.storyUnitBonusPct = ReadHelpers.toNum($("#exchangeUnitBonusPct").val(), 0);
-    this.storyData.storyPassRefill = $("#exchangePassRefillOn").prop("checked");
-    this.exchangeTargetType = $("input:radio[name=exchangeTargetType]:checked").val();
-    this.storyData.storyTargetEventPoints = ReadHelpers.toNum($("#exchangeTargetEventPoints").val());
-    this.storyData.storyCurrentEventPoints = ReadHelpers.toNum($("#exchangeCurrentEventPoints").val());
-    this.exchangeTargetItemAmount = ReadHelpers.toNum($("#exchangeTargetItemAmount").val());
-    this.exchangeCurrentItemAmount = ReadHelpers.toNum($("#exchangeCurrentItemAmount").val());
-    this.storyData.storyCurrentRank = ReadHelpers.toNum($("#exchangeCurrentRank").val());
-    this.storyData.storyCurrentLP = ReadHelpers.toNum($("#exchangeCurrentLP").val(), 0);
-    this.storyData.storyCurrentEXP = ReadHelpers.toNum($("#exchangeCurrentEXP").val(), 0);
+ItexLovecaData.prototype.readFromUi = function () {
+    this.storyData.storyTimerMethodAuto = $("#itexLovecaTimerMethodAuto").prop("checked");
+    this.storyData.storyRegion = $("input:radio[name=itexLovecaRegion]:checked").val();
+    this.storyData.storyTimerMethodManual = $("#itexLovecaTimerMethodManual").prop("checked");
+    this.storyData.storyManualRestTimeInHours = ReadHelpers.toNum($("#itexLovecaManualRestTime").val());
+    this.storyData.storyMinimumSleepHours = ReadHelpers.toNum($("#itexLovecaMinimumSleepHours").val(), 8);
+    this.storyData.storyLiveDifficulty = $("input:radio[name=itexLovecaLiveDifficulty]:checked").val();
+    this.storyData.storyLiveScore = $("input:radio[name=itexLovecaLiveScore]:checked").val();
+    this.storyData.storyUnitBonusPct = ReadHelpers.toNum($("#itexLovecaUnitBonusPct").val(), 0);
+    this.storyData.storyPassRefill = $("#itexLovecaPassRefillOn").prop("checked");
+    this.itexLovecaTargetType = $("input:radio[name=itexLovecaTargetType]:checked").val();
+    this.storyData.storyTargetEventPoints = ReadHelpers.toNum($("#itexLovecaTargetEventPoints").val());
+    this.storyData.storyCurrentEventPoints = ReadHelpers.toNum($("#itexLovecaCurrentEventPoints").val());
+    this.itexLovecaTargetCurrencyAmount = ReadHelpers.toNum($("#itexLovecaTargetCurrencyAmount").val());
+    this.itexLovecaCurrentCurrencyAmount = ReadHelpers.toNum($("#itexLovecaCurrentCurrencyAmount").val());
+    this.storyData.storyCurrentRank = ReadHelpers.toNum($("#itexLovecaCurrentRank").val());
+    this.storyData.storyCurrentLP = ReadHelpers.toNum($("#itexLovecaCurrentLP").val(), 0);
+    this.storyData.storyCurrentEXP = ReadHelpers.toNum($("#itexLovecaCurrentEXP").val(), 0);
 };
 
 /**
  * Set saved values to UI.
- * @param {ExchangeData} savedData The saved data to recall values from.
+ * @param {ItexLovecaData} savedData The saved data to recall values from.
  */
-ExchangeData.setToUi = function (savedData) {
-    SetHelpers.checkBoxHelper($("#exchangeTimerMethodAuto"), savedData.storyData.storyTimerMethodAuto);
-    SetHelpers.radioButtonHelper($("input:radio[name=exchangeRegion]"), savedData.storyData.storyRegion);
+ItexLovecaData.setToUi = function (savedData) {
+    SetHelpers.checkBoxHelper($("#itexLovecaTimerMethodAuto"), savedData.storyData.storyTimerMethodAuto);
+    SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaRegion]"), savedData.storyData.storyRegion);
     if (savedData.storyData.storyRegion !== undefined) {
-        updateTimerSection("exchange");
+        updateTimerSection("itexLoveca");
     }
-    var manualButton = $("#exchangeTimerMethodManual");
+    var manualButton = $("#itexLovecaTimerMethodManual");
     SetHelpers.checkBoxHelper(manualButton, savedData.storyData.storyTimerMethodManual);
     if (savedData.storyData.storyTimerMethodManual) {
         manualButton.click();
     }
-    SetHelpers.inputHelper($("#exchangeManualRestTime"), savedData.storyData.storyManualRestTimeInHours);
-    SetHelpers.inputHelper($("#exchangeMinimumSleepHours"), savedData.storyData.storyMinimumSleepHours);
-    SetHelpers.radioButtonHelper($("input:radio[name=exchangeLiveDifficulty]"), savedData.storyData.storyLiveDifficulty);
-    SetHelpers.radioButtonHelper($("input:radio[name=exchangeLiveScore]"), savedData.storyData.storyLiveScore);
-    SetHelpers.inputHelper($("#exchangeUnitBonusPct"), savedData.storyData.storyUnitBonusPct);
-    SetHelpers.radioButtonHelper($("input:radio[name=exchangePassRefill]"), savedData.storyData.storyPassRefill ? "Y" : "N");
-    SetHelpers.radioButtonHelper($("input:radio[name=exchangeTargetType]"), savedData.exchangeTargetType);
-    SetHelpers.inputHelper($("#exchangeTargetEventPoints"), savedData.storyData.storyTargetEventPoints);
-    SetHelpers.inputHelper($("#exchangeCurrentEventPoints"), savedData.storyData.storyCurrentEventPoints);
-    SetHelpers.inputHelper($("#exchangeTargetItemAmount"), savedData.exchangeTargetItemAmount);
-    SetHelpers.inputHelper($("#exchangeCurrentItemAmount"), savedData.exchangeCurrentItemAmount);
-    SetHelpers.inputHelper($("#exchangeCurrentRank"), savedData.storyData.storyCurrentRank);
-    SetHelpers.inputHelper($("#exchangeCurrentLP"), savedData.storyData.storyCurrentLP);
-    SetHelpers.inputHelper($("#exchangeCurrentEXP"), savedData.storyData.storyCurrentEXP);
+    SetHelpers.inputHelper($("#itexLovecaManualRestTime"), savedData.storyData.storyManualRestTimeInHours);
+    SetHelpers.inputHelper($("#itexLovecaMinimumSleepHours"), savedData.storyData.storyMinimumSleepHours);
+    SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaLiveDifficulty]"), savedData.storyData.storyLiveDifficulty);
+    SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaLiveScore]"), savedData.storyData.storyLiveScore);
+    SetHelpers.inputHelper($("#itexLovecaUnitBonusPct"), savedData.storyData.storyUnitBonusPct);
+    SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaPassRefill]"), savedData.storyData.storyPassRefill ? "Y" : "N");
+    SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaTargetType]"), savedData.itexLovecaTargetType);
+    SetHelpers.inputHelper($("#itexLovecaTargetEventPoints"), savedData.storyData.storyTargetEventPoints);
+    SetHelpers.inputHelper($("#itexLovecaCurrentEventPoints"), savedData.storyData.storyCurrentEventPoints);
+    SetHelpers.inputHelper($("#itexLovecaTargetCurrencyAmount"), savedData.itexLovecaTargetCurrencyAmount);
+    SetHelpers.inputHelper($("#itexLovecaCurrentCurrencyAmount"), savedData.itexLovecaCurrentCurrencyAmount);
+    SetHelpers.inputHelper($("#itexLovecaCurrentRank"), savedData.storyData.storyCurrentRank);
+    SetHelpers.inputHelper($("#itexLovecaCurrentLP"), savedData.storyData.storyCurrentLP);
+    SetHelpers.inputHelper($("#itexLovecaCurrentEXP"), savedData.storyData.storyCurrentEXP);
     if (savedData.storyData.storyCurrentLP > 0 || savedData.storyData.storyCurrentEXP > 0) {
-        $("#exchangeCurrentExtra").collapsible('open', 0);
+        $("#itexLovecaCurrentExtra").collapsible('open', 0);
     }
 };
 
@@ -97,7 +97,7 @@ ExchangeData.setToUi = function (savedData) {
 /**
  * Debug method, used to show a dialog with all input values.
  */
-ExchangeData.prototype.alert = function () {
+ItexLovecaData.prototype.alert = function () {
     alert("storyTimerMethodAuto: " + this.storyData.storyTimerMethodAuto + "\n" +
         "storyRegion: " + this.storyData.storyRegion + "\n" +
         "storyTimerMethodManual: " + this.storyData.storyTimerMethodManual + "\n" +
@@ -107,11 +107,11 @@ ExchangeData.prototype.alert = function () {
         "storyLiveScore: " + this.storyData.storyLiveScore + "\n" +
         "storyUnitBonusPct: " + this.storyData.storyUnitBonusPct + "\n" +
         "storyPassRefill: " + this.storyData.storyPassRefill + "\n" +
-        "exchangeTargetType: " + this.exchangeTargetType + "\n" +
+        "itexLovecaTargetType: " + this.itexLovecaTargetType + "\n" +
         "storyTargetEventPoints: " + this.storyData.storyTargetEventPoints + "\n" +
         "storyCurrentEventPoints: " + this.storyData.storyCurrentEventPoints + "\n" +
-        "exchangeTargetItemAmount: " + this.exchangeTargetItemAmount + "\n" +
-        "exchangeCurrentItemAmount: " + this.exchangeCurrentItemAmount + "\n" +
+        "itexLovecaTargetCurrencyAmount: " + this.itexLovecaTargetCurrencyAmount + "\n" +
+        "itexLovecaCurrentCurrencyAmount: " + this.itexLovecaCurrentCurrencyAmount + "\n" +
         "storyCurrentRank: " + this.storyData.storyCurrentRank + "\n" +
         "storyCurrentLP: " + this.storyData.storyCurrentLP + "\n" +
         "storyCurrentEXP: " + this.storyData.storyCurrentEXP);
@@ -121,7 +121,7 @@ ExchangeData.prototype.alert = function () {
  * Creates a {@link StoryLiveInfo} object using the live input values, representing one play.
  * @returns {?StoryLiveInfo} A new object with all properties set, or null if the any live inputs are invalid.
  */
-ExchangeData.prototype.createLiveInfo = function () {
+ItexLovecaData.prototype.createLiveInfo = function () {
     var diffId = this.storyData.getLiveDifficulty(),
         rankId = this.storyData.getLiveScore(),
         bonusFactor = this.storyData.getLiveBonusFactor();
@@ -131,48 +131,50 @@ ExchangeData.prototype.createLiveInfo = function () {
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        pointReward = this.exchangeTargetType == 'EP'
+        pointReward = this.itexLovecaTargetType == 'EP'
             ?  (this.storyData.storyRegion === "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId])
-            : EXCHANGE_EVENT_ITEMS[diffId][rankId] * bonusFactor;
+            : ITEX_EVENT_CURRENCY[diffId][rankId] * bonusFactor;
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, pointReward, expReward);
 };
 
 /**
- * Returns the amount of event points or items left to meet the target.
- * @returns {number} Difference between the current event points or items and the given target.
+ * Returns the amount of event points or currency left to meet the target.
+ * @returns {number} Difference between the current event points or currency and the given target.
  */
-ExchangeData.prototype.getEventPointsLeft = function () {
-    return this.exchangeTargetType == 'EP' ? this.storyData.storyTargetEventPoints - this.storyData.storyCurrentEventPoints : this.exchangeTargetItemAmount - this.exchangeCurrentItemAmount;
+ItexLovecaData.prototype.getEventPointsLeft = function () {
+    return this.itexLovecaTargetType == 'EP'
+        ? this.storyData.storyTargetEventPoints - this.storyData.storyCurrentEventPoints
+        : this.itexLovecaTargetCurrencyAmount - this.itexLovecaCurrentCurrencyAmount;
 };
 
 /**
  * @param {StoryLiveCount} liveCount The amount of lives played.
- * @returns {number} The amount of items gained for the given live count.
+ * @returns {number} The amount of currency gained for the given live count.
  */
-ExchangeData.prototype.getItemCount = function (liveCount) {
+ItexLovecaData.prototype.getCurrencyCount = function (liveCount) {
     var diffId = this.storyData.getLiveDifficulty(),
         rankId = this.storyData.getLiveScore(),
         bonusFactor = this.storyData.getLiveBonusFactor();
     if (diffId == COMMON_DIFFICULTY_IDS.ERROR || rankId == STORY_RANK.ERROR || bonusFactor === 0) {
         return 0;
     }
-    return Math.ceil(EXCHANGE_EVENT_ITEMS[diffId][rankId] * bonusFactor) * liveCount.liveCount;
+    return Math.ceil(ITEX_EVENT_CURRENCY[diffId][rankId] * bonusFactor) * liveCount.liveCount;
 };
 
 /**
  * Call {@link StoryEstimator.estimate} to begin calculations. It is assumed the input has been validated before
- * calling this function using {@link ExchangeData.validate}.
- * @returns {ExchangeEstimationInfo} A new object with all properties set, or the recoveryInfo property set to null if
+ * calling this function using {@link ItexLovecaData.validate}.
+ * @returns {ItexLovecaEstimationInfo} A new object with all properties set, or the recoveryInfo property set to null if
  *      reaching the target is impossible.
  */
-ExchangeData.prototype.estimate = function () {
-    var eei = new ExchangeEstimationInfo(StoryEstimator.estimate(this.createLiveInfo(),
+ItexLovecaData.prototype.estimate = function () {
+    var eei = new ItexLovecaEstimationInfo(StoryEstimator.estimate(this.createLiveInfo(),
         this.getEventPointsLeft(), this.storyData.getRestTimeInMinutes(),
         this.storyData.storyMinimumSleepHours, this.storyData.storyCurrentRank, this.storyData.storyCurrentEXP,
         this.storyData.storyCurrentLP, 0, 0, this.storyData.storyRegion,
         this.storyData.getPassRefillCount()));
-    eei.exchangeItems = this.getItemCount(eei.storyEstimationInfo.liveCount);
+    eei.itexLovecaCurrency = this.getCurrencyCount(eei.storyEstimationInfo.liveCount);
     return eei;
 };
 
@@ -180,61 +182,61 @@ ExchangeData.prototype.estimate = function () {
  * Check whether the estimation has succeeded or not, or was judged to be impossible within the time left.
  * @returns {boolean}
  */
-ExchangeEstimationInfo.prototype.hasResult = function () {
+ItexLovecaEstimationInfo.prototype.hasResult = function () {
     return this.storyEstimationInfo.hasResult();
 }
 
 /**
  * Displays the calculation results on the UI.
  */
-ExchangeEstimationInfo.prototype.showResult = function () {
-    Results.setBigResult($("#exchangeResultLiveCount"), this.storyEstimationInfo.liveCount.liveCount);
-    $("#exchangeResultRegenTimeLost").text(Math.floor(this.storyEstimationInfo.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
+ItexLovecaEstimationInfo.prototype.showResult = function () {
+    Results.setBigResult($("#itexLovecaResultLiveCount"), this.storyEstimationInfo.liveCount.liveCount);
+    $("#itexLovecaResultRegenTimeLost").text(Math.floor(this.storyEstimationInfo.regenTimeLostToSleepInMinutes / COMMON_LP_RECOVERY_TIME_IN_MINUTES) +
         " LP" + (this.storyEstimationInfo.regenTimeLostToSleepInMinutes === 0 ? "" : " (" + Common.minutesToString(this.storyEstimationInfo.regenTimeLostToSleepInMinutes) + ")"));
-    $("#exchangeResultPlayTime").text(Common.minutesToString(this.storyEstimationInfo.getPlayTime()));
-    $("#exchangeResultPlayTimeRate").text((100 * this.storyEstimationInfo.getPlayTimeRate()).toFixed(2) + "%");
+    $("#itexLovecaResultPlayTime").text(Common.minutesToString(this.storyEstimationInfo.getPlayTime()));
+    $("#itexLovecaResultPlayTimeRate").text((100 * this.storyEstimationInfo.getPlayTimeRate()).toFixed(2) + "%");
     var highlightSkippedLives = false;
     var showSleepWarning = false;
 
     if (this.storyEstimationInfo.lpRecoveryInfo !== null) {
-        Results.setBigResult($("#exchangeResultRefills"), this.storyEstimationInfo.lpRecoveryInfo.refills);
-        Results.setBigResult($("#exchangeResultItems"), this.exchangeItems);
+        Results.setBigResult($("#itexLovecaResultRefills"), this.storyEstimationInfo.lpRecoveryInfo.refills);
+        Results.setBigResult($("#itexLovecaResultCurrency"), this.itexLovecaCurrency);
         if (this.storyEstimationInfo.skippedLives === 0) {
-            $("#exchangeResultSkippedLivesText").text("0");
+            $("#itexLovecaResultSkippedLivesText").text("0");
         } else {
             $("#storyResultSkippedLivesText").text((this.storyEstimationInfo.skippedLives * this.storyEstimationInfo.skippedLiveTickets) + " (" +
                 this.storyEstimationInfo.skippedLives + " x " + this.storyEstimationInfo.skippedLiveTickets + " tickets)");
             highlightSkippedLives = true;
         }
         showSleepWarning = this.storyEstimationInfo.lpRecoveryInfo.sleepWarning;
-        $("#exchangeResultFinalRank").text(this.storyEstimationInfo.lpRecoveryInfo.finalRank + " (" +
+        $("#itexLovecaResultFinalRank").text(this.storyEstimationInfo.lpRecoveryInfo.finalRank + " (" +
             (this.storyEstimationInfo.lpRecoveryInfo.finalRank >= COMMON_RANK_UP_EXP.length
                 ? "MAX"
                 : this.storyEstimationInfo.lpRecoveryInfo.finalRankExp + "/" +
                 Common.getNextRankUpExp(this.storyEstimationInfo.lpRecoveryInfo.finalRank)
                 + " EXP") + ")");
-        $("#exchangeResultLoveca").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 100) * 10);
-        $("#exchangeResultLiveCandy50").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 50));
-        $("#exchangeResultLiveCandy100").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 100));
+        $("#itexLovecaResultLoveca").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 100) * 10);
+        $("#itexLovecaResultLiveCandy50").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 50));
+        $("#itexLovecaResultLiveCandy100").text(Math.ceil(this.storyEstimationInfo.lpRecoveryInfo.lpToRecover / 100));
     } else {
-        Results.setBigResult($("#exchangeResultRefills"), "---");
-        Results.setBigResult($("#exchangeResultItems"), "---");
-        $("#exchangeResultSkippedLivesText").text("---");
-        $("#exchangeSleepWarning").hide(0);
-        $("#exchangeResultFinalRank").text("---");
-        $("#exchangeResultLoveca").text("---");
-        $("#exchangeResultLiveCandy50").text("---");
-        $("#exchangeResultLiveCandy100").text("---");
+        Results.setBigResult($("#itexLovecaResultRefills"), "---");
+        Results.setBigResult($("#itexLovecaResultCurrency"), "---");
+        $("#itexLovecaResultSkippedLivesText").text("---");
+        $("#itexLovecaSleepWarning").hide(0);
+        $("#itexLovecaResultFinalRank").text("---");
+        $("#itexLovecaResultLoveca").text("---");
+        $("#itexLovecaResultLiveCandy50").text("---");
+        $("#itexLovecaResultLiveCandy100").text("---");
     }
 
-    Results.show($("#exchangeResult"), highlightSkippedLives, showSleepWarning, this.storyEstimationInfo.lpRecoveryInfo && this.storyEstimationInfo.lpRecoveryInfo.region === "en");
+    Results.show($("#itexLovecaResult"), highlightSkippedLives, showSleepWarning, this.storyEstimationInfo.lpRecoveryInfo && this.storyEstimationInfo.lpRecoveryInfo.region === "en");
 };
 
 /**
  * Validates input and returns errors if there are any.
  * @returns {string[]} Array of errors as human readable strings, empty if the input is valid.
  */
-ExchangeData.prototype.validate = function () {
+ItexLovecaData.prototype.validate = function () {
     var errors = [];
 
     if (this.storyData.storyRegion != "en" && this.storyData.storyRegion != "jp") {
@@ -250,7 +252,7 @@ ExchangeData.prototype.validate = function () {
             ") that's higher than your max LP (" + Common.getMaxLp(this.storyData.storyCurrentRank, this.storyData.storyRegion) + ")");
     }
 
-    if (this.exchangeTargetType == 'EP') {
+    if (this.itexLovecaTargetType == 'EP') {
         if (0 >= this.storyData.storyTargetEventPoints) {
             errors.push("Enter event point target");
         } else if (this.getEventPointsLeft() <= 0) {
@@ -261,16 +263,16 @@ ExchangeData.prototype.validate = function () {
         if (0 > this.storyData.storyCurrentEventPoints) {
             errors.push("Enter current amount of event points");
         }
-    } else if (this.exchangeTargetType == 'IA') {
-        if (0 >= this.exchangeTargetItemAmount) {
-            errors.push("Enter item amount target");
+    } else if (this.itexLovecaTargetType == 'CA') {
+        if (0 >= this.itexLovecaTargetCurrencyAmount) {
+            errors.push("Enter currency amount target");
         } else if (this.getEventPointsLeft() <= 0) {
-            errors.push("The given item amount target has been reached! " +
-                "Please change the item amount target in order to calculate again");
+            errors.push("The given currency amount target has been reached! " +
+                "Please change the currency amount target in order to calculate again");
         }
 
-        if (0 > this.exchangeCurrentItemAmount) {
-            errors.push("Enter current amount of items");
+        if (0 > this.itexLovecaCurrentCurrencyAmount) {
+            errors.push("Enter current amount of currency");
         }
     } else {
         errors.push("Select a target type");
@@ -314,11 +316,11 @@ ExchangeData.prototype.validate = function () {
 };
 
 /**
- * Exchange item rewards tables for lives - first index is difficulty, second index is rank.
+ * Item Exchange currency rewards tables for lives - first index is difficulty, second index is rank.
  * @constant
  * @type {number[][]}
  */
-var EXCHANGE_EVENT_ITEMS = [
+var ITEX_EVENT_CURRENCY = [
     [135, 120, 105, 90, 75],
     [225, 210, 195, 180, 165],
     [345, 330, 315, 300, 285],

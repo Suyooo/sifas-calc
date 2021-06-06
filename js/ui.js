@@ -197,13 +197,13 @@ function registerPopUpButtons() {
  * buttons, and the automatic calculation if a value is changed.
  */
 function registerCalculatorButtons() {
-    $("#exchangeTargetTypeEP").click(function () {
-        $("#exchangeItemAmountInputs").hide();
-        $("#exchangeEventPointInputs").show();
+    $("#itexLovecaTargetTypeEP").click(function () {
+        $("#itexLovecaCurrencyAmountInputs").hide();
+        $("#itexLovecaEventPointInputs").show();
     }).click();
-    $("#exchangeTargetTypeIA").click(function () {
-        $("#exchangeEventPointInputs").hide();
-        $("#exchangeItemAmountInputs").show();
+    $("#itexLovecaTargetTypeCA").click(function () {
+        $("#itexLovecaEventPointInputs").hide();
+        $("#itexLovecaCurrencyAmountInputs").show();
     });
 
     loadCookieData();
@@ -212,8 +212,8 @@ function registerCalculatorButtons() {
         "story": function () {
             return new StoryData();
         },
-        "exchange": function () {
-            return new ExchangeData();
+        "itexLoveca": function () {
+            return new ItexLovecaData();
         }
     };
 
@@ -309,7 +309,7 @@ function registerCalculatorButtons() {
 function loadCookieData() {
     var loadFunctions = {
         "story": StoryData.setToUi,
-        "exchange": ExchangeData.setToUi
+        "itexLoveca": ItexLovecaData.setToUi
     };
     $.each(loadFunctions, function (page, loadFunction) {
         var cookie = Cookie.get(page + "Data");
