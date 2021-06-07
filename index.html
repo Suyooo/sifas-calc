@@ -224,7 +224,7 @@
                                     <span class="explain-button bigger">
                                         <a class="tooltipped" data-position="top" data-delay="0"
                                            data-tooltip="Using Cards from the matching Event or Gacha increases Event
-                                           Point gain. The bonuses are shown on the Formation Choice screen and the
+                                           Point gain. The bonuses are shown on the Formation screen and the
                                            Event Result screen at the end of a Live.">
                                             <i class="material-icons">help</i>
                                         </a>
@@ -541,7 +541,7 @@
                                     <span class="explain-button bigger">
                                         <a class="tooltipped" data-position="top" data-delay="0"
                                            data-tooltip="Using Cards from the matching Event or Gacha increases Currency
-                                           gain. The bonuses are shown on the Formation Choice screen and the Event
+                                           gain. The bonuses are shown on the Formation screen and the Event
                                            Result screen at the end of a Live.">
                                             <i class="material-icons">help</i>
                                         </a>
@@ -861,12 +861,11 @@
                                 <input id="itexShopCardBonusPct" type="number" min="0" class="validate"
                                        placeholder="0">
                                 <label for="itexShopCardBonusPct">
-                                    Card Bonus in Percent
+                                    Gacha Card Bonus in Percent
                                     <span class="explain-button bigger">
                                         <a class="tooltipped" data-position="top" data-delay="0"
-                                           data-tooltip="Using Cards from the matching Event or Gacha increases Currency
-                                           gain. The bonuses are shown on the Formation Choice screen and the Event
-                                           Result screen at the end of a Live.">
+                                           data-tooltip="Using Cards from the matching Gacha increases Currency
+                                           gain. The bonuses are shown on the Formation screen.">
                                             <i class="material-icons">help</i>
                                         </a>
                                     </span>
@@ -886,8 +885,10 @@
                             <div class="radio-row">
                                 <input name="itexShopTargetType" type="radio" id="itexShopTargetTypeEP" value="EP"/>
                                 <label for="itexShopTargetTypeEP">Event Points</label>
-                                <input name="itexShopTargetType" type="radio" id="itexShopTargetTypeIA" value="IA"/>
-                                <label for="itexShopTargetTypeIA">Item Amount</label>
+                                <input name="itexShopTargetType" type="radio" id="itexShopTargetTypeLC" value="LC"/>
+                                <label for="itexShopTargetTypeLC">Loveca / Candy</label>
+                                <input name="itexShopTargetType" type="radio" id="itexShopTargetTypeIT" value="IT"/>
+                                <label for="itexShopTargetTypeIT">Shopping List</label>
                             </div>
                             <div id="itexShopEventPointInputs">
                                 <div class="input-field below-radio">
@@ -897,67 +898,32 @@
                                         Target Event Points</label>
                                     <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
                                 </div>
-                                <div class="input-field">
-                                    <input id="itexShopCurrentEventPoints" type="number" min="0" class="validate"
-                                           placeholder="">
-                                    <label for="itexShopCurrentEventPoints">
-                                        Current Event Points</label>
-                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
-                                </div>
                             </div>
-                            <div id="itexShopItemAmountInputs">
+                            <div id="itexShopLovecaCandyInputs">
                                 <div class="input-field below-radio">
-                                    <input id="itexShopTargetItemAmount" type="number" min="1" class="validate"
-                                           placeholder="">
-                                    <label for="itexShopTargetItemAmount">
-                                        Target Item Amount</label>
-                                    <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                                    <input id="itexShopTargetLoveca" type="number" min="0" step="10" class="validate"
+                                           placeholder="0">
+                                    <label for="itexShopTargetLoveca">
+                                        Loveca Stars to Use</label>
+                                    <span class="helper-text" data-error="Must be a multiple of 10!"></span>
                                 </div>
                                 <div class="input-field">
-                                    <input id="itexShopCurrentItemAmount" type="number" min="0" class="validate"
-                                           placeholder="">
-                                    <label for="itexShopCurrentItemAmount">
-                                        Current Item Amount</label>
-                                    <span class="helper-text" data-error="Must be a positive integer!"></span>
+                                    <input id="itexShopTargetLiveCandy50" type="number" min="0" class="validate"
+                                           placeholder="0">
+                                    <label for="itexShopTargetLiveCandy50">
+                                        Live Candy [50 LP] to Use</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than or equal to 0!"></span>
+                                </div>
+                                <div class="input-field">
+                                    <input id="itexShopTargetLiveCandy100" type="number" min="0" class="validate"
+                                           placeholder="0">
+                                    <label for="itexShopTargetLiveCandy100">
+                                        Live Candy [100 LP] to Use</label>
+                                    <span class="helper-text" data-error="Must be an integer greater than or equal to 0!"></span>
                                 </div>
                             </div>
-                            <div class="input-field">
-                                <input id="itexShopCurrentRank" type="number" min="1" class="validate" placeholder="">
-                                <label for="itexShopCurrentRank">
-                                    Current Player Rank</label>
-                                <span class="helper-text" data-error="Must be an integer greater than 0!"></span>
+                            <div id="itexShopShoppingListInputs">
                             </div>
-                            <ul id="itexShopCurrentExtra" class="collapsible small-collapsible z-depth-0"
-                                data-collapsible="expandable">
-                                <li>
-                                    <div class="collapsible-header">
-                                        Optional Fields
-                                        <div class="explain-button bigger">
-                                            <a class="tooltipped" data-position="top" data-delay="0"
-                                               data-tooltip="These values usually make no difference, but might be
-                                                   useful for calculations in the last few hours of an event.">
-                                                <i class="material-icons">help</i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="collapsible-body">
-                                        <div class="input-field">
-                                            <input id="itexShopCurrentLP" type="number" min="0" class="validate"
-                                                   placeholder="0">
-                                            <label for="itexShopCurrentLP">
-                                                Current LP</label>
-                                            <span class="helper-text" data-error="Must be a positive integer!"></span>
-                                        </div>
-                                        <div class="input-field">
-                                            <input id="itexShopCurrentEXP" type="number" min="0" class="validate"
-                                                   placeholder="0">
-                                            <label for="itexShopCurrentEXP">
-                                                Current EXP in Rank</label>
-                                            <span class="helper-text" data-error="Must be a positive integer!"></span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
                         </div>
                     </li>
                 </ul>
