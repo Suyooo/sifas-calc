@@ -202,7 +202,7 @@ ExchangeEstimationInfo.prototype.showResult = function () {
         if (this.storyEstimationInfo.skippedLives === 0) {
             $("#exchangeResultSkippedLivesText").text("0");
         } else {
-            $("#storyResultSkippedLivesText").text((this.storyEstimationInfo.skippedLives * this.storyEstimationInfo.skippedLiveTickets) + " (" +
+            $("#exchangeResultSkippedLivesText").text((this.storyEstimationInfo.skippedLives * this.storyEstimationInfo.skippedLiveTickets) + " (" +
                 this.storyEstimationInfo.skippedLives + " x " + this.storyEstimationInfo.skippedLiveTickets + " tickets)");
             highlightSkippedLives = true;
         }
