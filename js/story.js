@@ -12,7 +12,7 @@
  * @property {number} storyMinimumSleepHours - How many hours to sleep, to calculate wasted LP regeneration.
  * @property {difficulty} storyLiveDifficulty - The difficulty lives are played on.
  * @property {rank} storyLiveScore - Which score rank the player clears lives with.
- * @property {number} storyUnitBonusPct - Event point bonus gained through bonus units, in percent
+ * @property {number} storyCardBonusPct - Event point bonus gained through bonus cards, in percent
  * @property {number} storyBoostersStock - Amount of Booster Items available for use before daily missions.
  * @property {boolean} storyBoostersDaily - Whether to use Booster Items from daily missions.
  * @property {boolean} storyPassRefill - Whether to use the daily full refill from the Sukusuta Pass subscription.
@@ -31,7 +31,7 @@ function StoryData() {
     this.storyMinimumSleepHours = 8;
     this.storyLiveDifficulty = "EASY";
     this.storyLiveScore = "D";
-    this.storyUnitBonusPct = 0;
+    this.storyCardBonusPct = 0;
     this.storyBoostersStock = 0;
     this.storyBoostersDaily = false;
     this.storyPassRefill = false;
@@ -47,7 +47,7 @@ function StoryData() {
  * @class StoryLiveInfo
  * @property {number} lp - LP cost for one live.
  * @property {number} base - Base event point reward for one live.
- * @property {number} point - Event point reward (unit bonus added) for one live.
+ * @property {number} point - Event point reward (card bonus added) for one live.
  * @property {number} exp - EXP reward for one live.
  * @constructor
  */
@@ -112,7 +112,7 @@ StoryData.prototype.readFromUi = function () {
     this.storyMinimumSleepHours = ReadHelpers.toNum($("#storyMinimumSleepHours").val(), 8);
     this.storyLiveDifficulty = $("input:radio[name=storyLiveDifficulty]:checked").val();
     this.storyLiveScore = $("input:radio[name=storyLiveScore]:checked").val();
-    this.storyUnitBonusPct = ReadHelpers.toNum($("#storyUnitBonusPct").val(), 0);
+    this.storyCardBonusPct = ReadHelpers.toNum($("#storyCardBonusPct").val(), 0);
     this.storyBoostersStock = ReadHelpers.toNum($("#storyBoostersStock").val(), 0);
     this.storyBoostersDaily = $("#storyBoostersDailyOn").prop("checked");
     this.storyPassRefill = $("#storyPassRefillOn").prop("checked");
@@ -142,7 +142,7 @@ StoryData.setToUi = function (savedData) {
     SetHelpers.inputHelper($("#storyMinimumSleepHours"), savedData.storyMinimumSleepHours);
     SetHelpers.radioButtonHelper($("input:radio[name=storyLiveDifficulty]"), savedData.storyLiveDifficulty);
     SetHelpers.radioButtonHelper($("input:radio[name=storyLiveScore]"), savedData.storyLiveScore);
-    SetHelpers.inputHelper($("#storyUnitBonusPct"), savedData.storyUnitBonusPct);
+    SetHelpers.inputHelper($("#storyCardBonusPct"), savedData.storyCardBonusPct);
     SetHelpers.inputHelper($("#storyBoostersStock"), savedData.storyBoostersStock);
     SetHelpers.radioButtonHelper($("input:radio[name=storyBoostersDaily]"), savedData.storyBoostersDaily ? "Y" : "N");
     SetHelpers.radioButtonHelper($("input:radio[name=storyPassRefill]"), savedData.storyPassRefill ? "Y" : "N");
@@ -168,7 +168,7 @@ StoryData.prototype.alert = function () {
         "storyMinimumSleepHours: " + this.storyMinimumSleepHours + "\n" +
         "storyLiveDifficulty: " + this.storyLiveDifficulty + "\n" +
         "storyLiveScore: " + this.storyLiveScore + "\n" +
-        "storyUnitBonusPct: " + this.storyUnitBonusPct + "\n" +
+        "storyCardBonusPct: " + this.storyCardBonusPct + "\n" +
         "storyBoostersStock: " + this.storyBoostersStock + "\n" +
         "storyBoostersDaily: " + this.storyBoostersDaily + "\n" +
         "storyPassRefill: " + this.storyPassRefill + "\n" +
@@ -235,12 +235,12 @@ StoryData.prototype.getLiveScore = function () {
 };
 
 /**
- * Returns the factor representing the gain from bonus units in a live team.
+ * Returns the factor representing the gain from bonus cards in a live team.
  * @returns {number} A factor to multiply event point rewards with.
  */
 StoryData.prototype.getLiveBonusFactor = function () {
-    if (this.storyUnitBonusPct < 0) return 0;
-    return 1 + (this.storyUnitBonusPct / 100.0);
+    if (this.storyCardBonusPct < 0) return 0;
+    return 1 + (this.storyCardBonusPct / 100.0);
 };
 
 /**

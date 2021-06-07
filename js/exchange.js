@@ -47,7 +47,7 @@ ItexLovecaData.prototype.readFromUi = function () {
     this.storyData.storyMinimumSleepHours = ReadHelpers.toNum($("#itexLovecaMinimumSleepHours").val(), 8);
     this.storyData.storyLiveDifficulty = $("input:radio[name=itexLovecaLiveDifficulty]:checked").val();
     this.storyData.storyLiveScore = $("input:radio[name=itexLovecaLiveScore]:checked").val();
-    this.storyData.storyUnitBonusPct = ReadHelpers.toNum($("#itexLovecaUnitBonusPct").val(), 0);
+    this.storyData.storyCardBonusPct = ReadHelpers.toNum($("#itexLovecaCardBonusPct").val(), 0);
     this.storyData.storyPassRefill = $("#itexLovecaPassRefillOn").prop("checked");
     this.itexLovecaTargetType = $("input:radio[name=itexLovecaTargetType]:checked").val();
     this.storyData.storyTargetEventPoints = ReadHelpers.toNum($("#itexLovecaTargetEventPoints").val());
@@ -78,7 +78,7 @@ ItexLovecaData.setToUi = function (savedData) {
     SetHelpers.inputHelper($("#itexLovecaMinimumSleepHours"), savedData.storyData.storyMinimumSleepHours);
     SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaLiveDifficulty]"), savedData.storyData.storyLiveDifficulty);
     SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaLiveScore]"), savedData.storyData.storyLiveScore);
-    SetHelpers.inputHelper($("#itexLovecaUnitBonusPct"), savedData.storyData.storyUnitBonusPct);
+    SetHelpers.inputHelper($("#itexLovecaCardBonusPct"), savedData.storyData.storyCardBonusPct);
     SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaPassRefill]"), savedData.storyData.storyPassRefill ? "Y" : "N");
     SetHelpers.radioButtonHelper($("input:radio[name=itexLovecaTargetType]"), savedData.itexLovecaTargetType);
     SetHelpers.inputHelper($("#itexLovecaTargetEventPoints"), savedData.storyData.storyTargetEventPoints);
@@ -105,7 +105,7 @@ ItexLovecaData.prototype.alert = function () {
         "storyMinimumSleepHours: " + this.storyData.storyMinimumSleepHours + "\n" +
         "storyLiveDifficulty: " + this.storyData.storyLiveDifficulty + "\n" +
         "storyLiveScore: " + this.storyData.storyLiveScore + "\n" +
-        "storyUnitBonusPct: " + this.storyData.storyUnitBonusPct + "\n" +
+        "storyCardBonusPct: " + this.storyData.storyCardBonusPct + "\n" +
         "storyPassRefill: " + this.storyData.storyPassRefill + "\n" +
         "itexLovecaTargetType: " + this.itexLovecaTargetType + "\n" +
         "storyTargetEventPoints: " + this.storyData.storyTargetEventPoints + "\n" +
