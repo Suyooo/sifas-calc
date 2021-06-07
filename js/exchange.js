@@ -132,7 +132,7 @@ ItexLovecaData.prototype.createLiveInfo = function () {
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
         pointReward = this.itexLovecaTargetType == 'EP'
-            ?  (this.storyData.storyRegion === "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId])
+            ?  ITEX_EVENT_EP[diffId][rankId]
             : ITEX_EVENT_CURRENCY[diffId][rankId] * bonusFactor;
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, pointReward, expReward);
@@ -204,7 +204,7 @@ ItexLovecaEstimationInfo.prototype.showResult = function () {
         if (this.storyEstimationInfo.skippedLives === 0) {
             $("#itexLovecaResultSkippedLivesText").text("0");
         } else {
-            $("#storyResultSkippedLivesText").text((this.storyEstimationInfo.skippedLives * this.storyEstimationInfo.skippedLiveTickets) + " (" +
+            $("#exchangeResultSkippedLivesText").text((this.storyEstimationInfo.skippedLives * this.storyEstimationInfo.skippedLiveTickets) + " (" +
                 this.storyEstimationInfo.skippedLives + " x " + this.storyEstimationInfo.skippedLiveTickets + " tickets)");
             highlightSkippedLives = true;
         }
@@ -316,13 +316,25 @@ ItexLovecaData.prototype.validate = function () {
 };
 
 /**
+ * Event point rewards tables for lives - first index is difficulty, second index is rank.
+ * @constant
+ * @type {number[][]}
+ */
+var ITEX_EVENT_EP = [
+    [225, 237, 250, 262, 275],
+    [345, 360, 375, 390, 405],
+    [525, 543, 562, 581, 600],
+    [815, 830, 845, 860, 875]
+]
+
+/**
  * Item Exchange currency rewards tables for lives - first index is difficulty, second index is rank.
  * @constant
  * @type {number[][]}
  */
 var ITEX_EVENT_CURRENCY = [
-    [135, 120, 105, 90, 75],
-    [225, 210, 195, 180, 165],
-    [345, 330, 315, 300, 285],
-    [525, 510, 495, 480, 465]
+    [75, 90, 105, 120, 135],
+    [165, 180, 195, 210, 225],
+    [285, 300, 315, 330, 345],
+    [465, 480, 495, 510, 525]
 ]

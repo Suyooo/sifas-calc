@@ -277,7 +277,7 @@ StoryData.prototype.createLiveInfo = function () {
 
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
-        baseEP = (this.storyRegion === "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId]),
+        baseEP = STORY_EVENT_POINTS[diffId][rankId],
         pointReward = Math.ceil(baseEP * bonusFactor);
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, baseEP, pointReward, expReward);
@@ -577,25 +577,13 @@ var STORY_RANK = {
 };
 
 /**
- * Event point rewards tables for lives - first index is difficulty, second index is rank.
+ * Event point rewards tables for lives in Story events - first index is difficulty, second index is rank.
  * @constant
  * @type {number[][]}
  */
 var STORY_EVENT_POINTS = [
-    [165, 157, 150, 142, 135],
-    [243, 234, 225, 216, 207],
-    [360, 348, 337, 326, 315],
-    [525, 516, 507, 498, 489]
-]
-
-/**
- * Event point rewards tables for lives on WW - first index is difficulty, second index is rank.
- * @constant
- * @type {number[][]}
- */
-var STORY_EVENT_POINTS_WW = [
-    [225, 237, 250, 262, 275],
-    [345, 360, 375, 390, 405],
-    [525, 543, 562, 581, 600],
-    [815, 830, 845, 860, 875]
+    [135, 142, 150, 157, 165],
+    [207, 216, 225, 234, 243],
+    [315, 326, 337, 348, 360],
+    [489, 498, 507, 516, 525]
 ]
