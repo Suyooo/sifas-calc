@@ -132,7 +132,7 @@ ExchangeData.prototype.createLiveInfo = function () {
     var lpCost = COMMON_LP_COST[diffId],
         expReward = COMMON_EXP_REWARD[diffId],
         pointReward = this.exchangeTargetType == 'EP'
-            ?  (this.storyData.storyRegion === "en" ? STORY_EVENT_POINTS_WW[diffId][rankId] : STORY_EVENT_POINTS[diffId][rankId])
+            ?  EXCHANGE_EVENT_EP[diffId][rankId]
             : EXCHANGE_EVENT_ITEMS[diffId][rankId] * bonusFactor;
     if (undefined === pointReward) return null;
     return new StoryLiveInfo(lpCost, pointReward, pointReward, expReward);
@@ -312,6 +312,18 @@ ExchangeData.prototype.validate = function () {
 
     return errors;
 };
+
+/**
+ * Event point rewards tables for lives - first index is difficulty, second index is rank.
+ * @constant
+ * @type {number[][]}
+ */
+var EXCHANGE_EVENT_EP = [
+    [225, 237, 250, 262, 275],
+    [345, 360, 375, 390, 405],
+    [525, 543, 562, 581, 600],
+    [815, 830, 845, 860, 875]
+]
 
 /**
  * Exchange item rewards tables for lives - first index is difficulty, second index is rank.
