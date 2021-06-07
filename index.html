@@ -56,7 +56,7 @@
             <li>
                 <div class="user-view">
                     <div class="background">
-                        <img src="image/sidenav.jpg">
+                        <img src="image/sidenav.jpg" alt="Header Image">
                     </div>
                     <span class="name">SIFAS Event Calculator</span>
                 </div>
@@ -92,17 +92,20 @@
             <li>
                 <div class="user-view">
                     <div class="background">
-                        <img src="image/sidenav.jpg">
+                        <img src="image/sidenav.jpg" alt="Header Image">
                     </div>
                     <span class="name">Tools</span>
                 </div>
             </li>
             <li><a target="_self" href="sppower.html" class="tooltipped" data-position="right" data-delay="0"
-                   data-tooltip="Find the most powerful SP Skill available for your Formation.">SP Power Sorter /
-                Calculator</a></li>
+                   data-tooltip="Find the most powerful SP Skill available for your Formation.">
+                SP Power Sorter / Calculator
+            </a></li>
             <li>
-            <li><a target="_self" href="../mapdb" class="tooltipped" data-position="right" data-delay="0"
-                   data-tooltip="Song information database, including complete note maps, gimmick note timings and AC rewards.">Note Map Database</a></li>
+                <a target="_self" href="../mapdb" class="tooltipped" data-position="right" data-delay="0"
+                   data-tooltip="Song information database, including complete note maps, gimmick note timings and AC rewards.">
+                Note Map Database
+            </a></li>
             <li>
                 <div class="divider"></div>
             </li>
@@ -151,7 +154,7 @@
                                         <div class="event-progress-done" id="storyTimerProgress"></div>
                                     </div>
                                     <div class="event-banner-container">
-                                        <img src="" id="storyEventBanner" class="event-banner">
+                                        <img src="" id="storyEventBanner" class="event-banner" alt="Event Banner">
                                     </div>
                                     <small class="event-info-note">Something wrong? <a data-target="sidebar"
                                                                                        class="sidenav-trigger">Contact
@@ -218,14 +221,14 @@
                                        placeholder="0">
                                 <label for="storyCardBonusPct">
                                     Card Bonus in Percent
-                                    <div class="explain-button bigger">
+                                    <span class="explain-button bigger">
                                         <a class="tooltipped" data-position="top" data-delay="0"
                                            data-tooltip="Using Cards from the matching Event or Gacha increases Event
                                            Point gain. The bonuses are shown on the Formation Choice screen and the
                                            Event Result screen at the end of a Live.">
                                             <i class="material-icons">help</i>
                                         </a>
-                                    </div>
+                                    </span>
                                 </label>
                                 <span class="helper-text" data-error="Must be a positive integer!"></span>
                             </div>
@@ -383,11 +386,9 @@
                                 As you might know, this site assumes that you will play with 100% efficiency in order to
                                 make the calculation. That means the result above is only accurate if you don't waste
                                 any LP. However, the target your have entered would <b>require you to wake up every
-                                single night</b> to empty your LP
-                                tank.<br>
+                                single night</b> to empty your LP tank.<br>
                                 I want to explicitly state here that <b>I do not endorse this and I don't want to force
-                                you do wake up in the middle of the night to
-                                play games</b>.<br>
+                                you do wake up in the middle of the night to play games</b>.<br>
                                 You can enter "Hours of Sleep" in the timer section to re-run the calculation while
                                 considering the LP regeneration missed by sleeping.<br>
                                 If you really want to go for the wake-up strategy, remember that you can use Skip
@@ -467,7 +468,7 @@
                                         <div class="event-progress-done" id="itexLovecaTimerProgress"></div>
                                     </div>
                                     <div class="event-banner-container">
-                                        <img src="" id="itexLovecaEventBanner" class="event-banner">
+                                        <img src="" id="itexLovecaEventBanner" class="event-banner" alt="Event Banner">
                                     </div>
                                     <small class="event-info-note">Something wrong? <a data-target="sidebar"
                                                                                        class="sidenav-trigger">Contact
@@ -477,7 +478,8 @@
                             </div>
                             <div id="itexLovecaTimerMethodManualSection" class="manual-timer-input">
                                 <div class="input-field">
-                                    <input id="itexLovecaManualRestTime" type="number" min="0" step="any" class="validate"
+                                    <input id="itexLovecaManualRestTime" type="number" min="0" step="any"
+                                           class="validate"
                                            placeholder="">
                                     <label for="itexLovecaManualRestTime">
                                         Time Left In Hours</label>
@@ -485,7 +487,8 @@
                                 </div>
                             </div>
                             <div class="input-field below-radio">
-                                <input id="itexLovecaMinimumSleepHours" type="number" min="0" step="any" class="validate"
+                                <input id="itexLovecaMinimumSleepHours" type="number" min="0" step="any"
+                                       class="validate"
                                        placeholder="8">
                                 <label for="itexLovecaMinimumSleepHours">
                                     Minimum Hours Of Sleep</label>
@@ -512,7 +515,8 @@
                                 <input name="itexLovecaLiveDifficulty" type="radio" id="itexLovecaLiveDifficultyHard"
                                        value="HARD"/>
                                 <label for="itexLovecaLiveDifficultyHard">Adv</label>
-                                <input name="itexLovecaLiveDifficulty" type="radio" id="itexLovecaLiveDifficultyHardPlus"
+                                <input name="itexLovecaLiveDifficulty" type="radio"
+                                       id="itexLovecaLiveDifficultyHardPlus"
                                        value="HARD_PLUS"/>
                                 <label for="itexLovecaLiveDifficultyHardPlus">Adv+</label>
                             </div>
@@ -534,14 +538,14 @@
                                        placeholder="0">
                                 <label for="itexLovecaCardBonusPct">
                                     Card Bonus in Percent
-                                    <div class="explain-button bigger">
+                                    <span class="explain-button bigger">
                                         <a class="tooltipped" data-position="top" data-delay="0"
                                            data-tooltip="Using Cards from the matching Event or Gacha increases Currency
                                            gain. The bonuses are shown on the Formation Choice screen and the Event
                                            Result screen at the end of a Live.">
                                             <i class="material-icons">help</i>
                                         </a>
-                                    </div>
+                                    </span>
                                 </label>
                                 <span class="helper-text" data-error="Must be a positive integer!"></span>
                             </div>
@@ -709,11 +713,9 @@
                                 As you might know, this site assumes that you will play with 100% efficiency in order to
                                 make the calculation. That means the result above is only accurate if you don't waste
                                 any LP. However, the target your have entered would <b>require you to wake up every
-                                single night</b> to empty your LP
-                                tank.<br>
+                                single night</b> to empty your LP tank.<br>
                                 I want to explicitly state here that <b>I do not endorse this and I don't want to force
-                                you do wake up in the middle of the night to
-                                play games</b>.<br>
+                                you do wake up in the middle of the night to play games</b>.<br>
                                 You can enter "Hours of Sleep" in the timer section to re-run the calculation while
                                 considering the LP regeneration missed by sleeping.<br>
                                 If you really want to go for the wake-up strategy, remember that you can use Skip
@@ -793,7 +795,7 @@
                                         <div class="event-progress-done" id="itexShopTimerProgress"></div>
                                     </div>
                                     <div class="event-banner-container">
-                                        <img src="" id="itexShopEventBanner" class="event-banner">
+                                        <img src="" id="itexShopEventBanner" class="event-banner" alt="Event Banner">
                                     </div>
                                     <small class="event-info-note">Something wrong? <a data-target="sidebar"
                                                                                        class="sidenav-trigger">Contact
@@ -860,14 +862,14 @@
                                        placeholder="0">
                                 <label for="itexShopCardBonusPct">
                                     Card Bonus in Percent
-                                    <div class="explain-button bigger">
+                                    <span class="explain-button bigger">
                                         <a class="tooltipped" data-position="top" data-delay="0"
                                            data-tooltip="Using Cards from the matching Event or Gacha increases Currency
                                            gain. The bonuses are shown on the Formation Choice screen and the Event
                                            Result screen at the end of a Live.">
                                             <i class="material-icons">help</i>
                                         </a>
-                                    </div>
+                                    </span>
                                 </label>
                                 <span class="helper-text" data-error="Must be a positive integer!"></span>
                             </div>
@@ -1028,11 +1030,9 @@
                                 As you might know, this site assumes that you will play with 100% efficiency in order to
                                 make the calculation. That means the result above is only accurate if you don't waste
                                 any LP. However, the target your have entered would <b>require you to wake up every
-                                single night</b> to empty your LP
-                                tank.<br>
+                                single night</b> to empty your LP tank.<br>
                                 I want to explicitly state here that <b>I do not endorse this and I don't want to force
-                                you do wake up in the middle of the night to
-                                play games</b>.<br>
+                                you do wake up in the middle of the night to play games</b>.<br>
                                 You can enter "Hours of Sleep" in the timer section to re-run the calculation while
                                 considering the LP regeneration missed by sleeping.<br>
                                 If you really want to go for the wake-up strategy, remember that you can use Skip
