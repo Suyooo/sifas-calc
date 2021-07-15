@@ -1,0 +1,45 @@
+{
+  "name": "sifas-calc",
+  "version": "1.0.0",
+  "dependencies": {
+    "frontend-dependencies": "^2.0.0",
+    "html-minifier": "^4.0.0",
+    "object-hash": "^2.2.0",
+    "pngcrush-bin": "^5.0.1",
+    "purify-css": "^1.2.5",
+    "svgo": "^2.3.1",
+    "uglify-js": "^3.13.10"
+  },
+  "frontendDependencies": {
+    "target": "vendor/",
+    "packages": {
+      "@fontsource/material-icons": {
+        "version": "^4.5.0",
+        "src": "{files,400.css}",
+        "target": "vendor/fonts/material/"
+      },
+      "@fontsource/roboto": {
+        "version": "^4.5.0",
+        "src": "{files,100.css,300.css,400.css,500.css,700.css,900.css}",
+        "target": "vendor/fonts/roboto/"
+      },
+      "jquery": {
+        "version": "^3.6.0",
+        "src": "dist/jquery.min.js"
+      },
+      "materialize-css": {
+        "version": "^1.0.0",
+        "src": "{dist/js/materialize.min.js,dist/css/materialize.min.css}"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tools/build.sh",
+    "update": "tools/update-server-side-files.sh",
+    "postinstall": "frontend-dependencies"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.6",
+    "@types/materialize-css": "^1.0.11"
+  }
+}
