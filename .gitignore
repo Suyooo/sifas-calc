@@ -3,5 +3,6 @@ api
 build
 doc
 node_modules
+vendor
 package.json
 package-lock.json

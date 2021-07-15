@@ -13,18 +13,8 @@ cp changelog build
 echo "Copy app manifest..."
 cp manifest.json build
 
-echo "Copy Library JS..."
-mkdir build/vendor
-for F in vendor/*.js; do
-    echo "    ${F}"
-    cp ${F} build/vendor
-done
-
-echo "Copy Library CSS..."
-for F in vendor/*.css; do
-    echo "    ${F}"
-    purifycss ${F} index.html sppower.html js/sppower.js js/story.js js/ui.js js/common.js vendor/materialize.js -m -o build/${F}
-done
+echo "Copy Vendor Files..."
+cp -r vendor build/vendor
 
 echo "Minify HTML..."
 for F in *.html; do
