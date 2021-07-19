@@ -6,8 +6,6 @@ mkdir build
 
 echo "Copy htaccess file..."
 cp .htaccess build
-echo "Copy fonts..."
-cp --recursive fonts build
 echo "Copy change log..."
 cp changelog build
 echo "Copy app manifest..."
