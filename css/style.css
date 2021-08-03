@@ -327,10 +327,6 @@ ul.collapsible {
     padding: 1rem 2rem;
 }
 
-.event-info {
-    display: none;
-}
-
 .event-progress-bar {
     background-color: var(--option);
     width: 100%;

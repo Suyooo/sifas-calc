@@ -255,12 +255,6 @@ function registerCalculatorButtons() {
             $("#" + page + "TimerMethodManualSection").slideDown(200);
             updateTimerSection(page);
         });
-        $("#" + page + "RegionEn").click(function () {
-            updateTimerSection(page);
-        });
-        $("#" + page + "RegionJp").click(function () {
-            updateTimerSection(page);
-        });
         $("#" + page + "Calculate").click(function () {
             doCalc(true);
         });
@@ -370,7 +364,7 @@ function showDialog(content, yesFunc) {
 }
 
 /**
- * Listener for clicks on the region radios. Handles showing the correct elements, the event progress bar, the event
+ * Listener for the Auto Timer selection. Handles showing the correct elements, the event progress bar, the event
  * images and the text display of the time left in/until the event.
  * @param page The short name of the calculator to update.
  */
@@ -393,16 +387,8 @@ function updateTimerSection(page) {
 
     autosec.slideDown(200);
     manualsec.slideUp(200);
-    var region = $("input:radio[name=" + page + "Region]:checked").val();
-    var eventInfo = $("#" + page + "TimerEventInfo");
 
-    if (region != "en" && region != "jp") {
-        eventInfo.slideUp(300);
-        return;
-    }
-    eventInfo.slideDown(300);
-
-    var eventDates = Common.getEventBeginEndTime(region);
+    var eventDates = Common.getEventBeginEndTime();
     var start = eventDates[0];
     var now = new Date();
     var end = eventDates[1];
@@ -410,7 +396,7 @@ function updateTimerSection(page) {
     var progressBar = $("#" + page + "TimerProgress");
     var leftLabel = $("#" + page + "TimerLeft");
     var eventBanner = $("#" + page + "EventBanner");
-    var newBanner = "image/event_" + region + ".jpg";
+    var newBanner = "image/event.jpg";
     eventBanner.attr("src", newBanner);
 
     // Reset progress bar animation by creating a new one and removing the old one (this skips the transition)

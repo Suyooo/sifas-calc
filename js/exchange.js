@@ -41,7 +41,6 @@ function ExchangeEstimationInfo(sei) {
  */
 ExchangeData.prototype.readFromUi = function () {
     this.storyData.storyTimerMethodAuto = $("#exchangeTimerMethodAuto").prop("checked");
-    this.storyData.storyRegion = $("input:radio[name=exchangeRegion]:checked").val();
     this.storyData.storyTimerMethodManual = $("#exchangeTimerMethodManual").prop("checked");
     this.storyData.storyManualRestTimeInHours = ReadHelpers.toNum($("#exchangeManualRestTime").val());
     this.storyData.storyMinimumSleepHours = ReadHelpers.toNum($("#exchangeMinimumSleepHours").val(), 8);
@@ -65,10 +64,6 @@ ExchangeData.prototype.readFromUi = function () {
  */
 ExchangeData.setToUi = function (savedData) {
     SetHelpers.checkBoxHelper($("#exchangeTimerMethodAuto"), savedData.storyData.storyTimerMethodAuto);
-    SetHelpers.radioButtonHelper($("input:radio[name=exchangeRegion]"), savedData.storyData.storyRegion);
-    if (savedData.storyData.storyRegion !== undefined) {
-        updateTimerSection("exchange");
-    }
     var manualButton = $("#exchangeTimerMethodManual");
     SetHelpers.checkBoxHelper(manualButton, savedData.storyData.storyTimerMethodManual);
     if (savedData.storyData.storyTimerMethodManual) {
@@ -99,7 +94,6 @@ ExchangeData.setToUi = function (savedData) {
  */
 ExchangeData.prototype.alert = function () {
     alert("storyTimerMethodAuto: " + this.storyData.storyTimerMethodAuto + "\n" +
-        "storyRegion: " + this.storyData.storyRegion + "\n" +
         "storyTimerMethodManual: " + this.storyData.storyTimerMethodManual + "\n" +
         "storyManualRestTimeInHours: " + this.storyData.storyManualRestTimeInHours + "\n" +
         "storyMinimumSleepHours: " + this.storyData.storyMinimumSleepHours + "\n" +
@@ -170,8 +164,7 @@ ExchangeData.prototype.estimate = function () {
     var eei = new ExchangeEstimationInfo(StoryEstimator.estimate(this.createLiveInfo(),
         this.getEventPointsLeft(), this.storyData.getRestTimeInMinutes(),
         this.storyData.storyMinimumSleepHours, this.storyData.storyCurrentRank, this.storyData.storyCurrentEXP,
-        this.storyData.storyCurrentLP, 0, 0, this.storyData.storyRegion,
-        this.storyData.getPassRefillCount()));
+        this.storyData.storyCurrentLP, 0, 0, this.storyData.getPassRefillCount()));
     eei.exchangeItems = this.getItemCount(eei.storyEstimationInfo.liveCount);
     return eei;
 };
@@ -227,7 +220,7 @@ ExchangeEstimationInfo.prototype.showResult = function () {
         $("#exchangeResultLiveCandy100").text("---");
     }
 
-    Results.show($("#exchangeResult"), highlightSkippedLives, showSleepWarning, this.storyEstimationInfo.lpRecoveryInfo && this.storyEstimationInfo.lpRecoveryInfo.region === "en");
+    Results.show($("#exchangeResult"), highlightSkippedLives, showSleepWarning);
 };
 
 /**
@@ -237,17 +230,12 @@ ExchangeEstimationInfo.prototype.showResult = function () {
 ExchangeData.prototype.validate = function () {
     var errors = [];
 
-    if (this.storyData.storyRegion != "en" && this.storyData.storyRegion != "jp") {
-        errors.push("Choose a region");
-        return errors;
-    }
-
     var liveInfo = this.createLiveInfo();
     if (null === liveInfo) {
         errors.push("Live parameters have not been set");
-    } else if (liveInfo.lp > Common.getMaxLp(this.storyData.storyCurrentRank, this.storyData.storyRegion)) {
+    } else if (liveInfo.lp > Common.getMaxLp(this.storyData.storyCurrentRank)) {
         errors.push("The chosen live parameters result in an LP cost (" + liveInfo.lp +
-            ") that's higher than your max LP (" + Common.getMaxLp(this.storyData.storyCurrentRank, this.storyData.storyRegion) + ")");
+            ") that's higher than your max LP (" + Common.getMaxLp(this.storyData.storyCurrentRank) + ")");
     }
 
     if (this.exchangeTargetType == 'EP') {

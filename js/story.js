@@ -6,7 +6,6 @@
  * An object used to store input values for the Story Event calculator.
  * @class StoryData
  * @property {boolean} storyTimerMethodAuto - Whether Automatic Timer is selected on the UI.
- * @property {region} storyRegion - Which server to use for the Automatic Timer, LP maximum and event point tables.
  * @property {boolean} storyTimerMethodManual - Whether Manual Input is selected on the UI.
  * @property {number} storyManualRestTimeInHours - The time left in hours, entered for Manual Input.
  * @property {number} storyMinimumSleepHours - How many hours to sleep, to calculate wasted LP regeneration.
@@ -25,7 +24,6 @@
  */
 function StoryData() {
     this.storyTimerMethodAuto = false;
-    this.storyRegion = "en";
     this.storyTimerMethodManual = false;
     this.storyManualRestTimeInHours = 0;
     this.storyMinimumSleepHours = 8;
@@ -106,7 +104,6 @@ function StoryEstimationInfo(liveCount, restTime, skippedLives, skippedLiveTicke
  */
 StoryData.prototype.readFromUi = function () {
     this.storyTimerMethodAuto = $("#storyTimerMethodAuto").prop("checked");
-    this.storyRegion = $("input:radio[name=storyRegion]:checked").val();
     this.storyTimerMethodManual = $("#storyTimerMethodManual").prop("checked");
     this.storyManualRestTimeInHours = ReadHelpers.toNum($("#storyManualRestTime").val());
     this.storyMinimumSleepHours = ReadHelpers.toNum($("#storyMinimumSleepHours").val(), 8);
@@ -129,10 +126,6 @@ StoryData.prototype.readFromUi = function () {
  */
 StoryData.setToUi = function (savedData) {
     SetHelpers.checkBoxHelper($("#storyTimerMethodAuto"), savedData.storyTimerMethodAuto);
-    SetHelpers.radioButtonHelper($("input:radio[name=storyRegion]"), savedData.storyRegion);
-    if (savedData.storyRegion !== undefined) {
-        updateTimerSection("story");
-    }
     var manualButton = $("#storyTimerMethodManual");
     SetHelpers.checkBoxHelper(manualButton, savedData.storyTimerMethodManual);
     if (savedData.storyTimerMethodManual) {
@@ -162,7 +155,6 @@ StoryData.setToUi = function (savedData) {
  */
 StoryData.prototype.alert = function () {
     alert("storyTimerMethodAuto: " + this.storyTimerMethodAuto + "\n" +
-        "storyRegion: " + this.storyRegion + "\n" +
         "storyTimerMethodManual: " + this.storyTimerMethodManual + "\n" +
         "storyManualRestTimeInHours: " + this.storyManualRestTimeInHours + "\n" +
         "storyMinimumSleepHours: " + this.storyMinimumSleepHours + "\n" +
@@ -185,7 +177,7 @@ StoryData.prototype.alert = function () {
  */
 StoryData.prototype.getRestTimeInMinutes = function () {
     if (this.storyTimerMethodAuto) {
-        return Common.getAutoRestTimeInMinutes(this.storyRegion);
+        return Common.getAutoRestTimeInMinutes();
     }
     if (this.storyTimerMethodManual) {
         return 60 * this.storyManualRestTimeInHours;
@@ -198,7 +190,7 @@ StoryData.prototype.getRestTimeInMinutes = function () {
  */
 StoryData.prototype.getResetsLeft = function () {
     if (this.storyTimerMethodAuto) {
-        return Common.getAutoResetsLeftInEvent(this.storyRegion);
+        return Common.getAutoResetsLeftInEvent();
     }
     if (this.storyTimerMethodManual) {
         return Math.floor(this.storyManualRestTimeInHours / 24);
@@ -354,7 +346,7 @@ StoryEstimator.calculateLiveCount = function (liveInfo, eventPointsLeft, stockBo
 StoryData.prototype.estimate = function () {
     return StoryEstimator.estimate(this.createLiveInfo(), this.getEventPointsLeft(), this.getRestTimeInMinutes(),
         this.storyMinimumSleepHours, this.storyCurrentRank, this.storyCurrentEXP, this.storyCurrentLP,
-        this.storyBoostersStock, this.getDailyMissionBoosterCount(), this.storyRegion, this.getPassRefillCount());
+        this.storyBoostersStock, this.getDailyMissionBoosterCount(), this.getPassRefillCount());
 };
 
 /**
@@ -372,15 +364,14 @@ StoryData.prototype.estimate = function () {
  * @param {number} playerLp The player's initial LP.
  * @param {number} stockBoosterCount Amount of Booster Items available before daily missions.
  * @param {number} dailyBoosterCount Amount of Booster Items gained from daily missions to use.
- * @param {region} region The region to use for the max LP calculation.
  * @param {number} passRefillUses Amount of uses of full refills from the Sukusuta Pass subscription.
  * @returns {StoryEstimationInfo} A new object with all properties set, or the recoveryInfo property set to null if
  *      reaching the target is impossible.
  */
 StoryEstimator.estimate =
-    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBoosterCount, dailyBoosterCount, region, passRefillUses) {
+    function (liveInfo, eventPointsLeft, timeLeft, minimumSleepHours, playerRank, playerExp, playerLp, stockBoosterCount, dailyBoosterCount, passRefillUses) {
         var liveCount = this.calculateLiveCount(liveInfo, eventPointsLeft, stockBoosterCount, dailyBoosterCount);
-        var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp, region);
+        var avgMaxLp = Common.calculateAverageLovecaLpRecovery(playerRank, liveCount.exp);
 
         var regenTimeLostToSleep = 0;
         var playTimeLostToSleep = 0;
@@ -412,7 +403,7 @@ StoryEstimator.estimate =
 
         estimation.lpRecoveryInfo =
             Common.calculateLpRecoveryInfo(playerRank, liveCount.exp, playerExp, liveCount.lp, playerLp,
-                timeLeft, regenTimeLostToSleep, region);
+                timeLeft, regenTimeLostToSleep);
         if (minimumSleepHours * 60 >= COMMON_SLEEP_WARNING_TIME_IN_MINUTES) {
             estimation.lpRecoveryInfo.sleepWarning = false;
         }
@@ -491,7 +482,7 @@ StoryEstimationInfo.prototype.showResult = function () {
         $("#storyResultLiveCandy100").text("---");
     }
 
-    Results.show($("#storyResult"), highlightSkippedLives, showSleepWarning, this.lpRecoveryInfo && this.lpRecoveryInfo.region === "en");
+    Results.show($("#storyResult"), highlightSkippedLives, showSleepWarning);
 };
 
 /**
@@ -501,17 +492,12 @@ StoryEstimationInfo.prototype.showResult = function () {
 StoryData.prototype.validate = function () {
     var errors = [];
 
-    if (this.storyRegion != "en" && this.storyRegion != "jp") {
-        errors.push("Choose a region");
-        return errors;
-    }
-
     var liveInfo = this.createLiveInfo();
     if (null === liveInfo) {
         errors.push("Live parameters have not been set");
-    } else if (liveInfo.lp > Common.getMaxLp(this.storyCurrentRank, this.storyRegion)) {
+    } else if (liveInfo.lp > Common.getMaxLp(this.storyCurrentRank)) {
         errors.push("The chosen live parameters result in an LP cost (" + liveInfo.lp +
-            ") that's higher than your max LP (" + Common.getMaxLp(this.storyCurrentRank, this.storyRegion) + ")");
+            ") that's higher than your max LP (" + Common.getMaxLp(this.storyCurrentRank) + ")");
     }
 
     if (0 >= this.storyTargetEventPoints) {

@@ -35,29 +35,25 @@ function LpRecoveryInfo(initialRank) {
     this.finalRank = initialRank;
     this.finalRankExp = 0;
     this.sleepWarning = false;
-    this.region = "en";
 }
 
 /**
  * Attempt to automatically generate event time. JP Events begin and end at 6:00 UTC. It's unclear whether there's any
  * pattern to events yet, so we just return the manual override for now.
- * @param {region} timerRegion The event region, either "en" or "jp".
  * @returns {Date[]} An array containing start and end date of the current event, index 0 and 1 respectively
  */
-Common.getEventBeginEndTime = function (timerRegion) {
+Common.getEventBeginEndTime = function () {
     // Handle overrides define in networkinfo.js
-    if (timerRegion == "en" && enDateOverride !== null) return enDateOverride;
-    if (timerRegion == "jp" && jpDateOverride !== null) return jpDateOverride;
+    return dateOverride;
 };
 
 /**
  * Calculate the amount of minutes left in an event.
- * @param {region} timerRegion The event region, either "en" or "jp".
  * @returns {number} The amount of minutes left in the event, using the dates from getEventBeginEndTime
  * @see getEventBeginEndTime
  */
-Common.getAutoRestTimeInMinutes = function (timerRegion) {
-    var eventDates = this.getEventBeginEndTime(timerRegion);
+Common.getAutoRestTimeInMinutes = function () {
+    var eventDates = this.getEventBeginEndTime();
     var currentTime = new Date();
 
     if (currentTime < eventDates[0]) {
@@ -71,12 +67,11 @@ Common.getAutoRestTimeInMinutes = function (timerRegion) {
 /**
  * Calculate the amount of mission resets left in an event. Resets happen at 15:00 UTC. The missions on the last day of
  * the event do not include the Event missions for Booster Items, so the last reset is excluded here.
- * @param {region} timerRegion The event region, either "en" or "jp".
  * @returns {number} The amount of missions resets left in the event, using the dates from getEventBeginEndTime
  * @see getEventBeginEndTime
  */
-Common.getAutoResetsLeftInEvent = function (timerRegion) {
-    var dates = this.getEventBeginEndTime(timerRegion);
+Common.getAutoResetsLeftInEvent = function () {
+    var dates = this.getEventBeginEndTime();
     var lastReset;
     if (dates[1].getUTCHours() > 15) {
         lastReset = new Date(Date.UTC(dates[1].getUTCFullYear(), dates[1].getUTCMonth(), dates[1].getUTCDate(), 15));
@@ -96,10 +91,9 @@ Common.getAutoResetsLeftInEvent = function (timerRegion) {
 /**
  * Calculates the player's current maximum LP given their rank and the server they play on.
  * @param {number} playerRank The player's current rank.
- * @param {region} region The region to use for the max LP calculation.
  * @returns {number} Maximum LP at the given rank.
  */
-Common.getMaxLp = function (playerRank, region) {
+Common.getMaxLp = function (playerRank) {
     if (playerRank >= 50) return 150;
     return 100 + Math.floor(playerRank / 10) * 10;
 };
@@ -122,11 +116,10 @@ Common.getNextRankUpExp = function (playerRank) {
  * @param {number} playerRank The player's initial rank.
  * @param {number} totalExpGained Total amount of EXP gained during the event.
  * @param {number} playerExp The player's initial EXP in the initial rank.
- * @param {region} region The region to use for the max LP calculation.
  * @returns {?LpRecoveryInfo} A new LpRecoveryInfo object containing only rank up information, or null if reaching the
  *      target would require more than COMMON_RANKUP_LIMITATION rankups.
  */
-Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, playerExp, region) {
+Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, playerExp) {
     var recoveryInfo = new LpRecoveryInfo(playerRank);
     totalExpGained += playerExp;
     while (COMMON_RANKUP_LIMITATION > recoveryInfo.rankUpCount) {
@@ -136,7 +129,7 @@ Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, pl
             return recoveryInfo;
         }
         totalExpGained -= expForNextRank;
-        recoveryInfo.totalRankUpLpRecovery += this.getMaxLp(recoveryInfo.finalRank, region);
+        recoveryInfo.totalRankUpLpRecovery += this.getMaxLp(recoveryInfo.finalRank);
         recoveryInfo.finalRank++;
         recoveryInfo.rankUpCount++;
     }
@@ -149,19 +142,18 @@ Common.calculateTotalRankUpLpRecovery = function (playerRank, totalExpGained, pl
  * Used for loveca calculation, as this is the average amout of LP recovered with one loveca.
  * @param {number} playerRank The player's initial rank.
  * @param {number} totalExpGained Total amount of EXP gained during the event.
- * @param {region} region The region to use for the max LP calculation.
  * @returns {number} Weighted average max LP of the player, given their initial rank and EXP they will collect, or -1
  *      if reaching the target would require more than COMMON_RANKUP_LIMITATION rankups.
  */
-Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained, region) {
+Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained) {
     if (0 === totalExpGained) {
-        return this.getMaxLp(playerRank, region);
+        return this.getMaxLp(playerRank);
     }
     var weightedExpSum = 0;
     var expSum = 0;
     var rankUps = 0;
     while (COMMON_RANKUP_LIMITATION > rankUps) {
-        var lpAtRank = this.getMaxLp(playerRank, region);
+        var lpAtRank = this.getMaxLp(playerRank);
         var expForNextRank = this.getNextRankUpExp(playerRank);
         if (expForNextRank === -1 || expForNextRank >= totalExpGained) {
             weightedExpSum += totalExpGained * lpAtRank;
@@ -190,16 +182,14 @@ Common.calculateAverageLovecaLpRecovery = function (playerRank, totalExpGained, 
  * @param {number} playerLp The player's initial LP.
  * @param {number} eventTimeLeftInMinutes Minutes left until the event ends.
  * @param {number} regenTimeLostToSleep Minutes of LP regeneration lost to sleep.
- * @param {region} region The region to use for the max LP calculation.
  * @returns {?LpRecoveryInfo} A completed LpRecoveryInfo object, or null if reaching the target is impossible.
  * @see calculateTotalRankUpLpRecovery
  * @see calculateAverageLovecaLpRecovery
  */
 Common.calculateLpRecoveryInfo =
-    function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes, regenTimeLostToSleep, region) {
-        var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp, region);
-        recoveryInfo.region = region;
-        recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained, region);
+    function (playerRank, totalExpGained, playerExp, lpRequired, playerLp, eventTimeLeftInMinutes, regenTimeLostToSleep) {
+        var recoveryInfo = this.calculateTotalRankUpLpRecovery(playerRank, totalExpGained, playerExp);
+        recoveryInfo.lovecaLpRecovery = this.calculateAverageLovecaLpRecovery(playerRank, totalExpGained);
 
         lpRequired -= recoveryInfo.totalRankUpLpRecovery;
         lpRequired -= playerLp;
@@ -312,12 +302,6 @@ Common.minsBetween = function (datea, dateb) {
 Common.hoursBetween = function (datea, dateb) {
     return Math.floor(this.minsBetween(datea, dateb) / 60);
 };
-
-/**
- * A string, representing which server a method should assume.
- * Allowed values are 'en' for the Worldwide server, and 'jp' for the Japanese server.
- * @typedef {('en'|'jp')} region
- */
 
 /**
  * A string, representing a live difficulty.
