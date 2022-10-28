@@ -27,8 +27,8 @@
 </head>
 <body>
 <script>
-    if (document.cookie.indexOf("dark-mode=yes") !== -1) {
-        document.body.className += 'dark-mode';
+    if (localStorage.getItem("dark-mode") === "yes") {
+        document.body.className += "dark-mode";
     }
 </script>
 <div class="font-preload">
