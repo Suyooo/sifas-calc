@@ -39,7 +39,7 @@ function notificationLoad() {
  * Dismisses the current notification, and makes sure it doesn't appear on the next visit.
  */
 function notificationDismiss() {
-    localStorage.setItem("notificationRead", notificationInfo.id.toString());
+    localStorage.setItem("ascalc-notification-read", notificationInfo.id.toString());
     $("#notification").slideUp();
 }
 
@@ -306,7 +306,7 @@ function loadStoredData() {
         Object.keys(loadFunctions).some(page => Cookie.get(page + "Data") !== undefined)) {
         localStorage.setItem("dark-mode", Cookie.get("dark-mode"));
         document.cookie = "dark-mode=; Max-Age=-99999999; path=/sifas";
-        localStorage.setItem("sifcalc-notification-read", Cookie.get("ascalc-notification-read"));
+        localStorage.setItem("ascalc-notification-read", Cookie.get("ascalc-notification-read"));
         document.cookie = "notificationRead=; Max-Age=-99999999; path=/sifas";
         for (const page of Object.keys(loadFunctions)) {
             const data = Cookie.get(page + "Data");
