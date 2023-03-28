@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 echo "Create empty build folder..."
 rm -rf build
@@ -10,6 +10,10 @@ echo "Copy change log..."
 cp changelog build
 echo "Copy app manifest..."
 cp manifest.json build
+
+echo "Copy Tools..."
+mkdir build/tools
+cp tools/update_event_info.py build/tools/update_event_info.py
 
 echo "Copy Vendor Files..."
 cp -r vendor build/vendor
@@ -23,9 +27,14 @@ done
 echo "Minify Javascript..."
 mkdir build/js
 for F in js/*.js; do
+    if [[ "${F}" == "js/networkinfo.js" ]]; then
+        continue
+    fi
     echo "    ${F}"
     uglifyjs --compress sequences=true,conditionals=true,booleans=true,dead_code=true,unused=true,if_return=true,join_vars=true --mangle -o build/${F} ${F}
 done
+echo "Copy Javascript Templates..."
+cp js/*.js.template build/js
 
 echo "Minify CSS..."
 mkdir build/css
