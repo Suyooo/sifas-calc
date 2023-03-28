@@ -46,6 +46,7 @@ done
 echo "Copy JPG images..."
 mkdir build/image
 cp image/*.jpg build/image
+rm -f image/event.jpg
 
 echo "Copy GIF images..."
 cp image/*.gif build/image
